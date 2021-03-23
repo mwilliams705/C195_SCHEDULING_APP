@@ -9,52 +9,54 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #444;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.Controller.LoginController">
-   <children>
-      <AnchorPane layoutX="275.0" layoutY="125.0" prefHeight="350.0" prefWidth="250.0" style="-fx-background-color: #333; -fx-background-radius: 10;">
-         <children>
-            <Label fx:id="greetingLbl" alignment="CENTER" contentDisplay="CENTER" layoutX="25.0" layoutY="14.0" prefHeight="50.0" prefWidth="200.0" text="Label" textFill="#e8e8e8">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Label>
-            <VBox layoutX="25.0" layoutY="100.0" prefHeight="150.0" prefWidth="200.0">
-               <children>
-                  <Label fx:id="usernameLbl" text="Username:" textFill="#e8e8e8">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Label>
-                  <TextField fx:id="usernameTextfield" />
-                  <Label fx:id="passwordLbl" layoutX="10.0" layoutY="10.0" text="Password:" textFill="#e8e8e8">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                     <VBox.margin>
-                        <Insets top="20.0" />
-                     </VBox.margin>
-                  </Label>
-                  <PasswordField fx:id="passwordTextfield" />
-               </children>
-            </VBox>
-            <Button fx:id="loginBtn" layoutX="155.0" layoutY="265.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="70.0" text="Login" />
-         </children>
-      </AnchorPane>
-      <Label layoutX="355.0" layoutY="484.0" text="Current Locale" textFill="#e8e8e8">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Label>
-      <Label fx:id="localeLbl" alignment="CENTER" contentDisplay="CENTER" layoutX="300.0" layoutY="504.0" prefHeight="27.0" prefWidth="200.0" text="(locale)" textFill="#1ef257">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="300.0" style="-fx-background-color: #444;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.Controller.LoginController">
+   <AnchorPane layoutX="26.0" layoutY="75.0" prefHeight="350.0" prefWidth="250.0" style="-fx-background-color: #333; -fx-background-radius: 10;">
+      <Label fx:id="greetingLbl" alignment="CENTER" contentDisplay="CENTER" layoutX="25.0" layoutY="14.0" prefHeight="50.0" prefWidth="200.0" text="Label" textFill="#e8e8e8">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Button fx:id="exitBtn" alignment="CENTER" contentDisplay="CENTER" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="43.0" style="-fx-background-color: #ff0000;" text="x" textFill="#e8e8e8">
+      <VBox layoutX="25.0" layoutY="100.0" prefHeight="150.0" prefWidth="200.0">
+         <Label fx:id="usernameLbl" text="Username:" textFill="#e8e8e8">
+            <font>
+               <Font size="18.0" />
+            </font>
+         </Label>
+         <TextField fx:id="usernameTextfield">
+            <font>
+               <Font size="14.0" />
+            </font></TextField>
+         <Label fx:id="passwordLbl" layoutX="10.0" layoutY="10.0" text="Password:" textFill="#e8e8e8">
+            <font>
+               <Font size="18.0" />
+            </font>
+            <VBox.margin>
+               <Insets top="20.0" />
+            </VBox.margin>
+         </Label>
+         <PasswordField fx:id="passwordTextfield">
+            <font>
+               <Font size="14.0" />
+            </font></PasswordField>
+      </VBox>
+      <Button fx:id="loginBtn" layoutX="155.0" layoutY="265.0" mnemonicParsing="false" onAction="#login" prefHeight="25.0" prefWidth="70.0" text="Login">
          <font>
-            <Font name="Berlin Sans FB" size="24.0" />
-         </font>
-      </Button>
-   </children>
+            <Font size="14.0" />
+         </font></Button>
+   </AnchorPane>
+   <Label layoutX="105.0" layoutY="425.0" text="Current Locale:" textFill="#e8e8e8">
+      <font>
+         <Font size="14.0" />
+      </font>
+   </Label>
+   <Label fx:id="localeLbl" alignment="CENTER" contentDisplay="CENTER" layoutX="51.0" layoutY="445.0" prefHeight="27.0" prefWidth="200.0" text="(locale)" textFill="#1ef257">
+      <font>
+         <Font size="18.0" />
+      </font>
+   </Label>
+   <Button fx:id="exitBtn" alignment="CENTER" contentDisplay="CENTER" layoutX="243.0" layoutY="14.0" mnemonicParsing="false" onAction="#exit" prefHeight="43.0" prefWidth="43.0" style="-fx-background-color: #ff0000;" text="x" textFill="#e8e8e8">
+      <font>
+         <Font name="Berlin Sans FB" size="24.0" />
+      </font>
+   </Button>
 </AnchorPane>

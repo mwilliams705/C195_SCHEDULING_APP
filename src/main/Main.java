@@ -26,7 +26,6 @@ public class Main extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("View/LoginForm.fxml"));
         primaryStage.setTitle("C195 - Scheduling Service");
         primaryStage.setScene(new Scene(root, 800, 600));
-
         primaryStage.setResizable(false);
         primaryStage.show();
     }
