@@ -1,4 +1,5 @@
 package main.DAO;
 
-public class LoginDao {
+public interface LoginDao {
+
 }
