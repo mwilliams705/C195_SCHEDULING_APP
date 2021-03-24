@@ -43,7 +43,7 @@ public class LoginController implements Initializable {
 
         }catch (MissingResourceException missingResourceException){
 
-            Alert alert = GeneralController.alertUser(Alert.AlertType.WARNING,"Error", "Locale Not Supported","Reverting locale to en_us");
+            Alert alert = GeneralController.alertUser(Alert.AlertType.WARNING,"Error", "Only English and French are supported.","Reverting locale to en_us");
             alert.showAndWait();
 
             ResourceBundle rb = ResourceBundle.getBundle("main/Nat",Locale.US);
@@ -68,11 +68,11 @@ public class LoginController implements Initializable {
             PreparedStatement ps = DBQuery.getPreparedStatement();
 
             if (usernameTextfield.getText().isEmpty()){
-                Alert alert = GeneralController.alertUser(Alert.AlertType.ERROR,"Error","Username field empty", "Username required");
+                Alert alert = GeneralController.alertUser(Alert.AlertType.ERROR,rb.getString("loginErrorTitle"),rb.getString("usernameEmpty"), rb.getString("usernameRequired"));
                 alert.showAndWait();
             }
             if (passwordTextfield.getText().isEmpty()){
-                Alert alert = GeneralController.alertUser(Alert.AlertType.ERROR,"Error","Password field empty", "Password required");
+                Alert alert = GeneralController.alertUser(Alert.AlertType.ERROR,rb.getString("loginErrorTitle"),rb.getString("passwordEmpty"), rb.getString("passwordRequired"));
                 alert.showAndWait();
             }
 
@@ -83,17 +83,20 @@ public class LoginController implements Initializable {
 
             ResultSet rs = ps.getResultSet();
             if (rs.next()){
-                Alert success =  GeneralController.alertUser(Alert.AlertType.INFORMATION,"Success","User Found","Logged in.");
+
+//                Move to main application from here!!!!!!!!
+
+                Alert success =  GeneralController.alertUser(Alert.AlertType.INFORMATION,"Success","User Found","Logged in. (This is a test and doesnt need to be in french)");
                 success.showAndWait();
             }
             else {
-                Alert fail =  GeneralController.alertUser(Alert.AlertType.INFORMATION,"Failure","User Not Found","Try Again!");
+                Alert fail =  GeneralController.alertUser(Alert.AlertType.INFORMATION,rb.getString("loginErrorTitle"),rb.getString("loginErrorHeader"),rb.getString("loginErrorContent"));
                 fail.showAndWait();
             }
 
         }catch (SQLException sqlException){
-            Alert loginError = GeneralController.alertUser(Alert.AlertType.ERROR, rb.getString("loginErrorTitle"), rb.getString("loginErrorHeader"),rb.getString("loginErrorContent"));
-            loginError.showAndWait();
+            System.out.println("SQL Exception:");
+            System.out.println(sqlException.getMessage());
         }
 
     }

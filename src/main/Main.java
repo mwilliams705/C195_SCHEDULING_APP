@@ -7,19 +7,21 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import main.Util.DBConnector;
 import main.Util.DBQuery;
+import main.Util.LocaleTester;
 
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Date;
+import java.util.Locale;
 import java.util.Scanner;
 
 public class Main extends Application {
 
     public static void main(String[] args) {
 
-//        LocaleTester.setLocaleAndTest(new Locale("fr"));
+        LocaleTester.setLocaleAndTest(new Locale("fr"));
 
         DBConnector.startConnection();
 
