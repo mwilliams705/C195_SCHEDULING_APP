@@ -7,6 +7,7 @@ import main.Controller.Util.GeneralController;
 import main.Util.DBConnector;
 import main.Util.DBQuery;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -57,7 +58,7 @@ public class LoginController implements Initializable {
     }
 
 
-    public void login() {
+    public void login(ActionEvent actionEvent) {
         ResourceBundle rb  = ResourceBundle.getBundle("main/Nat",Locale.getDefault());
 
 
@@ -85,16 +86,17 @@ public class LoginController implements Initializable {
             if (rs.next()){
 
 //                Move to main application from here!!!!!!!!
+                GeneralController.changePage(actionEvent ,"Main");
 
-                Alert success =  GeneralController.alertUser(Alert.AlertType.INFORMATION,"Success","User Found","Logged in. (This is a test and doesnt need to be in french)");
-                success.showAndWait();
+//                Alert success =  GeneralController.alertUser(Alert.AlertType.INFORMATION,"Success","User Found","Logged in. (This is a test and doesnt need to be in french)");
+//                success.showAndWait();
             }
             else {
                 Alert fail =  GeneralController.alertUser(Alert.AlertType.INFORMATION,rb.getString("loginErrorTitle"),rb.getString("loginErrorHeader"),rb.getString("loginErrorContent"));
                 fail.showAndWait();
             }
 
-        }catch (SQLException sqlException){
+        }catch (SQLException | IOException sqlException){
             System.out.println("SQL Exception:");
             System.out.println(sqlException.getMessage());
         }

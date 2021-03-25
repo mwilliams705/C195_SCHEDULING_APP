@@ -9,7 +9,8 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="300.0" style="-fx-background-color: #444;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.Controller.LoginController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="300.0" style="-fx-background-color: #444;" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.Controller.LoginController">
+   <children>
    <AnchorPane layoutX="26.0" layoutY="75.0" prefHeight="350.0" prefWidth="250.0" style="-fx-background-color: #333; -fx-background-radius: 10;">
       <Label fx:id="greetingLbl" alignment="CENTER" contentDisplay="CENTER" layoutX="25.0" layoutY="14.0" prefHeight="50.0" prefWidth="200.0" text="Label" textFill="#e8e8e8">
          <font>
@@ -44,6 +45,7 @@
             <Font size="14.0" />
          </font></Button>
    </AnchorPane>
+   </children>
    <Label fx:id="currentLocaleLbl" alignment="CENTER" layoutX="26.0" layoutY="425.0" prefHeight="18.0" prefWidth="250.0" text="Current Locale:" textFill="#e8e8e8">
       <font>
          <Font size="14.0" />
