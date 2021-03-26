@@ -6,10 +6,14 @@ import main.Model.Appointment;
 import main.Model.Customer;
 import main.Util.DBConnector;
 import main.Util.DBQuery;
+import main.Util.TimeConverter;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 public class AppointmentDAO {
 
@@ -31,8 +35,8 @@ public class AppointmentDAO {
                     rs.getString("Location"),
                     rs.getInt("Contact_ID"),
                     rs.getString("Type"),
-                    rs.getString("Start"),
-                    rs.getString("End"),
+                    rs.getTimestamp("Start"),
+                    rs.getTimestamp("End"),
                     rs.getInt("Customer_ID")
             );
 
@@ -43,6 +47,43 @@ public class AppointmentDAO {
             return null;
         }
 
+    }
+
+    public static ObservableList<Appointment> getAllAppointments(){
+        String getStatement = "select Appointment_ID,Title,Description,Location,Contact_Id,Type,Start,End,Customer_ID from appointments;";
+        Appointment appointmentAllResult;
+        ObservableList<Appointment> allAppointments = FXCollections.observableArrayList();
+
+        try {
+            DBQuery.setPreparedStatement(DBConnector.getConnection(),getStatement);
+            PreparedStatement ps = DBQuery.getPreparedStatement();
+            ps.execute();
+            ResultSet rs = ps.getResultSet();
+
+            while (rs.next()) {
+                appointmentAllResult = new Appointment(
+                        rs.getInt("Appointment_ID"),
+                        rs.getString("Title"),
+                        rs.getString("Description"),
+                        rs.getString("Location"),
+                        rs.getInt("Contact_ID"),
+                        rs.getString("Type"),
+                        rs.getTimestamp("Start"),
+                        rs.getTimestamp("End"),
+                        rs.getInt("Customer_ID")
+                );
+
+                appointmentAllResult.setApptStart(Timestamp.valueOf(TimeConverter.utcToLocal(appointmentAllResult.getApptStart().toLocalDateTime())));
+                appointmentAllResult.setApptEnd(Timestamp.valueOf(TimeConverter.utcToLocal(appointmentAllResult.getApptEnd().toLocalDateTime())));
+
+                allAppointments.add(appointmentAllResult);
+            }
+
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+            return null;
+        }
+        return allAppointments;
     }
 
     public static ObservableList<Appointment> getAllAppointmentsThisWeek(){
@@ -65,11 +106,14 @@ public class AppointmentDAO {
                         rs.getString("Location"),
                         rs.getInt("Contact_ID"),
                         rs.getString("Type"),
-                        rs.getString("Start"),
-                        rs.getString("End"),
+                        rs.getTimestamp("Start"),
+                        rs.getTimestamp("End"),
                         rs.getInt("Customer_ID")
                 );
-               allAppointmentsThisWeek.add(appointmentWeekResult);
+                appointmentWeekResult.setApptStart(Timestamp.valueOf(TimeConverter.utcToLocal(appointmentWeekResult.getApptStart().toLocalDateTime())));
+                appointmentWeekResult.setApptEnd(Timestamp.valueOf(TimeConverter.utcToLocal(appointmentWeekResult.getApptEnd().toLocalDateTime())));
+
+                allAppointmentsThisWeek.add(appointmentWeekResult);
             }
 
         } catch (SQLException sqlException) {
@@ -99,10 +143,13 @@ public class AppointmentDAO {
                         rs.getString("Location"),
                         rs.getInt("Contact_ID"),
                         rs.getString("Type"),
-                        rs.getString("Start"),
-                        rs.getString("End"),
+                        rs.getTimestamp("Start"),
+                        rs.getTimestamp("End"),
                         rs.getInt("Customer_ID")
                 );
+                appointmentMonthResult.setApptStart(Timestamp.valueOf(TimeConverter.utcToLocal(appointmentMonthResult.getApptStart().toLocalDateTime())));
+                appointmentMonthResult.setApptEnd(Timestamp.valueOf(TimeConverter.utcToLocal(appointmentMonthResult.getApptEnd().toLocalDateTime())));
+
                 allAppointmentsThisWeek.add(appointmentMonthResult);
             }
 
@@ -134,8 +181,8 @@ public class AppointmentDAO {
                         rs.getString("Location"),
                         rs.getInt("Contact_ID"),
                         rs.getString("Type"),
-                        rs.getString("Start"),
-                        rs.getString("End"),
+                        rs.getTimestamp("Start"),
+                        rs.getTimestamp("End"),
                         rs.getInt("Customer_ID")
                 );
                 allAppointmentsSoon.add(appointmentWeekResult);

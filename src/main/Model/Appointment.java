@@ -1,5 +1,7 @@
 package main.Model;
 
+import java.sql.Timestamp;
+
 public class Appointment {
     private int apptId;
     private String apptTitle;
@@ -7,11 +9,11 @@ public class Appointment {
     private String apptLocation;
     private int apptContact;
     private String apptType;
-    private String apptStart;
-    private String apptEnd;
+    private Timestamp apptStart;
+    private Timestamp apptEnd;
     private int apptCustomerId;
 
-    public Appointment(int apptId, String apptTitle, String apptDesc, String apptLocation, int apptContact, String apptType, String apptStart, String apptEnd, int apptCustomerId) {
+    public Appointment(int apptId, String apptTitle, String apptDesc, String apptLocation, int apptContact, String apptType, Timestamp apptStart, Timestamp apptEnd, int apptCustomerId) {
         this.apptId = apptId;
         this.apptTitle = apptTitle;
         this.apptDesc = apptDesc;
@@ -23,7 +25,7 @@ public class Appointment {
         this.apptCustomerId = apptCustomerId;
     }
 
-    public Appointment(String apptTitle, String apptDesc, String apptLocation, int apptContact, String apptType, String apptStart, String apptEnd, int apptCustomerId) {
+    public Appointment(String apptTitle, String apptDesc, String apptLocation, int apptContact, String apptType, Timestamp apptStart, Timestamp apptEnd, int apptCustomerId) {
         this.apptTitle = apptTitle;
         this.apptDesc = apptDesc;
         this.apptLocation = apptLocation;
@@ -82,19 +84,19 @@ public class Appointment {
         this.apptType = apptType;
     }
 
-    public String getApptStart() {
+    public Timestamp getApptStart() {
         return apptStart;
     }
 
-    public void setApptStart(String apptStart) {
+    public void setApptStart(Timestamp apptStart) {
         this.apptStart = apptStart;
     }
 
-    public String getApptEnd() {
+    public Timestamp getApptEnd() {
         return apptEnd;
     }
 
-    public void setApptEnd(String apptEnd) {
+    public void setApptEnd(Timestamp apptEnd) {
         this.apptEnd = apptEnd;
     }
 

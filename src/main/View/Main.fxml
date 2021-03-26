@@ -11,7 +11,7 @@
 
 <AnchorPane maxHeight="600.0" maxWidth="1100.0" minHeight="600.0" minWidth="1100.0" prefHeight="600.0" prefWidth="1100.0" style="-fx-background-color: #333;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.Controller.MainController">
    <children>
-      <TabPane layoutY="60.0" prefHeight="550.0" prefWidth="1100.0" snapToPixel="false" style="-fx-background-color: #ffffff;" tabClosingPolicy="UNAVAILABLE" tabMaxWidth="150.0" tabMinWidth="150.0">
+      <TabPane fx:id="mainTabPane" layoutY="60.0" prefHeight="550.0" prefWidth="1100.0" snapToPixel="false" style="-fx-background-color: #ffffff;" tabClosingPolicy="UNAVAILABLE" tabMaxWidth="150.0" tabMinWidth="150.0">
         <tabs>
           <Tab closable="false" text="Customers">
             <content>
@@ -21,9 +21,10 @@
                           <columns>
                             <TableColumn fx:id="customer_id" prefWidth="75.0" text="ID" />
                             <TableColumn fx:id="customer_name" prefWidth="225.0" text="Name" />
-                              <TableColumn fx:id="customer_address" prefWidth="450.0" text="Address" />
+                              <TableColumn fx:id="customer_address" prefWidth="300.0" text="Address" />
                               <TableColumn fx:id="customer_zipcode" prefWidth="125.0" resizable="false" text="Zipcode" />
                               <TableColumn fx:id="customer_phone" prefWidth="225.0" resizable="false" text="Phone" />
+                              <TableColumn fx:id="customer_division" prefWidth="148.0" resizable="false" text="Division" />
                           </columns>
                         </TableView>
                         <HBox layoutY="475.0" prefHeight="50.0" prefWidth="1100.0" style="-fx-background-color: #333;">
@@ -53,8 +54,29 @@
             <content>
               <AnchorPane>
                      <children>
-                        <TabPane prefHeight="475.0" prefWidth="1100.0" side="LEFT" tabClosingPolicy="UNAVAILABLE" tabMaxWidth="150.0" tabMinWidth="100.0">
+                        <TabPane  prefHeight="475.0" prefWidth="1100.0" side="LEFT" tabClosingPolicy="UNAVAILABLE" tabMaxWidth="150.0" tabMinWidth="100.0">
                           <tabs>
+                          <Tab text="All">
+                              <content>
+                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                      <children>
+                                          <TableView fx:id="appt_all_table" prefHeight="525.0" prefWidth="1075.0">
+                                              <columns>
+                                                  <TableColumn fx:id="all_appt_id" prefWidth="75.0" resizable="false" text="Appt. ID" />
+                                                  <TableColumn fx:id="all_title" prefWidth="75.0" resizable="false" text="Title" />
+                                                  <TableColumn fx:id="all_desc" prefWidth="230.0" resizable="false" text="Description" />
+                                                  <TableColumn fx:id="all_location" minWidth="0.0" prefWidth="94.0" resizable="false" text="Location" />
+                                                  <TableColumn fx:id="all_contact" prefWidth="124.0" resizable="false" text="Contact" />
+                                                  <TableColumn fx:id="all_type" prefWidth="89.0" resizable="false" text="Type" />
+                                                  <TableColumn fx:id="all_start" prefWidth="150.0" text="Start" />
+                                                  <TableColumn fx:id="all_end" prefWidth="150.0" text="End" />
+                                                  <TableColumn fx:id="all_customer_id" prefWidth="90.0" text="Customer ID" />
+                                              </columns>
+                                          </TableView>
+                                      </children>
+                                  </AnchorPane>
+                              </content>
+                          </Tab>
                             <Tab text="This Week">
                               <content>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">

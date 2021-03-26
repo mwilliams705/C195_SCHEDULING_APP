@@ -1,6 +1,5 @@
 package main.Util;
 
-import main.Main;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -20,7 +19,7 @@ public class DBConnector {
 
     private static Connection conn = null;
 
-    public static Connection startConnection(){
+    public static void startConnection(){
         try{
             Class.forName(MYSQLJDBCDriver);
             conn = DriverManager.getConnection(jdbcURL,username,Password.getPassword());
@@ -31,7 +30,6 @@ public class DBConnector {
         }catch (ClassNotFoundException c){
             System.out.println("MYSQLJDBCDriver not found");
         }
-        return conn;
     }
 
     public static Connection getConnection(){

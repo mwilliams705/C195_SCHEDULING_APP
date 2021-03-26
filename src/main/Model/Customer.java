@@ -7,6 +7,16 @@ public class Customer {
     private String customerAddress;
     private String customerZipcode;
     private String customerPhone;
+    private String customerDivision;
+
+    public Customer(int customerId, String customerName, String customerAddress, String customerZipcode, String customerPhone, String customerDivision) {
+        this.customerId = customerId;
+        this.customerName = customerName;
+        this.customerAddress = customerAddress;
+        this.customerZipcode = customerZipcode;
+        this.customerPhone = customerPhone;
+        this.customerDivision = customerDivision;
+    }
 
     public Customer(int customerId, String customerName, String customerAddress, String customerZipcode, String customerPhone) {
         this.customerId = customerId;
@@ -61,6 +71,14 @@ public class Customer {
 
     public void setCustomerPhone(String customerPhone) {
         this.customerPhone = customerPhone;
+    }
+
+    public String getCustomerDivision() {
+        return customerDivision;
+    }
+
+    public void setCustomerDivision(String customerDivision) {
+        this.customerDivision = customerDivision;
     }
 
 }

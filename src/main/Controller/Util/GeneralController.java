@@ -5,7 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 
@@ -48,6 +48,19 @@ public class GeneralController {
         alert.setHeaderText(headerText);
         alert.setContentText(contentText);
         return alert;
+    }
+
+    public static void addCloseableTabWithViewAndMoveTo(TabPane tabPane,String tabName, String pageName) throws IOException {
+        SingleSelectionModel<Tab> selectionModel = tabPane.getSelectionModel();
+        Parent root = FXMLLoader.load(GeneralController.class.getResource("/main/View/"+pageName+".fxml"));
+        Tab tab = new Tab(tabName,root);
+        tab.setTooltip(new Tooltip(tabName));
+
+        tabPane.getTabs().add(tab);
+        selectionModel.select(tab);
+        tabPane.setSelectionModel(selectionModel);
+        tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.ALL_TABS);
+
     }
 
 }

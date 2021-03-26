@@ -1,6 +1,5 @@
 package main.DAO;
 
-import com.mysql.cj.xdevapi.PreparableStatement;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import main.Model.Customer;
@@ -42,7 +41,7 @@ public class CustomerDAO {
     }
 
     public static ObservableList<Customer> getAllCustomers(){
-        String getCustomerStatement = "SELECT Customer_ID,Customer_Name,Address,Postal_Code,Phone FROM customers";
+        String getCustomerStatement = "SELECT c.Customer_ID,c.Customer_Name,c.Address,c.Postal_Code,c.Phone, d.Division FROM customers c join first_level_divisions d on c.Division_ID = d.Division_ID";
         Customer customerResult;
         ObservableList<Customer> allCustomers = FXCollections.observableArrayList();
         try {
@@ -58,7 +57,8 @@ public class CustomerDAO {
                         rs.getString("Customer_Name"),
                         rs.getString("Address"),
                         rs.getString("Postal_Code"),
-                        rs.getString("Phone")
+                        rs.getString("Phone"),
+                        rs.getString("Division")
                 );
                 allCustomers.add(customerResult);
             }
