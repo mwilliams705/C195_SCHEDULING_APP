@@ -30,6 +30,10 @@ public class LoginController implements Initializable {
     public Label localeLbl;
     public Label currentLocaleLbl;
 
+    public static String globalUsername;
+
+
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -79,6 +83,7 @@ public class LoginController implements Initializable {
 
             ps.setString(1, usernameTextfield.getText());
             ps.setString(2, passwordTextfield.getText());
+            globalUsername = usernameTextfield.getText();
 
             ps.execute();
 
@@ -99,11 +104,20 @@ public class LoginController implements Initializable {
         }catch (SQLException | IOException sqlException){
             System.out.println("SQL Exception:");
             System.out.println(sqlException.getMessage());
+            sqlException.printStackTrace();
         }
 
     }
 
     public void exit(ActionEvent actionEvent) {
         System.exit(0);
+    }
+
+    public static String getGlobalUsername() {
+        return globalUsername;
+    }
+
+    public static void setGlobalUsername(String globalUsername) {
+        LoginController.globalUsername = globalUsername;
     }
 }

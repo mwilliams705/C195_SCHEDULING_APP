@@ -2,10 +2,7 @@ package main.Controller;
 
 import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Side;
-import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import main.Controller.Util.GeneralController;
@@ -13,8 +10,6 @@ import main.DAO.AppointmentDAO;
 import main.DAO.CustomerDAO;
 import main.Model.Appointment;
 import main.Model.Customer;
-
-import java.awt.image.FilteredImageSource;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
@@ -24,7 +19,15 @@ public class MainController implements Initializable {
 
     public TabPane mainTabPane;
 
-//    Customers Table
+    public TabPane getMainTabPane() {
+        return mainTabPane;
+    }
+
+    public void setMainTabPane(TabPane mainTabPane) {
+        this.mainTabPane = mainTabPane;
+    }
+
+    //    Customers Table
     public TableView<Customer> customers_table;
     public TableColumn<Customer,Integer> customer_id;
     public TableColumn<Customer,String> customer_name;
@@ -70,20 +73,23 @@ public class MainController implements Initializable {
 
     private static Customer modifyCustomer;
     private static Appointment modifyAppointment;
+    public Label currentUserLbl;
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        currentUserLbl.setText(LoginController.getGlobalUsername());
+
         mainTabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
 
-        FilteredList<Customer> filteredCustomerList = new FilteredList<>(Objects.requireNonNull(CustomerDAO.getAllCustomers()));
+        FilteredList<Customer> filteredCustomerList = new FilteredList<>(Objects.requireNonNull(CustomerDAO.getAllCustomersWithDivisionAsText()));
         customers_table.setItems(filteredCustomerList);
         customer_id.setCellValueFactory(new PropertyValueFactory<>("customerId"));
         customer_name.setCellValueFactory(new PropertyValueFactory<>("customerName"));
         customer_address.setCellValueFactory(new PropertyValueFactory<>("customerAddress"));
         customer_zipcode.setCellValueFactory(new PropertyValueFactory<>("customerZipcode"));
         customer_phone.setCellValueFactory(new PropertyValueFactory<>("customerPhone"));
-        customer_division.setCellValueFactory(new PropertyValueFactory<>("customerDivision"));
+        customer_division.setCellValueFactory(new PropertyValueFactory<>("customerDivisionText"));
 
 
 
@@ -136,23 +142,19 @@ public class MainController implements Initializable {
 //    ==================================================================================================================
 //    ==================Customers=======================================================================================
 //    ==================================================================================================================
-    public void addCustomer(ActionEvent actionEvent) {
+    public void addCustomer(ActionEvent actionEvent) throws IOException {
         modifyCustomer = null;
+        GeneralController.addCloseableTabWithViewAndMoveTo(mainTabPane,"Add Customer", "CustomerForm");
+
     }
 
     public void updateCustomer(ActionEvent actionEvent) throws IOException {
-        SingleSelectionModel<Tab> selectionModel = mainTabPane.getSelectionModel();
         modifyCustomer = customers_table.getSelectionModel().getSelectedItem();
-        System.out.println(modifyCustomer.getCustomerName());
 
-        GeneralController.addCloseableTabWithViewAndMoveTo(mainTabPane,"Update: "+modifyCustomer.getCustomerName(), "testTabPage");
+        GeneralController.addCloseableTabWithViewAndMoveTo(mainTabPane,"("+modifyCustomer.getCustomerId()+")"+modifyCustomer.getCustomerName(), "CustomerForm");
 
-//        Tab updateCustomer = new Tab("Update Customer", new Label(modifyCustomer.getCustomerName()));
-//
-//        mainTabPane.getTabs().add(updateCustomer);
-//        selectionModel.select(updateCustomer);
-//        mainTabPane.setSelectionModel(selectionModel);
-//        mainTabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.ALL_TABS);
+
+
     }
 
     public void deleteCustomer(ActionEvent actionEvent) {
@@ -198,5 +200,9 @@ public class MainController implements Initializable {
 
     public static void setModifyCustomer(Customer modifyCustomer) {
         MainController.modifyCustomer = modifyCustomer;
+    }
+
+    public void updateCustomerTable(){
+        customers_table.setItems(CustomerDAO.getAllCustomers());
     }
 }

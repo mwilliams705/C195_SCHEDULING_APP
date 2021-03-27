@@ -7,6 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import main.Controller.MainController;
 
 
 import java.io.IOException;
@@ -62,5 +63,7 @@ public class GeneralController {
         tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.ALL_TABS);
 
     }
+
+
 
 }
