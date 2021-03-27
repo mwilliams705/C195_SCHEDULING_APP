@@ -1,7 +1,9 @@
 package main.Controller;
 
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -11,7 +13,9 @@ import main.DAO.CustomerDAO;
 import main.DAO.FirstLevelDivisionDAO;
 import main.Model.Customer;
 
+import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class CustomerFormController implements Initializable {
@@ -28,26 +32,19 @@ public class CustomerFormController implements Initializable {
     public Label currentCountryLbl;
     public Label currentDivisionLbl;
 
-    public Customer getCustomerToModify() {
-        return customerToModify;
-    }
-
-    public void setCustomerToModify(Customer customerToModify) {
-        this.customerToModify = customerToModify;
-    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
         country_choicebox.setItems(CountryDAO.getAllCountriesAsText());
 
-        country_choicebox.getSelectionModel().selectedIndexProperty().addListener((observableValue, number, t1) -> {
-
-
-            division_choicebox.setItems(FirstLevelDivisionDAO.getAllDivisionsByCountryIdAsText(country_choicebox.getSelectionModel().getSelectedIndex()+1));
-        });
+        country_choicebox.getSelectionModel().selectedIndexProperty().addListener((observableValue, number, t1) ->
+                division_choicebox.setItems(FirstLevelDivisionDAO.getDivisionsByCountry_IdAsText(observableValue.getValue().intValue()+1)));
 
         setCustomerToModify(MainController.getModifyCustomer());
         if (customerToModify != null){
+
+
             division_choicebox.setDisable(false);
             headerLbl.setText("Update Customer");
             id_textfield.setText(String.valueOf(customerToModify.getCustomerId()));
@@ -55,6 +52,12 @@ public class CustomerFormController implements Initializable {
             address_textfield.setText(customerToModify.getCustomerAddress());
             zipcode_textfield.setText(customerToModify.getCustomerZipcode());
             phone_textfield.setText(customerToModify.getCustomerPhone());
+            currentCountryLbl.setText("Country (Current Selection: "+customerToModify.getCustomerCountryText());
+            country_choicebox.setValue(customerToModify.getCustomerCountryText());
+            currentDivisionLbl.setText("State/Division (Current Selection: "+customerToModify.getCustomerDivisionText()+")");
+            division_choicebox.setValue(getCustomerToModify().getCustomerDivisionText());
+
+
 
         }
         else {
@@ -62,17 +65,27 @@ public class CustomerFormController implements Initializable {
         }
     }
 
-    public void save(ActionEvent actionEvent) {
+
+
+
+    public void save(ActionEvent actionEvent) throws IOException {
         if (customerToModify != null) {
-            Customer c = new Customer(
-                    Integer.parseInt(id_textfield.getText()),
-                    name_textfield.getText(),
-                    address_textfield.getText(),
-                    zipcode_textfield.getText(),
-                    phone_textfield.getText(),
-                    division_choicebox.getValue()
-            );
+
+
+
+                Customer c = new Customer(
+                        Integer.parseInt(id_textfield.getText()),
+                        name_textfield.getText(),
+                        address_textfield.getText(),
+                        zipcode_textfield.getText(),
+                        phone_textfield.getText(),
+                        country_choicebox.getValue(),
+                        division_choicebox.getValue()
+
+                );
+
             CustomerDAO.updateCustomer(c);
+            GeneralController.changePage(actionEvent,"Main");
         }
         else {
             try {
@@ -81,16 +94,28 @@ public class CustomerFormController implements Initializable {
                         address_textfield.getText(),
                         zipcode_textfield.getText(),
                         phone_textfield.getText(),
+//                        TODO: This needs to be converted to an integer
                         division_choicebox.getValue()
                 );
                 CustomerDAO.addCustomer(c);
+                GeneralController.changePage(actionEvent,"Main");
 
-//                MainController m = new MainController();
-//                m.updateCustomerTable();
+
             }catch (NullPointerException n){
                 System.out.println("Null pointer exception adding new customer");
             }
         }
 
     }
+
+    public Customer getCustomerToModify() {
+        return customerToModify;
+    }
+
+
+
+    public void setCustomerToModify(Customer customerToModify) {
+        this.customerToModify = customerToModify;
+    }
+
 }

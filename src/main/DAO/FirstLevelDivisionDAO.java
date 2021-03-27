@@ -40,9 +40,8 @@ public class FirstLevelDivisionDAO {
         }
     }
 
-    public static ObservableList<String> getAllDivisionsByCountryIdAsText(int id){
-        String getStatement = "select Division from first_level_divisions where country_id = ?;";
-        ObservableList<String> fldList = FXCollections.observableArrayList();
+    public static String getDivisionByIdAsText(int id){
+        String getStatement = "select Division from first_level_divisions where division_id = ?;";
 
 
 
@@ -53,11 +52,28 @@ public class FirstLevelDivisionDAO {
             ps.setInt(1,id);
             ps.execute();
             ResultSet rs = ps.getResultSet();
-            while (rs.next()){
+            return rs.getString("Division");
+        }catch (SQLException s){
+            s.printStackTrace();
+            return null;
+        }
+    }
 
-                fldList.add(rs.getString("Division"));
+    public static ObservableList<String> getDivisionsByCountry_IdAsText(int id){
+        String getStatement = "select Division from first_level_divisions where country_id = ?;";
+        ObservableList<String> divisionResults = FXCollections.observableArrayList();
+        try {
+
+            DBQuery.setPreparedStatement(DBConnector.getConnection(),getStatement);
+            PreparedStatement ps = DBQuery.getPreparedStatement();
+            ps.setInt(1,id);
+            ps.execute();
+            ResultSet rs = ps.getResultSet();
+
+            while (rs.next()){
+                divisionResults.add(rs.getString("Division"));
             }
-            return fldList;
+            return divisionResults;
         }catch (SQLException s){
             s.printStackTrace();
             return null;

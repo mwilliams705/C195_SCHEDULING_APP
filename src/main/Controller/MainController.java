@@ -78,11 +78,12 @@ public class MainController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
         currentUserLbl.setText(LoginController.getGlobalUsername());
 
         mainTabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
 
-        FilteredList<Customer> filteredCustomerList = new FilteredList<>(Objects.requireNonNull(CustomerDAO.getAllCustomersWithDivisionAsText()));
+        FilteredList<Customer> filteredCustomerList = new FilteredList<>(Objects.requireNonNull(CustomerDAO.getAllCustomersWithDivisionAndCountries()));
         customers_table.setItems(filteredCustomerList);
         customer_id.setCellValueFactory(new PropertyValueFactory<>("customerId"));
         customer_name.setCellValueFactory(new PropertyValueFactory<>("customerName"));
@@ -135,6 +136,10 @@ public class MainController implements Initializable {
         if (!Objects.requireNonNull(AppointmentDAO.isAppointmentInNext15Minutes()).isEmpty()){
             System.out.println("Appointment within the next 15 minutes!");
         }
+
+//        while (mainTabPane.getSelectionModel().isSelected(0)){
+//            customers_table.setItems(CustomerDAO.getAllCustomers());
+//        }
     }
 
 
@@ -144,14 +149,15 @@ public class MainController implements Initializable {
 //    ==================================================================================================================
     public void addCustomer(ActionEvent actionEvent) throws IOException {
         modifyCustomer = null;
-        GeneralController.addCloseableTabWithViewAndMoveTo(mainTabPane,"Add Customer", "CustomerForm");
+        GeneralController.changePage(actionEvent,"CustomerForm");
+//        GeneralController.addCloseableTabWithCustomerFormViewAndMoveTo(mainTabPane,"Add Customer", "CustomerForm");
 
     }
 
     public void updateCustomer(ActionEvent actionEvent) throws IOException {
         modifyCustomer = customers_table.getSelectionModel().getSelectedItem();
-
-        GeneralController.addCloseableTabWithViewAndMoveTo(mainTabPane,"("+modifyCustomer.getCustomerId()+")"+modifyCustomer.getCustomerName(), "CustomerForm");
+        GeneralController.changePage(actionEvent,"CustomerForm");
+//        GeneralController.addCloseableTabWithCustomerFormViewAndMoveTo(mainTabPane,"("+modifyCustomer.getCustomerId()+")"+modifyCustomer.getCustomerName(), "CustomerForm");
 
 
 

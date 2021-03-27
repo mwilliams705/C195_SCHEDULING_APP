@@ -61,4 +61,41 @@ public class CountryDAO {
 
     }
 
+    public static String getCountryFromCountry_ID(int id){
+        String getStatement = "select Country from countries where Country_ID = ?;";
+
+
+
+        try {
+
+            DBQuery.setPreparedStatement(DBConnector.getConnection(),getStatement);
+            PreparedStatement ps = DBQuery.getPreparedStatement();
+            ps.setString(1,String.valueOf(id));
+            ps.execute();
+            ResultSet rs = ps.getResultSet();
+            return rs.getString("Country");
+        }catch (SQLException s){
+            s.printStackTrace();
+            return null;
+        }
+
+    }
+
+
+    public static Integer getCountry_IDfromCountry(String country){
+        String getStatement = "select Country_ID from countries where lower(Country) = ?;";
+
+        try {
+
+            DBQuery.setPreparedStatement(DBConnector.getConnection(),getStatement);
+            PreparedStatement ps = DBQuery.getPreparedStatement();
+            ps.setString(1,country);
+            ps.execute();
+            ResultSet rs = ps.getResultSet();
+            return rs.getInt("Country_ID");
+        }catch (SQLException s){
+            s.printStackTrace();
+            return null;
+        }
+    }
 }

@@ -9,6 +9,9 @@ public class Customer {
     private String customerPhone;
     private int customerDivision;
     private String customerDivisionText;
+    private int customerCountry;
+    private String customerCountryText;
+
 
     public Customer(int customerId, String customerName, String customerAddress, String customerZipcode, String customerPhone, int customerDivision) {
         this.customerId = customerId;
@@ -19,13 +22,36 @@ public class Customer {
         this.customerDivision = customerDivision;
     }
 
-    public Customer(int customerId, String customerName, String customerAddress, String customerZipcode, String customerPhone, String customerDivision) {
+    public Customer(int customerId, String customerName, String customerAddress, String customerZipcode, String customerPhone, int customerDivision, int customerCountry) {
         this.customerId = customerId;
         this.customerName = customerName;
         this.customerAddress = customerAddress;
         this.customerZipcode = customerZipcode;
         this.customerPhone = customerPhone;
-        this.customerDivisionText = customerDivision;
+        this.customerDivision = customerDivision;
+        this.customerCountry = customerCountry;
+    }
+
+    public Customer(int customerId, String customerName, String customerAddress, String customerZipcode, String customerPhone, String customerDivisionText, String customerCountryText) {
+        this.customerId = customerId;
+        this.customerName = customerName;
+        this.customerAddress = customerAddress;
+        this.customerZipcode = customerZipcode;
+        this.customerPhone = customerPhone;
+        this.customerDivisionText = customerDivisionText;
+        this.customerCountryText = customerCountryText;
+    }
+
+    public Customer(int customerId, String customerName, String customerAddress, String customerZipcode, String customerPhone, String customerDivisionText, String customerCountryText,int customerDivision,int customerCountry) {
+        this.customerId = customerId;
+        this.customerName = customerName;
+        this.customerAddress = customerAddress;
+        this.customerZipcode = customerZipcode;
+        this.customerPhone = customerPhone;
+        this.customerDivisionText = customerDivisionText;
+        this.customerCountryText = customerCountryText;
+        this.customerCountry = customerCountry;
+        this.customerDivision = customerDivision;
     }
 
     public Customer(int customerId, String customerName, String customerAddress, String customerZipcode, String customerPhone) {
@@ -51,6 +77,8 @@ public class Customer {
         this.customerPhone = customerPhone;
         this.customerDivisionText = customerDivisionText;
     }
+
+
 
     public int getCustomerId() {
         return customerId;
@@ -106,5 +134,21 @@ public class Customer {
 
     public void setCustomerDivisionText(String customerDivisionText) {
         this.customerDivisionText = customerDivisionText;
+    }
+
+    public int getCustomerCountry() {
+        return customerCountry;
+    }
+
+    public void setCustomerCountry(int customerCountry) {
+        this.customerCountry = customerCountry;
+    }
+
+    public String getCustomerCountryText() {
+        return customerCountryText;
+    }
+
+    public void setCustomerCountryText(String customerCountryText) {
+        this.customerCountryText = customerCountryText;
     }
 }

@@ -104,7 +104,7 @@
             </VBox>
             <VBox layoutX="10.0" layoutY="10.0" prefHeight="380.0" prefWidth="450.0">
                <children>
-                  <Label text="Country">
+                  <Label fx:id="currentCountryLbl" text="Country">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -118,17 +118,10 @@
                      </VBox.margin>
                      <children>
                         <ChoiceBox fx:id="country_choicebox" prefWidth="200.0" />
-                        <Label fx:id="currentCountryLbl">
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                           <HBox.margin>
-                              <Insets left="10.0" />
-                           </HBox.margin>
-                        </Label>
+
                      </children>
                   </HBox>
-                  <Label layoutX="20.0" layoutY="20.0" text="State/Division">
+                  <Label fx:id="currentDivisionLbl" layoutX="20.0" layoutY="20.0" text="State/Division">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -142,14 +135,6 @@
                      </VBox.margin>
                      <children>
                         <ChoiceBox fx:id="division_choicebox" prefWidth="200.0" />
-                        <Label fx:id="currentDivisionLbl">
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                           <HBox.margin>
-                              <Insets left="10.0" />
-                           </HBox.margin>
-                        </Label>
                      </children>
                   </HBox>
                   <Button fx:id="saveBtn" mnemonicParsing="false" onAction="#save" text="Save">

@@ -8,6 +8,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import main.Controller.MainController;
+import main.DAO.CustomerDAO;
+import main.Model.Customer;
 
 
 import java.io.IOException;
@@ -51,7 +53,7 @@ public class GeneralController {
         return alert;
     }
 
-    public static void addCloseableTabWithViewAndMoveTo(TabPane tabPane,String tabName, String pageName) throws IOException {
+    public static void addCloseableTabWithCustomerFormViewAndMoveTo(TabPane tabPane, String tabName, String pageName) throws IOException {
         SingleSelectionModel<Tab> selectionModel = tabPane.getSelectionModel();
         Parent root = FXMLLoader.load(GeneralController.class.getResource("/main/View/"+pageName+".fxml"));
         Tab tab = new Tab(tabName,root);
@@ -60,10 +62,28 @@ public class GeneralController {
         tabPane.getTabs().add(tab);
         selectionModel.select(tab);
         tabPane.setSelectionModel(selectionModel);
-        tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.ALL_TABS);
+        tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.SELECTED_TAB);
+        tab.setOnClosed(e -> tabPane.getSelectionModel().select(tabPane.getTabs().get(0)));
 
     }
 
+    public static void addCloseableTabWithAppointmentFormViewAndMoveTo(TabPane tabPane,String tabName, String pageName) throws IOException {
+        SingleSelectionModel<Tab> selectionModel = tabPane.getSelectionModel();
+        Parent root = FXMLLoader.load(GeneralController.class.getResource("/main/View/"+pageName+".fxml"));
+        Tab tab = new Tab(tabName,root);
+        tab.setTooltip(new Tooltip(tabName));
+
+        tabPane.getTabs().add(tab);
+        selectionModel.select(tab);
+        tabPane.setSelectionModel(selectionModel);
+        tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.SELECTED_TAB);
+        tab.setOnClosed(e -> tabPane.getSelectionModel().select(tabPane.getTabs().get(1)));
+
+    }
+
+//    public static SelectionModel<Tab> MainTabGlobalSelectionModel(TabPane tabPane){
+//
+//    }
 
 
 }

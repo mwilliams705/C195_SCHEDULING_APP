@@ -30,9 +30,12 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("View/LoginForm.fxml"));
+//        TODO: Change this back to 'LoginForm.fxml' before submitting
+        Parent root = FXMLLoader.load(getClass().getResource("View/Main.fxml"));
         primaryStage.setTitle("C195 - Scheduling Service");
-        primaryStage.setScene(new Scene(root, 300, 500));
+//        TODO: Change back to login form width and height
+//        primaryStage.setScene(new Scene(root, 300, 500));
+        primaryStage.setScene(new Scene(root,1100,600));
         primaryStage.setResizable(false);
         primaryStage.show();
     }
