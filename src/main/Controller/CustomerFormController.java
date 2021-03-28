@@ -72,8 +72,6 @@ public class CustomerFormController implements Initializable {
         if (customerToModify != null) {
             String val = country_choicebox.getValue();
             System.out.println(val);
-//             int country = CountryDAO.getCountry_IDfromCountry(val);
-//            System.out.println(country);
 
                 Customer c = new Customer(
                         Integer.parseInt(id_textfield.getText()),

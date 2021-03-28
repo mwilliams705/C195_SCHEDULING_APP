@@ -10,14 +10,20 @@ import main.DAO.AppointmentDAO;
 import main.DAO.CustomerDAO;
 import main.Model.Appointment;
 import main.Model.Customer;
+import main.Util.DBConnector;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class MainController implements Initializable {
 
     public TabPane mainTabPane;
+    public Button refreshBtn;
 
     public TabPane getMainTabPane() {
         return mainTabPane;
@@ -83,6 +89,7 @@ public class MainController implements Initializable {
 
         mainTabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
 
+
         FilteredList<Customer> filteredCustomerList = new FilteredList<>(Objects.requireNonNull(CustomerDAO.getAllCustomersWithDivisionAndCountries()));
         customers_table.setItems(filteredCustomerList);
         customer_id.setCellValueFactory(new PropertyValueFactory<>("customerId"));
@@ -137,9 +144,6 @@ public class MainController implements Initializable {
             System.out.println("Appointment within the next 15 minutes!");
         }
 
-//        while (mainTabPane.getSelectionModel().isSelected(0)){
-//            customers_table.setItems(CustomerDAO.getAllCustomers());
-//        }
     }
 
 
@@ -157,16 +161,24 @@ public class MainController implements Initializable {
     public void updateCustomer(ActionEvent actionEvent) throws IOException {
         modifyCustomer = customers_table.getSelectionModel().getSelectedItem();
 //        GeneralController.changePage(actionEvent,"CustomerForm");
-        GeneralController.addCloseableTabWithCustomerFormViewAndMoveTo(mainTabPane,"("+modifyCustomer.getCustomerId()+")"+modifyCustomer.getCustomerName(), "CustomerForm");
-
-
+        GeneralController.addCloseableTabWithCustomerFormViewAndMoveTo(mainTabPane,modifyCustomer.getCustomerId()+" | "+modifyCustomer.getCustomerName(), "CustomerForm");
 
     }
 
+    /**
+     * @param actionEvent
+     * @throws IOException
+     */
     public void deleteCustomer(ActionEvent actionEvent) throws IOException {
         modifyCustomer = customers_table.getSelectionModel().getSelectedItem();
-        CustomerDAO.deleteCustomer(modifyCustomer.getCustomerId());
-        GeneralController.changePage(actionEvent,"Main");
+
+        Alert confirmDelete = GeneralController.alertUser(Alert.AlertType.CONFIRMATION,"Delete Customer","Continue Deleting Customer?:", modifyCustomer.getCustomerId()+" | "+modifyCustomer.getCustomerName());
+        Optional<ButtonType> confirm = confirmDelete.showAndWait();
+        if (confirm.isPresent()&&confirm.get()==ButtonType.OK){
+            CustomerDAO.deleteCustomer(modifyCustomer.getCustomerId());
+            GeneralController.changePage(actionEvent,"Main");
+        }
+
     }
 
 
@@ -174,20 +186,23 @@ public class MainController implements Initializable {
 //    ==================================================================================================================
 //    ==================Appointments====================================================================================
 //    ==================================================================================================================
-    public void addAppointment(ActionEvent actionEvent) {
+    public void addAppointment(ActionEvent actionEvent) throws IOException {
         modifyAppointment = null;
+        GeneralController.addCloseableTabWithAppointmentFormViewAndMoveTo(mainTabPane,"New Appointment","AppointmentForm");
     }
 
-    public void updateAppointment(ActionEvent actionEvent) {
+    public void updateAppointment(ActionEvent actionEvent)throws IOException {
         try {
             modifyAppointment = appt_all_table.getSelectionModel().getSelectedItem();
-            System.out.println(modifyAppointment.getApptTitle());
+            GeneralController.addCloseableTabWithAppointmentFormViewAndMoveTo(mainTabPane,"Appointment for " +modifyAppointment.getApptCustomerId(),"AppointmentForm");
         }catch (NullPointerException n1){
             try {
+                modifyAppointment = appt_all_table.getSelectionModel().getSelectedItem();
                 modifyAppointment = appt_this_month_table.getSelectionModel().getSelectedItem();
                 System.out.println(modifyAppointment.getApptTitle());
             }catch (NullPointerException n2){
                 try {
+                    modifyAppointment = appt_all_table.getSelectionModel().getSelectedItem();
                     modifyAppointment = appt_this_week_table.getSelectionModel().getSelectedItem();
                     System.out.println(modifyAppointment.getApptTitle());
                 }catch (NullPointerException n3){
@@ -197,7 +212,54 @@ public class MainController implements Initializable {
         }
     }
 
-    public void deleteAppointment(ActionEvent actionEvent) {
+    public void deleteAppointment(ActionEvent actionEvent) throws IOException {
+
+
+
+
+
+
+
+        try {
+            modifyAppointment = appt_all_table.getSelectionModel().getSelectedItem();
+            System.out.println(modifyAppointment.getApptTitle());
+
+            Alert confirmDelete = GeneralController.alertUser(Alert.AlertType.CONFIRMATION,"Delete Appointment","Continue Deleting Appointment?:", modifyAppointment.getApptTitle()+" | "+modifyAppointment.getApptStart()+" - "+modifyAppointment.getApptEnd());
+            Optional<ButtonType> confirm = confirmDelete.showAndWait();
+            if (confirm.isPresent()&&confirm.get()==ButtonType.OK){
+//            AppointmentDAO.deleteCustomer(modifyAppointment.getAppointmentId());
+                GeneralController.changePage(actionEvent,"Main");
+            }
+        }catch (NullPointerException n1){
+            try {
+                modifyAppointment = appt_this_month_table.getSelectionModel().getSelectedItem();
+                System.out.println(modifyAppointment.getApptTitle());
+
+                Alert confirmDelete = GeneralController.alertUser(Alert.AlertType.CONFIRMATION,"Delete Appointment","Continue Deleting Appointment?:", modifyAppointment.getApptTitle()+" | "+modifyAppointment.getApptStart()+" - "+modifyAppointment.getApptEnd());
+                Optional<ButtonType> confirm = confirmDelete.showAndWait();
+                if (confirm.isPresent()&&confirm.get()==ButtonType.OK){
+//            AppointmentDAO.deleteCustomer(modifyAppointment.getAppointmentId());
+                    GeneralController.changePage(actionEvent,"Main");
+                }
+            }catch (NullPointerException n2){
+                try {
+                    modifyAppointment = appt_this_week_table.getSelectionModel().getSelectedItem();
+                    System.out.println(modifyAppointment.getApptTitle());
+
+                    Alert confirmDelete = GeneralController.alertUser(Alert.AlertType.CONFIRMATION,"Delete Appointment","Continue Deleting Appointment?:", modifyAppointment.getApptTitle()+" | "+modifyAppointment.getApptStart()+" - "+modifyAppointment.getApptEnd());
+                    Optional<ButtonType> confirm = confirmDelete.showAndWait();
+                    if (confirm.isPresent()&&confirm.get()==ButtonType.OK){
+//            AppointmentDAO.deleteCustomer(modifyAppointment.getAppointmentId());
+                        GeneralController.changePage(actionEvent,"Main");
+                    }
+                }catch (NullPointerException n3){
+                    n3.printStackTrace();
+                }
+            }
+        }
+
+
+
     }
 
 //    ==================================================================================================================
@@ -211,7 +273,11 @@ public class MainController implements Initializable {
         MainController.modifyCustomer = modifyCustomer;
     }
 
-    public void updateCustomerTable(){
-        customers_table.setItems(CustomerDAO.getAllCustomers());
+    public static Appointment getModifyAppointment() {
+        return modifyAppointment;
+    }
+
+    public static void setModifyAppointment(Appointment modifyAppointment) {
+        MainController.modifyAppointment = modifyAppointment;
     }
 }

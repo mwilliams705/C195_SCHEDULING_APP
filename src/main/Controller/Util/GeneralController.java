@@ -10,6 +10,7 @@ import javafx.stage.Stage;
 import main.Controller.MainController;
 import main.DAO.CustomerDAO;
 import main.Model.Customer;
+import main.Util.DBConnector;
 
 
 import java.io.IOException;
@@ -30,11 +31,13 @@ public class GeneralController {
      * @throws IOException
      */
     public static void changePage(ActionEvent actionEvent, String pageName) throws IOException {
+        DBConnector.startConnection();
         Parent root = FXMLLoader.load(GeneralController.class.getResource("/main/View/"+pageName+".fxml"));
         Scene scene = new Scene(root);
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         stage.setScene(scene);
         stage.show();
+
     }
 
     /**
@@ -54,6 +57,7 @@ public class GeneralController {
     }
 
     public static void addCloseableTabWithCustomerFormViewAndMoveTo(TabPane tabPane, String tabName, String pageName) throws IOException {
+        DBConnector.startConnection();
         SingleSelectionModel<Tab> selectionModel = tabPane.getSelectionModel();
         Parent root = FXMLLoader.load(GeneralController.class.getResource("/main/View/"+pageName+".fxml"));
         Tab tab = new Tab(tabName,root);
@@ -68,6 +72,7 @@ public class GeneralController {
     }
 
     public static void addCloseableTabWithAppointmentFormViewAndMoveTo(TabPane tabPane,String tabName, String pageName) throws IOException {
+        DBConnector.startConnection();
         SingleSelectionModel<Tab> selectionModel = tabPane.getSelectionModel();
         Parent root = FXMLLoader.load(GeneralController.class.getResource("/main/View/"+pageName+".fxml"));
         Tab tab = new Tab(tabName,root);
