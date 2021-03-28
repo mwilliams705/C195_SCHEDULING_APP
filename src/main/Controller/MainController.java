@@ -149,21 +149,24 @@ public class MainController implements Initializable {
 //    ==================================================================================================================
     public void addCustomer(ActionEvent actionEvent) throws IOException {
         modifyCustomer = null;
-        GeneralController.changePage(actionEvent,"CustomerForm");
-//        GeneralController.addCloseableTabWithCustomerFormViewAndMoveTo(mainTabPane,"Add Customer", "CustomerForm");
+//        GeneralController.changePage(actionEvent,"CustomerForm");
+        GeneralController.addCloseableTabWithCustomerFormViewAndMoveTo(mainTabPane,"Add Customer", "CustomerForm");
 
     }
 
     public void updateCustomer(ActionEvent actionEvent) throws IOException {
         modifyCustomer = customers_table.getSelectionModel().getSelectedItem();
-        GeneralController.changePage(actionEvent,"CustomerForm");
-//        GeneralController.addCloseableTabWithCustomerFormViewAndMoveTo(mainTabPane,"("+modifyCustomer.getCustomerId()+")"+modifyCustomer.getCustomerName(), "CustomerForm");
+//        GeneralController.changePage(actionEvent,"CustomerForm");
+        GeneralController.addCloseableTabWithCustomerFormViewAndMoveTo(mainTabPane,"("+modifyCustomer.getCustomerId()+")"+modifyCustomer.getCustomerName(), "CustomerForm");
 
 
 
     }
 
-    public void deleteCustomer(ActionEvent actionEvent) {
+    public void deleteCustomer(ActionEvent actionEvent) throws IOException {
+        modifyCustomer = customers_table.getSelectionModel().getSelectedItem();
+        CustomerDAO.deleteCustomer(modifyCustomer.getCustomerId());
+        GeneralController.changePage(actionEvent,"Main");
     }
 
 

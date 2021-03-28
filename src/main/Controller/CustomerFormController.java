@@ -15,7 +15,6 @@ import main.Model.Customer;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class CustomerFormController implements Initializable {
@@ -35,6 +34,7 @@ public class CustomerFormController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
 
         country_choicebox.setItems(CountryDAO.getAllCountriesAsText());
 
@@ -70,8 +70,10 @@ public class CustomerFormController implements Initializable {
 
     public void save(ActionEvent actionEvent) throws IOException {
         if (customerToModify != null) {
-
-
+            String val = country_choicebox.getValue();
+            System.out.println(val);
+//             int country = CountryDAO.getCountry_IDfromCountry(val);
+//            System.out.println(country);
 
                 Customer c = new Customer(
                         Integer.parseInt(id_textfield.getText()),
@@ -79,11 +81,13 @@ public class CustomerFormController implements Initializable {
                         address_textfield.getText(),
                         zipcode_textfield.getText(),
                         phone_textfield.getText(),
-                        country_choicebox.getValue(),
-                        division_choicebox.getValue()
+                        division_choicebox.getValue(),
+                        country_choicebox.getValue()
+
 
                 );
 
+            System.out.println(c.getCustomerDivisionText());
             CustomerDAO.updateCustomer(c);
             GeneralController.changePage(actionEvent,"Main");
         }
@@ -118,4 +122,9 @@ public class CustomerFormController implements Initializable {
         this.customerToModify = customerToModify;
     }
 
+    public void cancel(ActionEvent actionEvent) throws IOException {
+
+        GeneralController.changePage(actionEvent,"Main");
+
+    }
 }

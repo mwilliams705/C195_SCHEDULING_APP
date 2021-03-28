@@ -101,42 +101,42 @@ public class CustomerDAO {
     }
 
 
-//    public static ObservableList<Customer> getAllCustomersWithDivisionAndCountryIdsAsText(){
-//        String getStatement = "SELECT c.Customer_ID,c.Customer_Name,c.Address,c.Postal_Code,c.Phone,f.division, co.Country\n" +
-//                "FROM customers c\n" +
-//                "    join first_level_divisions f on c.Division_ID = f.Division_ID\n" +
-//                "    join countries co on f.Country_ID = co.country_id;";
-//        Customer customerResult;
-//        ObservableList<Customer> allCustomers = FXCollections.observableArrayList();
-//        try {
-//            DBQuery.setPreparedStatement(DBConnector.getConnection(),getStatement);
-//            PreparedStatement ps = DBQuery.getPreparedStatement();
-//            ps.execute();
-//            ResultSet rs = ps.getResultSet();
-//
-//
-//            while (rs.next()){
-//                customerResult = new Customer(
-//                        rs.getInt("Customer_Id"),
-//                        rs.getString("Customer_Name"),
-//                        rs.getString("Address"),
-//                        rs.getString("Postal_Code"),
-//                        rs.getString("Phone"),
-//                        rs.getString("Division"),
-//                        rs.getString("Country")
-//
-//                );
-//                allCustomers.add(customerResult);
-//            }
-//
-//
-//
-//        } catch (SQLException sqlException) {
-//            sqlException.printStackTrace();
-//            return null;
-//        }
-//        return allCustomers;
-//    }
+    public static ObservableList<Customer> getAllCustomersWithDivisionAndCountryIdsAsText(){
+        String getStatement = "SELECT c.Customer_ID,c.Customer_Name,c.Address,c.Postal_Code,c.Phone,f.division, co.Country\n" +
+                "FROM customers c\n" +
+                "    join first_level_divisions f on c.Division_ID = f.Division_ID\n" +
+                "    join countries co on f.Country_ID = co.country_id;";
+        Customer customerResult;
+        ObservableList<Customer> allCustomers = FXCollections.observableArrayList();
+        try {
+            DBQuery.setPreparedStatement(DBConnector.getConnection(),getStatement);
+            PreparedStatement ps = DBQuery.getPreparedStatement();
+            ps.execute();
+            ResultSet rs = ps.getResultSet();
+
+
+            while (rs.next()){
+                customerResult = new Customer(
+                        rs.getInt("Customer_Id"),
+                        rs.getString("Customer_Name"),
+                        rs.getString("Address"),
+                        rs.getString("Postal_Code"),
+                        rs.getString("Phone"),
+                        rs.getString("Division"),
+                        rs.getString("Country")
+
+                );
+                allCustomers.add(customerResult);
+            }
+
+
+
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+            return null;
+        }
+        return allCustomers;
+    }
 
 
     public static ObservableList<Customer> getAllCustomersWithDivisionAndCountryIds(){
@@ -197,7 +197,9 @@ public class CustomerDAO {
                         rs.getString("Postal_Code"),
                         rs.getString("Phone"),
                         rs.getString("Division"),
-                        rs.getString("Country")
+                        rs.getString("Country"),
+                        rs.getInt("Division_ID"),
+                        rs.getInt("Country_ID")
                 );
                 allCustomers.add(customerResult);
             }
@@ -221,8 +223,9 @@ public class CustomerDAO {
                 "                     Postal_Code = ?,\n" +
                 "                     Phone = ?,\n" +
                 "                     Last_Update = NOW(),\n" +
-                "                     Last_Updated_By = ?,\n" +
-                "                     Division_ID = ? where Customer_ID = ?;";
+                "                     Last_Updated_By=?,\n" +
+                "                     Division_Id = (select Division_ID from first_level_divisions where lower(Division) = ?)\n" +
+                "                    where Customer_ID = ?;";
 
 
         try {
@@ -233,7 +236,7 @@ public class CustomerDAO {
             ps.setString(3, customer.getCustomerZipcode());
             ps.setString(4, customer.getCustomerPhone());
             ps.setString(5, LoginController.getGlobalUsername());
-            ps.setInt(6,customer.getCustomerDivision());
+            ps.setString(6,customer.getCustomerDivisionText());
             ps.setInt(7, customer.getCustomerId());
             ps.execute();
 
@@ -268,8 +271,21 @@ public class CustomerDAO {
         }
     }
 //
-//    public static boolean deleteCustomer(int Id){
-//
-//    }
+    public static void deleteCustomer(int Id){
+        String getStatement = "delete from customers where Customer_ID = ?";
+
+        try {
+            DBQuery.setPreparedStatement(DBConnector.getConnection(),getStatement);
+            PreparedStatement ps = DBQuery.getPreparedStatement();
+            ps.setInt(1,Id);
+            ps.execute();
+
+            if (ps.getUpdateCount()>0){
+                System.out.println(ps.getUpdateCount()+" row(s) affected.");
+            }
+        }catch (SQLException s){
+            System.out.println("Nothing Deleted");
+        }
+    }
 
 }

@@ -137,14 +137,23 @@
                         <ChoiceBox fx:id="division_choicebox" prefWidth="200.0" />
                      </children>
                   </HBox>
-                  <Button fx:id="saveBtn" mnemonicParsing="false" onAction="#save" text="Save">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
+                  <HBox>
                      <VBox.margin>
-                        <Insets left="170.0" top="155.0" />
+                        <Insets left="100.0" top="155.0" />
                      </VBox.margin>
-                  </Button>
+                     <children>
+                        <Button fx:id="saveBtn" mnemonicParsing="false" onAction="#save" text="Save">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#cancel" text="Cancel">
+                           <HBox.margin>
+                              <Insets left="20.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                  </HBox>
                </children>
                <HBox.margin>
                   <Insets left="50.0" />
