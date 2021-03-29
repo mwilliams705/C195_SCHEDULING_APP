@@ -1,9 +1,13 @@
 package main.Controller;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import main.Controller.Util.GeneralController;
+import main.DAO.ContactDAO;
+import main.DAO.CustomerDAO;
 import main.Model.Appointment;
 import main.Model.Contact;
 import main.Model.Customer;
@@ -20,12 +24,12 @@ public class AppointmentFormController implements Initializable {
     public TextField title_textfield;
     public TextArea desc_textarea;
     public TextField location_textfield;
-    public ChoiceBox<String> contact_choicebox;
+    public ChoiceBox<Contact> contact_choicebox;
     public DatePicker start_datepicker;
     public ChoiceBox start_time_combobox;
     public DatePicker end_datpicker;
     public ChoiceBox end_time_combobox;
-    public ChoiceBox<Customer> customer_combobox;
+    public ChoiceBox<Customer> customer_choicebox;
     public RadioButton physical_radio;
     public RadioButton bloodwork_radio;
 
@@ -35,6 +39,10 @@ public class AppointmentFormController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         setAppointmentToModify(MainController.getModifyAppointment());
+
+        contact_choicebox.setItems(ContactDAO.getAllContacts());
+        customer_choicebox.setItems(CustomerDAO.getAllCustomers());
+
 
         if (appointmentToModify != null){
             headerLbl.setText("Update Appointment");
@@ -52,7 +60,7 @@ public class AppointmentFormController implements Initializable {
     }
 
     public void save(ActionEvent actionEvent) throws IOException {
-        GeneralController.changePage(actionEvent,"Main");
+        GeneralController.changePageFromAppointment(actionEvent,"Main");
     }
 
     public void cancel(ActionEvent actionEvent) throws IOException {

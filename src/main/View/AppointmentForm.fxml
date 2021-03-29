@@ -189,7 +189,7 @@
                                 <Insets left="20.0" />
                             </VBox.margin>
                             <children>
-                                <ChoiceBox fx:id="customer_combobox" prefWidth="200.0" />
+                                <ChoiceBox fx:id="customer_choicebox" prefWidth="200.0" />
                             </children>
                         </HBox>
                         <HBox>

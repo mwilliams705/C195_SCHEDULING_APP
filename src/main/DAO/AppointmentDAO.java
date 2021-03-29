@@ -197,4 +197,25 @@ public class AppointmentDAO {
 
 
     }
+
+    public static void deleteAppointment(int id){
+        String getCustomerStatement = "DELETE FROM appointments where appointment_id = ?";
+
+        try {
+            DBQuery.setPreparedStatement(DBConnector.getConnection(),getCustomerStatement);
+            PreparedStatement ps = DBQuery.getPreparedStatement();
+            ps.setString(1,String.valueOf(id));
+            ps.execute();
+            if (ps.getUpdateCount()>0){
+                System.out.println(ps.getUpdateCount() + " row(s) deleted.");
+
+            }
+
+
+
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+            System.out.println("No appointment deleted.");
+        }
+    }
 }

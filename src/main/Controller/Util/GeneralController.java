@@ -40,6 +40,16 @@ public class GeneralController {
 
     }
 
+    public static void changePageFromAppointment(ActionEvent actionEvent, String pageName) throws IOException {
+        DBConnector.startConnection();
+        Parent root = FXMLLoader.load(GeneralController.class.getResource("/main/View/"+pageName+".fxml"));
+        Scene scene = new Scene(root);
+        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
+
+    }
+
     /**
      * This static method minimized the code needed to alert the user on any given view in the application.
      * @param alertType

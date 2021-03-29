@@ -69,7 +69,7 @@ public class CustomerDAO {
     }
 
     public static ObservableList<Customer> getAllCustomers(){
-        String getCustomerStatement = "SELECT Customer_ID,Customer_Name,Address,Postal_Code,Phone, division_id FROM customers c";
+        String getCustomerStatement = "SELECT Customer_ID,Customer_Name,Address,Postal_Code,Phone, division_id FROM customers";
         Customer customerResult;
         ObservableList<Customer> allCustomers = FXCollections.observableArrayList();
         try {
@@ -218,13 +218,22 @@ public class CustomerDAO {
 
 
     public static void updateCustomer(Customer customer){
+//        String getStatement = "update customers set Customer_Name = ?,\n" +
+//                "                     Address = ?,\n" +
+//                "                     Postal_Code = ?,\n" +
+//                "                     Phone = ?,\n" +
+//                "                     Last_Update = NOW(),\n" +
+//                "                     Last_Updated_By=?,\n" +
+//                "                     Division_Id = (select Division_ID from first_level_divisions where lower(Division) = ?)\n" +
+//                "                    where Customer_ID = ?;";
+
         String getStatement = "update customers set Customer_Name = ?,\n" +
                 "                     Address = ?,\n" +
                 "                     Postal_Code = ?,\n" +
                 "                     Phone = ?,\n" +
                 "                     Last_Update = NOW(),\n" +
                 "                     Last_Updated_By=?,\n" +
-                "                     Division_Id = (select Division_ID from first_level_divisions where lower(Division) = ?)\n" +
+                "                     Division_Id = ?\n" +
                 "                    where Customer_ID = ?;";
 
 
@@ -236,7 +245,7 @@ public class CustomerDAO {
             ps.setString(3, customer.getCustomerZipcode());
             ps.setString(4, customer.getCustomerPhone());
             ps.setString(5, LoginController.getGlobalUsername());
-            ps.setString(6,customer.getCustomerDivisionText());
+            ps.setInt(6,customer.getCustomerDivision());
             ps.setInt(7, customer.getCustomerId());
             ps.execute();
 

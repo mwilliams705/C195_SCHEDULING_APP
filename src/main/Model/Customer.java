@@ -151,4 +151,9 @@ public class Customer {
     public void setCustomerCountryText(String customerCountryText) {
         this.customerCountryText = customerCountryText;
     }
+
+    @Override
+    public String toString() {
+        return customerId+": "+customerName;
+    }
 }
