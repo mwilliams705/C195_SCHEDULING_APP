@@ -72,13 +72,20 @@ public class LoginController implements Initializable {
             alert.showAndWait();
         }
 
+        User user = new User(usernameTextfield.getText(),passwordTextfield.getText());
+            System.out.println(user.toString());
+        setGlobalUser(UserDAO.getUser(user));
+            if (globalUser != null){
+                System.out.println(globalUser.toString());
+                GeneralController.changePage(actionEvent, "Main");
+            }
 
-        if (UserDAO.isValidUser(usernameTextfield.getText(), passwordTextfield.getText())) {
-            setGlobalUser(new User(usernameTextfield.getText(),passwordTextfield.getText()));
-            GeneralController.changePage(actionEvent, "Main");
-
-
-        } else System.out.println("No user found");
+//        if (UserDAO.isValidUser(usernameTextfield.getText(), passwordTextfield.getText())) {
+//
+//            GeneralController.changePage(actionEvent, "Main");
+//
+//
+//        } else System.out.println("No user found");
 
     }catch (NullPointerException nullPointerException){
             nullPointerException.printStackTrace();
@@ -87,6 +94,7 @@ public class LoginController implements Initializable {
     }
 
     public void exit(ActionEvent actionEvent) {
+        DBConnector.closeConnection();
         System.exit(0);
     }
 

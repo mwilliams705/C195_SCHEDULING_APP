@@ -80,9 +80,9 @@ public class MainController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        currentUserLbl.setText(LoginController.getGlobalUser().getUserName());
+//        currentUserLbl.setText(LoginController.getGlobalUser().getUserName());
 
-//        currentUserLbl.setText(LoginController.getGlobalUser().getUserName() +" : "+LoginController.getGlobalUser().getUserID());
+        currentUserLbl.setText(LoginController.getGlobalUser().getUserName() +" : "+LoginController.getGlobalUser().getUserID());
         mainTabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
 
 

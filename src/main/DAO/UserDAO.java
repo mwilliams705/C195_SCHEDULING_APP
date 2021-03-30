@@ -16,7 +16,7 @@ public class UserDAO {
         try {
             DBQuery.setPreparedStatement(DBConnector.getConnection(),getStatement);
             PreparedStatement ps = DBQuery.getPreparedStatement();
-            ps.setString(1,username.toLowerCase());
+            ps.setString(1, username.toLowerCase());
             ps.setString(2, password.toLowerCase());
             ps.execute();
             ResultSet rs = ps.getResultSet();
@@ -40,9 +40,11 @@ public class UserDAO {
             ps.setString(2, user.getUserPassword().toLowerCase());
             ps.execute();
             ResultSet rs = ps.getResultSet();
-            if (ps.getUpdateCount()>0){
-                return new User(rs.getInt("User_ID"),rs.getString("User_Name"),rs.getString("Password"));
+            if (rs.next()){
+                return new User(rs.getInt("User_ID"), rs.getString("User_Name"), rs.getString("Password"));
             }
+
+
         }catch (SQLException sqlException){
             sqlException.printStackTrace();
 
