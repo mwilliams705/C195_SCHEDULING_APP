@@ -1,5 +1,7 @@
 package main.Model;
 
+import main.Exception.ValidationException;
+
 import java.sql.Timestamp;
 
 public class Appointment {
@@ -106,5 +108,57 @@ public class Appointment {
 
     public void setApptCustomerId(int apptCustomerId) {
         this.apptCustomerId = apptCustomerId;
+    }
+
+    @Override
+    public String toString() {
+        return "Appointment{" +
+                "apptId=" + apptId +
+                ", apptTitle='" + apptTitle + '\'' +
+                ", apptDesc='" + apptDesc + '\'' +
+                ", apptLocation='" + apptLocation + '\'' +
+                ", apptContact=" + apptContact +
+                ", apptType='" + apptType + '\'' +
+                ", apptStart=" + apptStart +
+                ", apptEnd=" + apptEnd +
+                ", apptCustomerId=" + apptCustomerId +
+                '}';
+    }
+
+    /**
+     * Validation method
+     * @return true if no exception is thrown. Otherwise, alert the user (Managed by the controllers)
+     * @throws ValidationException
+     */
+    public boolean isValid() throws ValidationException {
+//        Title Required
+        if (getApptTitle().equals("")) {
+            throw new ValidationException("The title field cannot be empty.");
+        }
+
+//        Description Required
+        if (getApptDesc().equals("")) {
+            throw new ValidationException("The description field cannot be empty.");
+        }
+
+//        Location Required
+        if (getApptLocation().equals("")) {
+            throw new ValidationException("The location field cannot be empty");
+        }
+
+        // min must be positive
+        if (getApptType().equals("")) {
+            throw new ValidationException("The type field cannot be empty.");
+        }
+
+        if (getApptStart().after(getApptEnd()) ){
+            throw new ValidationException("The appointment start time cannot be before the end time");
+        }
+
+        if (getApptEnd().before(getApptStart())){
+            throw new ValidationException("The appointment end time cannot be after the start time");
+        }
+
+        return true;
     }
 }

@@ -4,6 +4,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import main.Controller.Util.GeneralController;
+import main.DAO.UserDAO;
+import main.Model.User;
 import main.Util.DBConnector;
 import main.Util.DBQuery;
 
@@ -13,10 +15,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Calendar;
-import java.util.Locale;
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class LoginController implements Initializable {
 
@@ -30,9 +29,7 @@ public class LoginController implements Initializable {
     public Label localeLbl;
     public Label currentLocaleLbl;
 
-    public static String globalUsername;
-
-
+    public static User globalUser;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -61,50 +58,30 @@ public class LoginController implements Initializable {
         }
     }
 
+    public void login(ActionEvent actionEvent) throws IOException {
+        ResourceBundle rb = ResourceBundle.getBundle("main/Nat", Locale.getDefault());
 
-    public void login(ActionEvent actionEvent) {
-        ResourceBundle rb  = ResourceBundle.getBundle("main/Nat",Locale.getDefault());
+        try{
+
+        if (usernameTextfield.getText().isEmpty()) {
+            Alert alert = GeneralController.alertUser(Alert.AlertType.ERROR, rb.getString("loginErrorTitle"), rb.getString("usernameEmpty"), rb.getString("usernameRequired"));
+            alert.showAndWait();
+        }
+        if (passwordTextfield.getText().isEmpty()) {
+            Alert alert = GeneralController.alertUser(Alert.AlertType.ERROR, rb.getString("loginErrorTitle"), rb.getString("passwordEmpty"), rb.getString("passwordRequired"));
+            alert.showAndWait();
+        }
 
 
-        Connection connection = DBConnector.getConnection();
-        String loginInput = "SELECT * FROM users where User_Name = ? AND Password = ?";
-        try {
-            DBQuery.setPreparedStatement(connection, loginInput);
-            PreparedStatement ps = DBQuery.getPreparedStatement();
+        if (UserDAO.isValidUser(usernameTextfield.getText(), passwordTextfield.getText())) {
+            setGlobalUser(new User(usernameTextfield.getText(),passwordTextfield.getText()));
+            GeneralController.changePage(actionEvent, "Main");
 
-            if (usernameTextfield.getText().isEmpty()){
-                Alert alert = GeneralController.alertUser(Alert.AlertType.ERROR,rb.getString("loginErrorTitle"),rb.getString("usernameEmpty"), rb.getString("usernameRequired"));
-                alert.showAndWait();
-            }
-            if (passwordTextfield.getText().isEmpty()){
-                Alert alert = GeneralController.alertUser(Alert.AlertType.ERROR,rb.getString("loginErrorTitle"),rb.getString("passwordEmpty"), rb.getString("passwordRequired"));
-                alert.showAndWait();
-            }
 
-            ps.setString(1, usernameTextfield.getText());
-            ps.setString(2, passwordTextfield.getText());
-            globalUsername = usernameTextfield.getText();
+        } else System.out.println("No user found");
 
-            ps.execute();
-
-            ResultSet rs = ps.getResultSet();
-            if (rs.next()){
-
-//                Move to main application from here!!!!!!!!
-                GeneralController.changePage(actionEvent ,"Main");
-
-//                Alert success =  GeneralController.alertUser(Alert.AlertType.INFORMATION,"Success","User Found","Logged in. (This is a test and doesnt need to be in french)");
-//                success.showAndWait();
-            }
-            else {
-                Alert fail =  GeneralController.alertUser(Alert.AlertType.INFORMATION,rb.getString("loginErrorTitle"),rb.getString("loginErrorHeader"),rb.getString("loginErrorContent"));
-                fail.showAndWait();
-            }
-
-        }catch (SQLException | IOException sqlException){
-            System.out.println("SQL Exception:");
-            System.out.println(sqlException.getMessage());
-            sqlException.printStackTrace();
+    }catch (NullPointerException nullPointerException){
+            nullPointerException.printStackTrace();
         }
 
     }
@@ -113,11 +90,11 @@ public class LoginController implements Initializable {
         System.exit(0);
     }
 
-    public static String getGlobalUsername() {
-        return globalUsername;
+    public static User getGlobalUser() {
+        return globalUser;
     }
 
-    public static void setGlobalUsername(String globalUsername) {
-        LoginController.globalUsername = globalUsername;
+    public static void setGlobalUser(User user) {
+        LoginController.globalUser = user;
     }
 }

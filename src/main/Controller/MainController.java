@@ -7,8 +7,10 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import main.Controller.Util.GeneralController;
 import main.DAO.AppointmentDAO;
+import main.DAO.ContactDAO;
 import main.DAO.CustomerDAO;
 import main.Model.Appointment;
+import main.Model.Contact;
 import main.Model.Customer;
 
 import java.io.IOException;
@@ -70,12 +72,19 @@ public class MainController implements Initializable {
     private static Appointment modifyAppointment;
     public Label currentUserLbl;
 
+    public TableView<Contact> contacts_table;
+    public TableColumn<Contact,Integer> contact_id;
+    public TableColumn<Contact,String> contact_name;
+    public TableColumn<Contact,String> contact_email;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        currentUserLbl.setText(LoginController.getGlobalUser().getUserName());
 
-        currentUserLbl.setText(LoginController.getGlobalUsername());
+//        currentUserLbl.setText(LoginController.getGlobalUser().getUserName() +" : "+LoginController.getGlobalUser().getUserID());
         mainTabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
+
 
 
 
@@ -128,6 +137,13 @@ public class MainController implements Initializable {
         all_end.setCellValueFactory(new PropertyValueFactory<>("apptEnd"));
         all_customer_id.setCellValueFactory(new PropertyValueFactory<>("apptCustomerId"));
 
+        FilteredList<Contact> filteredContactList = new FilteredList<>(Objects.requireNonNull(ContactDAO.getAllContacts()));
+        contacts_table.setItems(filteredContactList);
+        contact_id.setCellValueFactory(new PropertyValueFactory<>("contactId"));
+        contact_name.setCellValueFactory(new PropertyValueFactory<>("contactName"));
+        contact_email.setCellValueFactory(new PropertyValueFactory<>("contactEmail"));
+
+
 
         if (!Objects.requireNonNull(AppointmentDAO.isAppointmentInNext15Minutes()).isEmpty()){
             System.out.println("Appointment within the next 15 minutes!");
@@ -154,10 +170,6 @@ public class MainController implements Initializable {
 
     }
 
-    /**
-     * @param actionEvent
-     * @throws IOException
-     */
     public void deleteCustomer(ActionEvent actionEvent) throws IOException {
         modifyCustomer = customers_table.getSelectionModel().getSelectedItem();
 

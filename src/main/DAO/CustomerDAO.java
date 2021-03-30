@@ -16,7 +16,7 @@ public class CustomerDAO {
 
     public static void addCustomer(Customer customer){
         String getStatement = "insert into customers(Customer_Name, Address, Postal_Code, Phone, Create_Date, Created_By, Last_Update, Last_Updated_By, Division_ID)\n" +
-                "values (?,?,?,?,NOW(),?,NOW(),?,(select Division_ID from first_level_divisions where lower(Division) = ?));";
+                "values (?,?,?,?,NOW(),?,NOW(),?,?);";
         try{
             DBQuery.setPreparedStatement(DBConnector.getConnection(),getStatement);
             PreparedStatement ps = DBQuery.getPreparedStatement();
@@ -24,9 +24,9 @@ public class CustomerDAO {
             ps.setString(2, customer.getCustomerAddress());
             ps.setString(3,customer.getCustomerZipcode());
             ps.setString(4, customer.getCustomerPhone());
-            ps.setString(5,LoginController.getGlobalUsername());
-            ps.setString(6,LoginController.getGlobalUsername());
-            ps.setString(7,customer.getCustomerDivisionText());
+            ps.setString(5,LoginController.getGlobalUser().getUserName());
+            ps.setString(6,LoginController.getGlobalUser().getUserName());
+            ps.setInt(7,customer.getCustomerDivision());
 
             ps.execute();
 
@@ -236,7 +236,7 @@ public class CustomerDAO {
             ps.setString(2, customer.getCustomerAddress());
             ps.setString(3, customer.getCustomerZipcode());
             ps.setString(4, customer.getCustomerPhone());
-            ps.setString(5, LoginController.getGlobalUsername());
+            ps.setString(5, LoginController.getGlobalUser().getUserName());
             ps.setInt(6,customer.getCustomerDivision());
             ps.setInt(7, customer.getCustomerId());
             ps.execute();

@@ -151,6 +151,21 @@
                   </AnchorPane>
             </content>
           </Tab>
+            <Tab closable="false" text="Contacts">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="contacts_table" prefHeight="521.0" prefWidth="1100.0">
+                           <columns>
+                              <TableColumn fx:id="contact_id" prefWidth="75.0" resizable="false" text="ID" />
+                              <TableColumn fx:id="contact_name" prefWidth="225.0" text="Name" />
+                              <TableColumn fx:id="contact_email" prefWidth="300.0" text="Email" />
+                           </columns>
+                        </TableView>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
             <Tab closable="false" text="Reports">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />

@@ -198,6 +198,39 @@ public class AppointmentDAO {
 
     }
 
+    public static void addAppointment(Appointment appointment){
+
+        String getStatement = "insert into appointments(Title, Description, Location, Type, Start,End,Create_Date, Created_By,Last_Update, Last_Updated_By, Customer_ID, User_ID, Contact_ID)\n" +
+                "values (?,?,?,?,?,?,NOW(),?,NOW(),?,?,?,?);";
+
+        try{
+            DBQuery.setPreparedStatement(DBConnector.getConnection(),getStatement);
+            PreparedStatement ps = DBQuery.getPreparedStatement();
+            ps.setString(1,appointment.getApptTitle());
+            ps.setString(2,appointment.getApptDesc());
+            ps.setString(3, appointment.getApptLocation());
+            ps.setString(4, appointment.getApptType());
+            ps.setTimestamp(5,appointment.getApptStart());
+            ps.setTimestamp(6,appointment.getApptEnd());
+            ps.setString(7,LoginController.getGlobalUser().getUserName());
+            ps.setString(8,LoginController.getGlobalUser().getUserName());
+            ps.setInt(9,appointment.getApptCustomerId());
+//            TODO: Setup loginDAO and make this update User_ID
+            ps.setInt(10,1);
+            ps.setInt(11,appointment.getApptContact());
+
+            ps.execute();
+
+            if (ps.getUpdateCount()>0){
+                System.out.println(ps.getUpdateCount()+ " row affected.");
+            }
+
+        }catch (SQLException sqlException){
+            sqlException.printStackTrace();
+        }
+
+    }
+
     public static void updateAppointment(Appointment appointment){
         String getStatement = "update appointments set Title = ?,\n" +
                 "                        Description = ?,\n" +
@@ -222,9 +255,9 @@ public class AppointmentDAO {
             ps.setString(4,appointment.getApptType());
             ps.setTimestamp(5,appointment.getApptStart());
             ps.setTimestamp(6,appointment.getApptEnd());
-            ps.setString(7,LoginController.getGlobalUsername());
+            ps.setString(7,LoginController.getGlobalUser().getUserName());
             ps.setInt(8,appointment.getApptCustomerId());
-            ps.setInt(9,999);
+            ps.setInt(9,1);
             ps.setInt(10,appointment.getApptContact());
             ps.setInt(11,appointment.getApptId());
 
@@ -235,6 +268,7 @@ public class AppointmentDAO {
             }
 
         }catch (SQLException s){
+            s.printStackTrace();
             System.out.println("Could not update appointment Check appointmentDAO");
         }
 
