@@ -2,6 +2,7 @@ package main.DAO;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import main.Controller.LoginController;
 import main.Model.Appointment;
 import main.Model.Customer;
 import main.Util.DBConnector;
@@ -160,7 +161,6 @@ public class AppointmentDAO {
         return allAppointmentsThisWeek;
     }
 
-
     public static ObservableList<Appointment> isAppointmentInNext15Minutes(){
         String getStatement = "select Appointment_ID,Title,Description,Location,Type,Start,End,Customer_ID\n" +
                 "from appointments where Start >= curtime() and Start <= curtime() + interval 15 minute ;";
@@ -193,6 +193,50 @@ public class AppointmentDAO {
             return null;
         }
         return allAppointmentsSoon;
+
+
+
+    }
+
+    public static void updateAppointment(Appointment appointment){
+        String getStatement = "update appointments set Title = ?,\n" +
+                "                        Description = ?,\n" +
+                "                        Location = ?,\n" +
+                "                        Type = ?,\n" +
+                "                        Start = ?,\n" +
+                "                        End = ?,\n" +
+                "                        Last_Update = NOW(),\n" +
+                "                        Last_Updated_By = ?,\n" +
+                "                        Customer_ID = ?,\n" +
+                "                        User_ID = ?,\n" +
+                "                        Contact_ID = ? where Appointment_ID = ?;";
+
+
+        try{
+            DBQuery.setPreparedStatement(DBConnector.getConnection(),getStatement);
+
+            PreparedStatement ps = DBQuery.getPreparedStatement();
+            ps.setString(1,appointment.getApptTitle());
+            ps.setString(2, appointment.getApptDesc());
+            ps.setString(3,appointment.getApptLocation());
+            ps.setString(4,appointment.getApptType());
+            ps.setTimestamp(5,appointment.getApptStart());
+            ps.setTimestamp(6,appointment.getApptEnd());
+            ps.setString(7,LoginController.getGlobalUsername());
+            ps.setInt(8,appointment.getApptCustomerId());
+            ps.setInt(9,999);
+            ps.setInt(10,appointment.getApptContact());
+            ps.setInt(11,appointment.getApptId());
+
+            ps.execute();
+
+            if (ps.getUpdateCount()>0){
+                System.out.println(ps.getUpdateCount()+ " row(s) affected.");
+            }
+
+        }catch (SQLException s){
+            System.out.println("Could not update appointment Check appointmentDAO");
+        }
 
 
 

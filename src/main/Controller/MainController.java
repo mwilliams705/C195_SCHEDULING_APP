@@ -10,28 +10,17 @@ import main.DAO.AppointmentDAO;
 import main.DAO.CustomerDAO;
 import main.Model.Appointment;
 import main.Model.Customer;
-import main.Util.DBConnector;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class MainController implements Initializable {
 
     public TabPane mainTabPane;
-    public Button refreshBtn;
 
-    public TabPane getMainTabPane() {
-        return mainTabPane;
-    }
-
-    public void setMainTabPane(TabPane mainTabPane) {
-        this.mainTabPane = mainTabPane;
-    }
 
     //    Customers Table
     public TableView<Customer> customers_table;

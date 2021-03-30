@@ -218,14 +218,6 @@ public class CustomerDAO {
 
 
     public static void updateCustomer(Customer customer){
-//        String getStatement = "update customers set Customer_Name = ?,\n" +
-//                "                     Address = ?,\n" +
-//                "                     Postal_Code = ?,\n" +
-//                "                     Phone = ?,\n" +
-//                "                     Last_Update = NOW(),\n" +
-//                "                     Last_Updated_By=?,\n" +
-//                "                     Division_Id = (select Division_ID from first_level_divisions where lower(Division) = ?)\n" +
-//                "                    where Customer_ID = ?;";
 
         String getStatement = "update customers set Customer_Name = ?,\n" +
                 "                     Address = ?,\n" +

@@ -69,7 +69,7 @@
                                       <children>
                                           <TableView fx:id="appt_all_table" prefHeight="525.0" prefWidth="1075.0">
                                               <columns>
-                                                  <TableColumn fx:id="all_appt_id" prefWidth="75.0" resizable="false" text="Appt. ID" />
+                                                  <TableColumn fx:id="all_appt_id" prefWidth="70.0" resizable="false" text="Appt. ID" />
                                                   <TableColumn fx:id="all_title" prefWidth="75.0" resizable="false" text="Title" />
                                                   <TableColumn fx:id="all_desc" prefWidth="230.0" resizable="false" text="Description" />
                                                   <TableColumn fx:id="all_location" minWidth="0.0" prefWidth="94.0" resizable="false" text="Location" />
