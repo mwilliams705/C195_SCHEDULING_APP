@@ -83,7 +83,7 @@ public class ReportOneController implements Initializable {
         for (final XYChart.Series<String, Number> series : appointmentsByTypeBarChart.getData()) {
             for (final XYChart.Data<String, Number> data : series.getData()) {
                 Tooltip tooltip = new Tooltip();
-                tooltip.setShowDelay(Duration.millis(30.0));
+                tooltip.setShowDelay(Duration.millis(350.0));
                 tooltip.setText(data.getXValue() +" - "+
                         data.getYValue().toString());
                 Tooltip.install(data.getNode(), tooltip);

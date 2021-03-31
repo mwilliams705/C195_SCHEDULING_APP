@@ -22,29 +22,10 @@ public class TimeConverter {
 
     }
 
-    public static void fromSchoolMaterial(){
-        Timestamp ts = Timestamp.valueOf(LocalDateTime.now());
-        LocalDateTime ldt = ts.toLocalDateTime();
-        ZonedDateTime zdt = ldt.atZone(ZoneId.of(ZoneId.systemDefault().toString()));
-        ZonedDateTime utczdt = zdt.withZoneSameInstant(ZoneId.of("UTC"));
-        LocalDateTime ldtIn = utczdt.toLocalDateTime();
+    public static LocalDateTime utcToEST(LocalDateTime localDateTime){
+        ZonedDateTime zdt = localDateTime.atZone(ZoneId.of("UTC"));
+        ZonedDateTime toLocalTZ = zdt.withZoneSameInstant(ZoneId.of(ZoneId.of("EST").toString()));
+        return toLocalTZ.toLocalDateTime();
 
-        ZonedDateTime zdtOut = ldtIn.atZone(ZoneId.of("UTC"));
-        ZonedDateTime zdtOutToLocalTZ = zdtOut.withZoneSameInstant(ZoneId.of(ZoneId.systemDefault().toString()));
-        LocalDateTime ldtOutFinal = zdtOutToLocalTZ.toLocalDateTime();
-
-        System.out.println("Timestamp");
-        System.out.println(ts);
-        System.out.println("Local Date Time");
-        System.out.println(ldt);
-        System.out.println("Zoned Date Time");
-        System.out.println(zdt);
-        System.out.println("Zoned Date Time Converted");
-        System.out.println(utczdt);
-        System.out.println("To Local Date TIme");
-        System.out.println(ldtIn);
-        System.out.println(zdtOut);
-        System.out.println(zdtOutToLocalTZ);
-        System.out.println(ldtOutFinal);
     }
 }

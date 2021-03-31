@@ -83,6 +83,8 @@ public class AppointmentFormController implements Initializable {
             title_textfield.setText(appointmentToModify.getApptTitle());
             desc_textarea.setText(appointmentToModify.getApptDesc());
             location_textfield.setText(appointmentToModify.getApptLocation());
+            contact_choicebox.getSelectionModel().select(appointmentToModify.getApptContact()-1);
+//            customer_choicebox.getSelectionModel().select();
             start_datepicker.setValue(LocalDate.of(startDate.getYear(),startDate.getMonth(),startDate.getDayOfMonth()));
             end_datepicker.setValue(LocalDate.of(endDate.getYear(),endDate.getMonth(),endDate.getDayOfMonth()));
             start_time_combobox.setValue(LocalTime.of(startTime.getHour(),startTime.getMinute()));
