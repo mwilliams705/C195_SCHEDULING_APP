@@ -296,4 +296,5 @@ public class AppointmentDAO {
             System.out.println("No appointment deleted.");
         }
     }
+
 }

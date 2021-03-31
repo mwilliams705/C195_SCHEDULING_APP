@@ -1,10 +1,18 @@
 package main.Controller;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.VBox;
 import main.Controller.Util.GeneralController;
 import main.DAO.AppointmentDAO;
 import main.DAO.ContactDAO;
@@ -12,9 +20,14 @@ import main.DAO.CustomerDAO;
 import main.Model.Appointment;
 import main.Model.Contact;
 import main.Model.Customer;
+import main.Util.DBConnector;
+import main.Util.DBQuery;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -68,8 +81,7 @@ public class MainController implements Initializable {
     public TableColumn<Appointment,String> all_end;
     public TableColumn<Appointment,Integer> all_customer_id;
 
-    private static Customer modifyCustomer;
-    private static Appointment modifyAppointment;
+
     public Label currentUserLbl;
 
     public TableView<Contact> contacts_table;
@@ -77,13 +89,16 @@ public class MainController implements Initializable {
     public TableColumn<Contact,String> contact_name;
     public TableColumn<Contact,String> contact_email;
 
+    private static Customer modifyCustomer;
+    private static Appointment modifyAppointment;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-//        currentUserLbl.setText(LoginController.getGlobalUser().getUserName());
 
-        currentUserLbl.setText(LoginController.getGlobalUser().getUserName() +" : "+LoginController.getGlobalUser().getUserID());
+        currentUserLbl.setText(LoginController.getGlobalUser().getUserName());
         mainTabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
+
 
 
 
@@ -148,7 +163,6 @@ public class MainController implements Initializable {
         if (!Objects.requireNonNull(AppointmentDAO.isAppointmentInNext15Minutes()).isEmpty()){
             System.out.println("Appointment within the next 15 minutes!");
         }
-
     }
 
 
@@ -275,5 +289,20 @@ public class MainController implements Initializable {
     public static void setModifyAppointment(Appointment modifyAppointment) {
         MainController.modifyAppointment = modifyAppointment;
     }
+
+    public void openApptsByTypeReport(ActionEvent actionEvent) throws IOException {
+        GeneralController.addCloseableTabWithReportFormViewAndMoveTo(mainTabPane,"Appointments By Type","ReportOne");
+    }
+
+    public void openContactScheduleReport(ActionEvent actionEvent) throws IOException {
+        GeneralController.addCloseableTabWithReportFormViewAndMoveTo(mainTabPane,"Contact Schedules","ReportTwo");
+    }
+
+    public void OpenCustomReport(ActionEvent actionEvent) {
+    }
+
+//    Report functions
+
+
 
 }
