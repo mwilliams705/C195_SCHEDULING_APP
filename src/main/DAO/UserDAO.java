@@ -10,26 +10,6 @@ import java.sql.SQLException;
 
 public class UserDAO {
 
-    public static boolean isValidUser(String username, String password){
-        String getStatement = "Select * from users where lower(User_Name) = ? and lower(Password) = ?;";
-
-        try {
-            DBQuery.setPreparedStatement(DBConnector.getConnection(),getStatement);
-            PreparedStatement ps = DBQuery.getPreparedStatement();
-            ps.setString(1, username.toLowerCase());
-            ps.setString(2, password.toLowerCase());
-            ps.execute();
-            ResultSet rs = ps.getResultSet();
-            if(rs.next()){
-                return true;
-            }
-        }catch (SQLException sqlException){
-            sqlException.printStackTrace();
-        }
-
-        return false;
-    }
-
     public static User getUser(User user){
         String getStatement = "Select User_ID,User_Name,Password from users where lower(User_Name) = ? and lower(Password) = ?;";
 

@@ -164,41 +164,32 @@ public class Customer {
      * @return true if no exception is thrown. Otherwise, alert the user (Managed by the controllers)
      * @throws ValidationException
      */
-//    public boolean isValid() throws ValidationException {
-//        // Name is required
-//        if (getName().equals("")) {
-//            throw new ValidationException("The name field cannot be empty.");
-//        }
-//
-//        // inventory must be positive
-//        if (getStock() < 0) {
-//            throw new ValidationException("The inventory count must be greater than 0.");
-//        }
-//
-//        // price must be positive
-//        if (getPrice() < 0) {
-//            throw new ValidationException("The price must be greater than $0");
-//        }
-//
-//        // min must be positive
-//        if (getMin() < 0) {
-//            throw new ValidationException("The minimum inventory must be greater than 0.");
-//        }
-//
-//        // max must be greater than min
-//        if (getMin() > getMax()) {
-//            throw new ValidationException("The minimum inventory must be less than the maximum.");
-//        }
-//
-//        // stock must be between min and max
-//        if (getStock() < getMin() || getStock() > getMax()) {
-//            throw new ValidationException("The current inventory must be between the minimum and maximum inventory.");
-//        }
-//
-//
-//
-//        return true;
-//    }
+    public boolean isValid() throws ValidationException {
+        // Name is required
+        if (getCustomerName().equals("")) {
+            throw new ValidationException("The name field cannot be empty.");
+        }
+
+        // Address is required
+        if (getCustomerAddress().equals("")) {
+            throw new ValidationException("The inventory count must be greater than 0.");
+        }
+
+        // Zipcode is required
+        if (getCustomerZipcode().equals("")) {
+            throw new ValidationException("The price must be greater than $0");
+        }
+
+        // Phone is required
+        if (getCustomerPhone().equals("")) {
+            throw new ValidationException("The minimum inventory must be greater than 0.");
+        }
+
+
+
+
+        return true;
+    }
 }
 
 

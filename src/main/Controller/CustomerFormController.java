@@ -3,17 +3,15 @@ package main.Controller;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import main.Controller.Util.GeneralController;
 import main.DAO.CountryDAO;
 import main.DAO.CustomerDAO;
 import main.DAO.FirstLevelDivisionDAO;
+import main.Exception.ValidationException;
 import main.Model.Country;
 import main.Model.Customer;
 import main.Model.FirstLevelDivision;
@@ -68,16 +66,6 @@ public class CustomerFormController implements Initializable {
             country_choicebox.setValue(countries.get(customerToModify.getCustomerCountry()-1));
             currentDivisionLbl.setText("State/Division (Current Selection: "+customerToModify.getCustomerDivisionText()+")");
 
-//            for (FirstLevelDivision d: divisions
-//                 ) {if (d.getDivisionName().equals(customerToModify.getCustomerDivisionText())){
-//                     division_choicebox.setValue();
-//                System.out.println(d.getDivisionName());
-//            }
-
-//            }
-
-
-
         }
         else {
             headerLbl.setText("Add Customer");
@@ -88,43 +76,53 @@ public class CustomerFormController implements Initializable {
 
 
     public void save(ActionEvent actionEvent) throws IOException {
-        if (customerToModify != null) {
-            String val = country_choicebox.getValue().getCountryName();
-            System.out.println(val);
-
-                Customer c = new Customer(
-                        Integer.parseInt(id_textfield.getText()),
-                        name_textfield.getText(),
-                        address_textfield.getText(),
-                        zipcode_textfield.getText(),
-                        phone_textfield.getText(),
-                        division_choicebox.getValue().getDivisionId()
 
 
-                );
 
-            System.out.println(c.getCustomerDivisionText());
-            CustomerDAO.updateCustomer(c);
-            GeneralController.changePage(actionEvent,"Main");
-        }
-        else {
-            try {
-                Customer c = new Customer(
-                        name_textfield.getText(),
-                        address_textfield.getText(),
-                        zipcode_textfield.getText(),
-                        phone_textfield.getText(),
+                if (customerToModify != null) {
+                    String val = country_choicebox.getValue().getCountryName();
+                    System.out.println(val);
+                try{
+                    Customer c = new Customer(
+                            Integer.parseInt(id_textfield.getText()),
+                            name_textfield.getText(),
+                            address_textfield.getText(),
+                            zipcode_textfield.getText(),
+                            phone_textfield.getText(),
+                            division_choicebox.getValue().getDivisionId()
+
+
+                    );
+
+                    System.out.println(c.getCustomerDivisionText());
+                    CustomerDAO.updateCustomer(c);
+                    GeneralController.changePage(actionEvent,"Main");
+                }catch (NullPointerException n){
+                    System.out.println("Null pointer exception adding new customer");
+                }
+
+                }
+                else {
+                    try {
+                        Customer c = new Customer(
+                                name_textfield.getText(),
+                                address_textfield.getText(),
+                                zipcode_textfield.getText(),
+                                phone_textfield.getText(),
 //                        TODO: This needs to be converted to an integer
-                        division_choicebox.getValue().getDivisionId()
-                );
-                CustomerDAO.addCustomer(c);
-                GeneralController.changePage(actionEvent,"Main");
+                                division_choicebox.getValue().getDivisionId()
+                        );
+                        CustomerDAO.addCustomer(c);
+                        GeneralController.changePage(actionEvent,"Main");
 
 
-            }catch (NullPointerException n){
-                System.out.println("Null pointer exception adding new customer");
-            }
-        }
+                    }catch (NullPointerException n){
+                        System.out.println("Null pointer exception adding new customer");
+                    }
+                }
+
+
+
 
     }
 

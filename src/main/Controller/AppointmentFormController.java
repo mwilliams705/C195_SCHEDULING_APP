@@ -100,16 +100,12 @@ public class AppointmentFormController implements Initializable {
 
 
         try {
-
-
-
             try{
                 if (isFormComplete()){
                 LocalDateTime start = LocalDateTime.of(start_datepicker.getValue(),start_time_combobox.getValue());
                 LocalDateTime end = LocalDateTime.of(end_datepicker.getValue(),end_time_combobox.getValue());
 
                 if (appointmentToModify != null){
-
 
                     if (physical_radio.isSelected()){
                         Appointment appointment = new Appointment(
