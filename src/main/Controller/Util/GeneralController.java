@@ -96,6 +96,21 @@ public class GeneralController {
 
     }
 
+    public static void addCloseableTabWithReportFormViewAndMoveTo(TabPane tabPane,String tabName, String pageName) throws IOException {
+        DBConnector.startConnection();
+        SingleSelectionModel<Tab> selectionModel = tabPane.getSelectionModel();
+        Parent root = FXMLLoader.load(GeneralController.class.getResource("/main/View/"+pageName+".fxml"));
+        Tab tab = new Tab(tabName,root);
+        tab.setTooltip(new Tooltip(tabName));
+
+        tabPane.getTabs().add(tab);
+        selectionModel.select(tab);
+        tabPane.setSelectionModel(selectionModel);
+        tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.SELECTED_TAB);
+        tab.setOnClosed(e -> tabPane.getSelectionModel().select(tabPane.getTabs().get(3)));
+
+    }
+
 //    public static SelectionModel<Tab> MainTabGlobalSelectionModel(TabPane tabPane){
 //
 //    }

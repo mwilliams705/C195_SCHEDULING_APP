@@ -296,4 +296,21 @@ public class AppointmentDAO {
             System.out.println("No appointment deleted.");
         }
     }
+
+//    Report DAO
+
+
+    public static void getAllAppointmentsByTypeMonthly() throws SQLException {
+//        String getStatement = "select count(Title) as Count,Type,MONTHNAME(Start) as mn,MONTH(Start) as Month from appointments group by MONTH(Start),mn,Type order by Month;";
+//        ObservableList<?> reportResult = FXCollections.observableArrayList();
+//
+//        DBQuery.setPreparedStatement(DBConnector.getConnection(),getStatement);
+//        PreparedStatement ps = DBQuery.getPreparedStatement();
+//        ps.execute();
+//        ResultSet rs = ps.getResultSet();
+//        while (rs.next()){
+//
+//        }
+
+    }
 }
