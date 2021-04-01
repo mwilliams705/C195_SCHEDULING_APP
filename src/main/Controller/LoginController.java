@@ -9,12 +9,15 @@ import main.Model.User;
 import main.Util.DBConnector;
 import main.Util.DBQuery;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.temporal.TemporalUnit;
 import java.util.*;
 
 public class LoginController implements Initializable {
@@ -73,19 +76,18 @@ public class LoginController implements Initializable {
         }
 
         User user = new User(usernameTextfield.getText(),passwordTextfield.getText());
-            System.out.println(user.toString());
         setGlobalUser(UserDAO.getUser(user));
             if (globalUser != null){
-                System.out.println(globalUser.toString());
+                writeLoginSuccessToFile(globalUser.getUserName());
                 GeneralController.changePage(actionEvent, "Main");
-            }
+            } else {
 
-//        if (UserDAO.isValidUser(usernameTextfield.getText(), passwordTextfield.getText())) {
-//
-//            GeneralController.changePage(actionEvent, "Main");
-//
-//
-//        } else System.out.println("No user found");
+                    writeLoginFailureToFile(usernameTextfield.getText());
+                    Alert alert = GeneralController.alertUser(Alert.AlertType.ERROR,rb.getString("loginErrorTitle"),rb.getString("loginErrorHeader"),rb.getString("loginErrorContent"));
+                    alert.showAndWait();
+
+
+            }
 
     }catch (NullPointerException nullPointerException){
             nullPointerException.printStackTrace();
@@ -104,5 +106,25 @@ public class LoginController implements Initializable {
 
     public static void setGlobalUser(User user) {
         LoginController.globalUser = user;
+    }
+
+    public void writeLoginSuccessToFile(String username) throws IOException{
+        String logString = "Login Attempt [User: "+ username +" | Date: "+ LocalDate.now() +" | Timestamp: "+ Timestamp.valueOf(LocalDateTime.now()) +" | Login Success]";
+
+        FileWriter fw = new FileWriter("login_activity.txt",true);
+        PrintWriter pw = new PrintWriter(fw);
+        pw.println(logString);
+        pw.close();
+
+    }
+
+    public void writeLoginFailureToFile(String username) throws IOException{
+        String logString = "Login Attempt [User: "+ username +" | Date: "+ LocalDate.now() +" | Timestamp: "+ Timestamp.valueOf(LocalDateTime.now()) +" | Login Failed]";
+
+        FileWriter fw = new FileWriter("login_activity.txt",true);
+        PrintWriter pw = new PrintWriter(fw);
+        pw.println(logString);
+        pw.close();
+
     }
 }

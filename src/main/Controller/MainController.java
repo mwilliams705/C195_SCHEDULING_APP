@@ -186,7 +186,7 @@ public class MainController implements Initializable {
         Optional<ButtonType> confirm = confirmDelete.showAndWait();
         if (confirm.isPresent()&&confirm.get()==ButtonType.OK){
             CustomerDAO.deleteCustomer(modifyCustomer.getCustomerId());
-            customers_table.setItems(CustomerDAO.getAllCustomers());
+            customers_table.setItems(CustomerDAO.getAllCustomersWithDivisionAndCountries());
         }
 
     }

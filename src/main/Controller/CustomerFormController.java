@@ -72,6 +72,8 @@ public class CustomerFormController implements Initializable {
             division_choicebox.setValue(getDivisionById(customerToModify.getCustomerDivision()));
             currentDivisionLbl.setText("State/Division (Current Selection: "+customerToModify.getCustomerDivisionText()+")");
 
+            
+
         }
         else {
             headerLbl.setText("Add Customer");

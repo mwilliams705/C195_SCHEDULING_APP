@@ -57,11 +57,11 @@ public class AppointmentFormController implements Initializable {
         customerList.addAll(Objects.requireNonNull(CustomerDAO.getAllCustomers()));
         contactList.addAll(Objects.requireNonNull(ContactDAO.getAllContacts()));
 
-        for (int i = 0; i < 12; i++) {
-            appointmentTimes.add(LocalTime.of(i+1,0));
-            appointmentTimes.add(LocalTime.of(i+1,15));
-            appointmentTimes.add(LocalTime.of(i+1,30));
-            appointmentTimes.add(LocalTime.of(i+1,45));
+        for (int i = 0; i < 24; i++) {
+            appointmentTimes.add(LocalTime.of(i,0));
+            appointmentTimes.add(LocalTime.of(i,15));
+            appointmentTimes.add(LocalTime.of(i,30));
+            appointmentTimes.add(LocalTime.of(i,45));
 
         }
 
