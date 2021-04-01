@@ -114,6 +114,9 @@ INSERT INTO customers VALUES(1, 'Daddy Warbucks', '1919 Boardwalk', '01291', '86
 INSERT INTO customers VALUES(2, 'Lady McAnderson', '2 Wonder Way', 'AF19B', '11-445-910-2135', NOW(), 'script', NOW(), 'script', 103);
 INSERT INTO customers VALUES(3, 'Dudley Do-Right', '48 Horse Manor ', '28198', '874-916-2671', NOW(), 'script', NOW(), 'script', 60);
 
+INSERT INTO customers VALUES(15, 'Jason Statham', '209 Beverly Hills Drive', '90210', '869-908-1875', NOW(), 'script', NOW(), 'script', 29);
+INSERT INTO customers VALUES(16, 'Jack Johnson', '2 Yellow Hat Road', '20252', '898-007-3623', NOW(), 'script', NOW(), 'script', 32);
+INSERT INTO customers VALUES(17, 'William Robinson', '1541 Summer Street', '28009', '874-916-9090', NOW(), 'script', NOW(), 'script', 16);
 -- Appointments
 
 INSERT INTO appointments VALUES(1, 'title', 'description', 'location', 'Planning Session', '2020-05-28 12:00:00', '2020-05-28 13:00:00', NOW(), 'script', NOW(), 'script', 1, 1, 3);

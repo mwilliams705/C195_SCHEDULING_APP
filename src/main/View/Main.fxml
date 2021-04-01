@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="600.0" maxWidth="1100.0" minHeight="600.0" minWidth="1100.0" prefHeight="600.0" prefWidth="1100.0" style="-fx-background-color: #333;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.Controller.MainController">
+<AnchorPane maxHeight="600.0" maxWidth="1100.0" minHeight="600.0" minWidth="1100.0" prefHeight="600.0" prefWidth="1100.0" style="-fx-background-color: #333;" stylesheets="@moderna-dark.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.Controller.MainController">
    <children>
       <Label fx:id="currentUserLbl" layoutX="77.0" layoutY="14.0" text="(no user)" textFill="#58e12f">
          <font>
@@ -169,7 +169,7 @@
             </Tab>
             <Tab closable="false" text="Reports">
                <content>
-                  <AnchorPane prefHeight="521.0" prefWidth="1100.0">
+                  <AnchorPane prefHeight="521.0" prefWidth="1100.0" style="-fx-background-color: #141414;">
                      <children>
                         <Pane layoutX="400.0" layoutY="111.0" prefHeight="300.0" prefWidth="300.0">
                            <children>

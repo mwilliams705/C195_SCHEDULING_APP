@@ -67,87 +67,28 @@ public class FirstLevelDivisionDAO {
 
     }
 
-//    public static String getDivisionByIdAsText(int id){
-//        String getStatement = "select Division from first_level_divisions where division_id = ?;";
-//
-//
-//
-//        try {
-//
-//            DBQuery.setPreparedStatement(DBConnector.getConnection(),getStatement);
-//            PreparedStatement ps = DBQuery.getPreparedStatement();
-//            ps.setInt(1,id);
-//            ps.execute();
-//            ResultSet rs = ps.getResultSet();
-//            return rs.getString("Division");
-//        }catch (SQLException s){
-//            s.printStackTrace();
-//            return null;
-//        }
-//    }
-//
-//    public static ObservableList<String> getDivisionsByCountry_IdAsText(int id){
-//        String getStatement = "select Division from first_level_divisions where country_id = ?;";
-//        ObservableList<String> divisionResults = FXCollections.observableArrayList();
-//        try {
-//
-//            DBQuery.setPreparedStatement(DBConnector.getConnection(),getStatement);
-//            PreparedStatement ps = DBQuery.getPreparedStatement();
-//            ps.setInt(1,id);
-//            ps.execute();
-//            ResultSet rs = ps.getResultSet();
-//
-//            while (rs.next()){
-//
-//                divisionResults.add(rs.getString("Division"));
-//            }
-//            return divisionResults;
-//        }catch (SQLException s){
-//            s.printStackTrace();
-//            return null;
-//        }
-//    }
-//
-//    public static String getCountryAsText(int id){
-//        String getStatement = "select c.Country,d.division from first_level_divisions d join countries c where d.COUNTRY_ID = c.Country_ID and Division_ID = ?;";
-//        ObservableList<String> fldList = FXCollections.observableArrayList();
-//
-//
-//
-//        try {
-//
-//            DBQuery.setPreparedStatement(DBConnector.getConnection(),getStatement);
-//            PreparedStatement ps = DBQuery.getPreparedStatement();
-//            ps.setInt(1,id);
-//            ps.execute();
-//            ResultSet rs = ps.getResultSet();
-//
-//            return rs.getString("Country");
-//        }catch (SQLException s){
-//            s.printStackTrace();
-//            return null;
-//        }
-//    }
-//
-//    public static Integer getDivisionId(String divisionName){
-//        String getStatement = "select division_id from first_level_divisions where lower(division) = ?;";
-//
-//
-//
-//
-//        try {
-//
-//            DBQuery.setPreparedStatement(DBConnector.getConnection(),getStatement);
-//            PreparedStatement ps = DBQuery.getPreparedStatement();
-//            ps.setString(1,divisionName.toLowerCase());
-//            ps.execute();
-//            ResultSet rs = ps.getResultSet();
-//
-//            return rs.getInt("division_id");
-//        }catch (SQLException s){
-//            s.printStackTrace();
-//            return null;
-//        }
-//    }
+    public static FirstLevelDivision getDivisionById(int id){
+        String getStatement = "select Division_Id, Division, Country_Id from first_level_divisions where division_id = ?;";
+        try {
 
+            DBQuery.setPreparedStatement(DBConnector.getConnection(),getStatement);
+            PreparedStatement ps = DBQuery.getPreparedStatement();
+            ps.setInt(1,id);
+            ps.execute();
+            ResultSet rs = ps.getResultSet();
+            if (rs.next()){
+                return new FirstLevelDivision(
+                        rs.getInt("Division_Id"),
+                        rs.getString("Division"),
+                        rs.getInt("Country_Id")
+                );
+
+            }
+
+        }catch (SQLException s){
+            s.printStackTrace();
+            return null;
+        }
+        return null;
+    }
 }

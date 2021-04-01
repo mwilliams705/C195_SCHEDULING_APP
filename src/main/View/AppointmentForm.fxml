@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="521.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.Controller.AppointmentFormController">
+<AnchorPane prefHeight="521.0" prefWidth="1100.0" style="-fx-background-color: #141414" stylesheets="@moderna-dark.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.Controller.AppointmentFormController">
     <children>
         <Label fx:id="headerLbl" layoutX="50.0" layoutY="15.0" text="Add/Update Appointment">
             <font>
@@ -32,7 +32,7 @@
                                 <Insets left="10.0" top="10.0" />
                             </VBox.margin>
                         </Label>
-                        <TextField fx:id="id_textfield" disable="true" editable="false" text="Auto-generated">
+                        <TextField fx:id="id_textfield" disable="true" editable="false" style="-fx-text-fill: #38ff00;" text="Auto-generated">
                             <VBox.margin>
                                 <Insets left="20.0" right="20.0" />
                             </VBox.margin>
@@ -89,7 +89,7 @@
                 </VBox>
                 <VBox layoutX="10.0" layoutY="10.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="380.0" prefWidth="450.0">
                     <children>
-                        <Label text="Contact">
+                        <Label fx:id="contactLbl" text="Contact">
                             <font>
                                 <Font size="18.0" />
                             </font>
@@ -149,6 +149,23 @@
                         </ChoiceBox>
                      </children>
                   </HBox>
+                  <HBox layoutX="10.0" layoutY="103.0" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <RadioButton fx:id="startAM_radio" mnemonicParsing="false" selected="true" text="AM">
+                           <HBox.margin>
+                              <Insets left="220.0" top="5.0" />
+                           </HBox.margin>
+                           <toggleGroup>
+                              <ToggleGroup fx:id="in_or_out1" />
+                           </toggleGroup>
+                        </RadioButton>
+                        <RadioButton fx:id="startPM_radio" layoutX="179.0" layoutY="50.0" mnemonicParsing="false" text="PM" toggleGroup="$in_or_out1">
+                           <HBox.margin>
+                              <Insets left="10.0" top="5.0" />
+                           </HBox.margin>
+                        </RadioButton>
+                     </children>
+                  </HBox>
                   <Label text="End">
                      <font>
                         <Font size="18.0" />
@@ -176,7 +193,24 @@
                                 <Insets left="20.0" />
                             </VBox.margin>
                         </HBox>
-                        <Label layoutX="20.0" layoutY="20.0" text="Customer">
+                  <HBox layoutX="10.0" layoutY="191.0" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <RadioButton fx:id="endAM_radio" mnemonicParsing="false" selected="true" text="AM">
+                           <HBox.margin>
+                              <Insets left="220.0" top="5.0" />
+                           </HBox.margin>
+                           <toggleGroup>
+                              <ToggleGroup fx:id="in_or_out11" />
+                           </toggleGroup>
+                        </RadioButton>
+                        <RadioButton fx:id="endPM_radio" layoutX="179.0" layoutY="50.0" mnemonicParsing="false" text="PM" toggleGroup="$in_or_out11">
+                           <HBox.margin>
+                              <Insets left="10.0" top="5.0" />
+                           </HBox.margin>
+                        </RadioButton>
+                     </children>
+                  </HBox>
+                        <Label fx:id="customerLbl" layoutX="20.0" layoutY="20.0" text="Customer">
                             <font>
                                 <Font size="18.0" />
                             </font>

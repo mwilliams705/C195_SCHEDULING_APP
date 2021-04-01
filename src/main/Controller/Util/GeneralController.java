@@ -7,6 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import main.Controller.MainController;
 import main.DAO.CustomerDAO;
 import main.Model.Customer;
@@ -63,6 +64,8 @@ public class GeneralController {
         alert.setTitle(titleText);
         alert.setHeaderText(headerText);
         alert.setContentText(contentText);
+
+
         return alert;
     }
 

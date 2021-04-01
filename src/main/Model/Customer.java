@@ -185,9 +185,6 @@ public class Customer {
             throw new ValidationException("The minimum inventory must be greater than 0.");
         }
 
-
-
-
         return true;
     }
 }

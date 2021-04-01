@@ -21,8 +21,7 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.ResourceBundle;
-
+import java.util.*;
 
 
 public class AppointmentFormController implements Initializable {
@@ -39,16 +38,24 @@ public class AppointmentFormController implements Initializable {
     public ChoiceBox<Customer> customer_choicebox;
     public RadioButton physical_radio;
     public RadioButton bloodwork_radio;
-
+    public Label contactLbl;
+    public RadioButton startAM_radio;
+    public RadioButton startPM_radio;
+    public RadioButton endAM_radio;
+    public RadioButton endPM_radio;
+    public Label customerLbl;
 
     private final ObservableList<LocalTime> appointmentTimes = FXCollections.observableArrayList();
-
-
+    private final ObservableList<Customer> customerList = FXCollections.observableArrayList();
+    private final ObservableList<Contact> contactList = FXCollections.observableArrayList();
 
     public static Appointment appointmentToModify;
 
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        customerList.addAll(Objects.requireNonNull(CustomerDAO.getAllCustomers()));
+        contactList.addAll(Objects.requireNonNull(ContactDAO.getAllContacts()));
 
         for (int i = 0; i < 12; i++) {
             appointmentTimes.add(LocalTime.of(i+1,0));
@@ -60,10 +67,9 @@ public class AppointmentFormController implements Initializable {
 
         setAppointmentToModify(MainController.getModifyAppointment());
 
+        contact_choicebox.setItems(contactList);
+        customer_choicebox.setItems(customerList);
 
-
-        contact_choicebox.setItems(ContactDAO.getAllContacts());
-        customer_choicebox.setItems(CustomerDAO.getAllCustomers());
         start_time_combobox.setItems(appointmentTimes);
         start_time_combobox.setMaxWidth(75.0);
         end_time_combobox.setItems(appointmentTimes);
@@ -74,17 +80,20 @@ public class AppointmentFormController implements Initializable {
             LocalDateTime startDateTime = appointmentToModify.getApptStart().toLocalDateTime();
             LocalDateTime endDateTime = appointmentToModify.getApptEnd().toLocalDateTime();
             LocalDate startDate = startDateTime.toLocalDate();
-            LocalDate endDate =endDateTime.toLocalDate();
-            LocalTime startTime =startDateTime.toLocalTime();
-            LocalTime endTime =endDateTime.toLocalTime();
+            LocalDate endDate = endDateTime.toLocalDate();
+            LocalTime startTime = startDateTime.toLocalTime();
+            LocalTime endTime = endDateTime.toLocalTime();
 
             headerLbl.setText("Update Appointment");
             id_textfield.setText(String.valueOf(appointmentToModify.getApptId()));
             title_textfield.setText(appointmentToModify.getApptTitle());
             desc_textarea.setText(appointmentToModify.getApptDesc());
             location_textfield.setText(appointmentToModify.getApptLocation());
-            contact_choicebox.getSelectionModel().select(appointmentToModify.getApptContact()-1);
-//            customer_choicebox.getSelectionModel().select();
+
+            contact_choicebox.setValue(getContactById(appointmentToModify.getApptContact()));
+            customer_choicebox.setValue(getCustomerById(appointmentToModify.getApptCustomerId()));
+
+
             start_datepicker.setValue(LocalDate.of(startDate.getYear(),startDate.getMonth(),startDate.getDayOfMonth()));
             end_datepicker.setValue(LocalDate.of(endDate.getYear(),endDate.getMonth(),endDate.getDayOfMonth()));
             start_time_combobox.setValue(LocalTime.of(startTime.getHour(),startTime.getMinute()));
@@ -142,10 +151,13 @@ public class AppointmentFormController implements Initializable {
                                 customer_choicebox.getValue().getCustomerId()
 
                         );
-                        if (appointment.isValid()){
+                        try{
+                            appointment.isValid();
                             AppointmentDAO.updateAppointment(appointment);
                             System.out.println(appointment.toString());
                             GeneralController.changePageFromAppointment(actionEvent,"Main");
+                        }catch (ValidationException v){
+
                         }
                     }
                 }
@@ -199,10 +211,6 @@ public class AppointmentFormController implements Initializable {
             validationException.getLocalizedMessage();
         }
 
-
-
-
-
     }
 
     public void cancel(ActionEvent actionEvent) throws IOException {
@@ -255,4 +263,36 @@ public class AppointmentFormController implements Initializable {
 
         return true;
     }
+
+    private Contact getContactById(int id){
+            Contact con = null;
+
+        for (Contact c: contactList
+             ) {
+            if (c.getContactId() != id){
+                continue;
+            }
+            else {
+                con = c;
+                break;
+            }
+        }
+        return con;
+    }
+
+    private Customer getCustomerById(int id){
+            Customer cust = null;
+
+        for (Customer c: customerList
+             ) {
+            if (c.getCustomerId() != id){
+                continue;
+            }
+            else {
+                cust = c;
+            }
+        }
+        return cust;
+    }
+
 }

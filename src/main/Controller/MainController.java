@@ -99,10 +99,6 @@ public class MainController implements Initializable {
         currentUserLbl.setText(LoginController.getGlobalUser().getUserName());
         mainTabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
 
-
-
-
-
         FilteredList<Customer> filteredCustomerList = new FilteredList<>(Objects.requireNonNull(CustomerDAO.getAllCustomersWithDivisionAndCountries()));
         customers_table.setItems(filteredCustomerList);
         customer_id.setCellValueFactory(new PropertyValueFactory<>("customerId"));
@@ -111,7 +107,6 @@ public class MainController implements Initializable {
         customer_zipcode.setCellValueFactory(new PropertyValueFactory<>("customerZipcode"));
         customer_phone.setCellValueFactory(new PropertyValueFactory<>("customerPhone"));
         customer_division.setCellValueFactory(new PropertyValueFactory<>("customerDivisionText"));
-
 
 
         FilteredList<Appointment> filteredWeeklyAppointmentsList = new FilteredList<>(Objects.requireNonNull(AppointmentDAO.getAllAppointmentsThisWeek()));
@@ -152,12 +147,12 @@ public class MainController implements Initializable {
         all_end.setCellValueFactory(new PropertyValueFactory<>("apptEnd"));
         all_customer_id.setCellValueFactory(new PropertyValueFactory<>("apptCustomerId"));
 
+
         FilteredList<Contact> filteredContactList = new FilteredList<>(Objects.requireNonNull(ContactDAO.getAllContacts()));
         contacts_table.setItems(filteredContactList);
         contact_id.setCellValueFactory(new PropertyValueFactory<>("contactId"));
         contact_name.setCellValueFactory(new PropertyValueFactory<>("contactName"));
         contact_email.setCellValueFactory(new PropertyValueFactory<>("contactEmail"));
-
 
 
         if (!Objects.requireNonNull(AppointmentDAO.isAppointmentInNext15Minutes()).isEmpty()){

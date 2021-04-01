@@ -12,6 +12,11 @@ public class FirstLevelDivision {
         this.countryId = countryId;
     }
 
+    public FirstLevelDivision(int divisionId, String divisionName) {
+        this.divisionId = divisionId;
+        this.divisionName = divisionName;
+    }
+
     public FirstLevelDivision(String divisionName) {
         this.divisionName = divisionName;
     }

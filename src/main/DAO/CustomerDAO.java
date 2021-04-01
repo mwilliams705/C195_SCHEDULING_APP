@@ -50,14 +50,16 @@ public class CustomerDAO {
             ps.setString(1,String.valueOf(id));
             ps.execute();
             ResultSet rs = ps.getResultSet();
-            customerResult = new Customer(
-                    rs.getInt("Customer_Id"),
-                    rs.getString("Customer_Name"),
-                    rs.getString("Address"),
-                    rs.getString("Postal_Code"),
-                    rs.getString("Phone"));
+            if (rs.next()){
+                customerResult = new Customer(
+                        rs.getInt("Customer_Id"),
+                        rs.getString("Customer_Name"),
+                        rs.getString("Address"),
+                        rs.getString("Postal_Code"),
+                        rs.getString("Phone"));
 
-            return customerResult;
+                return customerResult;
+            }
 
 
 
@@ -65,7 +67,7 @@ public class CustomerDAO {
             sqlException.printStackTrace();
             return null;
         }
-
+return null;
     }
 
     public static ObservableList<Customer> getAllCustomers(){
