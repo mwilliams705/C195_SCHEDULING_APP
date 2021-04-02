@@ -121,15 +121,8 @@ public class Appointment {
     @Override
     public String toString() {
         return "Appointment{" +
-                "apptId=" + apptId +
-                ", apptTitle='" + apptTitle + '\'' +
-                ", apptDesc='" + apptDesc + '\'' +
-                ", apptLocation='" + apptLocation + '\'' +
-                ", apptContact=" + apptContact +
-                ", apptType='" + apptType + '\'' +
                 ", apptStart=" + apptStart +
                 ", apptEnd=" + apptEnd +
-                ", apptCustomerId=" + apptCustomerId +
                 '}';
     }
 

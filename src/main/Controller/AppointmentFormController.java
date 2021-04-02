@@ -113,7 +113,7 @@ public class AppointmentFormController implements Initializable {
                 LocalDateTime end = LocalDateTime.of(end_datepicker.getValue(),end_time_combobox.getValue());
 
                 try {
-                    if (isAppointmentWithinBusinessHours(start, end)) {
+                    if (isAppointmentWithinBusinessHours(TimeConverter.localToEST(start), TimeConverter.localToEST(end))) {
 
                         if (appointmentToModify != null) {
 
@@ -130,9 +130,11 @@ public class AppointmentFormController implements Initializable {
                                         customer_choicebox.getValue().getCustomerId()
 
                                 );
+                                System.out.println("Before Conversion: " + appointment.toString());
                                 if (appointment.isValid() && appointment.isValidTime()) {
-                                    appointment.setApptStart(Timestamp.valueOf(TimeConverter.localToUTC(start)));
-                                    appointment.setApptEnd(Timestamp.valueOf(TimeConverter.localToUTC(end)));
+//                                    appointment.setApptStart(Timestamp.valueOf(TimeConverter.localToUTC(start)));
+//                                    appointment.setApptEnd(Timestamp.valueOf(TimeConverter.localToUTC(end)));
+//                                    System.out.println("After Conversion: " + appointment.toString());
                                     AppointmentDAO.updateAppointment(appointment);
                                     System.out.println(appointment.toString());
                                     GeneralController.changePageFromAppointment(actionEvent, "Main");
@@ -151,15 +153,17 @@ public class AppointmentFormController implements Initializable {
                                         customer_choicebox.getValue().getCustomerId()
 
                                 );
-
+                                System.out.println("Before Conversion: " + appointment.toString());
                                 if (appointment.isValid() && appointment.isValidTime()) {
                                     appointment.setApptStart(Timestamp.valueOf(TimeConverter.localToUTC(start)));
                                     appointment.setApptEnd(Timestamp.valueOf(TimeConverter.localToUTC(end)));
+                                    System.out.println("After Conversion: " + appointment.toString());
                                     AppointmentDAO.updateAppointment(appointment);
                                     GeneralController.changePageFromAppointment(actionEvent, "Main");
                                 }
                             }
                         } else {
+
                             if (physical_radio.isSelected()) {
                                 Appointment appointment = new Appointment(
                                         title_textfield.getText(),
@@ -172,9 +176,11 @@ public class AppointmentFormController implements Initializable {
                                         customer_choicebox.getValue().getCustomerId()
 
                                 );
+                                System.out.println("Before Conversion: " + appointment.toString());
                                 if (appointment.isValid() && appointment.isValidTime()) {
-                                    appointment.setApptStart(Timestamp.valueOf(TimeConverter.localToUTC(start)));
-                                    appointment.setApptEnd(Timestamp.valueOf(TimeConverter.localToUTC(end)));
+                                    appointment.setApptStart(Timestamp.valueOf(TimeConverter.localToUTC(TimeConverter.localToEST(start))));
+                                    appointment.setApptEnd(Timestamp.valueOf(TimeConverter.localToUTC(TimeConverter.localToEST(end))));
+                                    System.out.println("After Conversion: " + appointment.toString());
                                     AppointmentDAO.addAppointment(appointment);
                                     GeneralController.changePageFromAppointment(actionEvent, "Main");
                                 }
@@ -191,9 +197,11 @@ public class AppointmentFormController implements Initializable {
                                         customer_choicebox.getValue().getCustomerId()
 
                                 );
+                                System.out.println("Before Conversion: " + appointment.toString());
                                 if (appointment.isValid() && appointment.isValidTime()) {
                                     appointment.setApptStart(Timestamp.valueOf(TimeConverter.localToUTC(start)));
                                     appointment.setApptEnd(Timestamp.valueOf(TimeConverter.localToUTC(end)));
+                                    System.out.println("After Conversion: " + appointment.toString());
                                     AppointmentDAO.addAppointment(appointment);
                                     GeneralController.changePageFromAppointment(actionEvent, "Main");
                                 }
