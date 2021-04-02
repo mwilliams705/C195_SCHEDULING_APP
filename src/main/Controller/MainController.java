@@ -233,6 +233,9 @@ public class MainController implements Initializable {
             if (confirm.isPresent()&&confirm.get()==ButtonType.OK){
                 AppointmentDAO.deleteAppointment(modifyAppointment.getApptId());
                 appt_all_table.setItems(AppointmentDAO.getAllAppointments());
+
+                Alert onDelete = GeneralController.alertUser(Alert.AlertType.INFORMATION,"Appointment Deleted", "Deletion Confirmed", modifyAppointment.getApptId() +" | "+modifyAppointment.getApptType());
+                onDelete.showAndWait();
             }
         }catch (NullPointerException n1){
             try {

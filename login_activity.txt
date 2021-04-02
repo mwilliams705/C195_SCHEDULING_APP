@@ -1,0 +1,4 @@
+Login Attempt [User: test | Date: 2021-04-01 | Timestamp: 2021-04-01 20:57:28.675004 | Login Failed]
+Login Attempt [User: test | Date: 2021-04-01 | Timestamp: 2021-04-01 20:57:34.900238 | Login Success]
+Login Attempt [User: test | Date: 2021-04-01 | Timestamp: 2021-04-01 21:36:40.480143 | Login Success]
+Login Attempt [User: test | Date: 2021-04-01 | Timestamp: 2021-04-01 21:37:25.517504 | Login Success]

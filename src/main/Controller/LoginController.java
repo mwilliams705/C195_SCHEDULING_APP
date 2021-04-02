@@ -74,19 +74,15 @@ public class LoginController implements Initializable {
             Alert alert = GeneralController.alertUser(Alert.AlertType.ERROR, rb.getString("loginErrorTitle"), rb.getString("passwordEmpty"), rb.getString("passwordRequired"));
             alert.showAndWait();
         }
-
         User user = new User(usernameTextfield.getText(),passwordTextfield.getText());
         setGlobalUser(UserDAO.getUser(user));
             if (globalUser != null){
                 writeLoginSuccessToFile(globalUser.getUserName());
                 GeneralController.changePage(actionEvent, "Main");
             } else {
-
                     writeLoginFailureToFile(usernameTextfield.getText());
                     Alert alert = GeneralController.alertUser(Alert.AlertType.ERROR,rb.getString("loginErrorTitle"),rb.getString("loginErrorHeader"),rb.getString("loginErrorContent"));
                     alert.showAndWait();
-
-
             }
 
     }catch (NullPointerException nullPointerException){
