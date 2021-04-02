@@ -51,7 +51,7 @@ public class CustomerFormController implements Initializable {
         for (Country c:countries){
             country_choicebox.getItems().add(c);
         }
-//        TODO: This shows all available Divisions. Needs to only show divisions based on country
+
         for (FirstLevelDivision d: divisions){
             division_choicebox.getItems().add(d);
         }
@@ -69,14 +69,13 @@ public class CustomerFormController implements Initializable {
             phone_textfield.setText(customerToModify.getCustomerPhone());
             currentCountryLbl.setText("Country (Current Selection: "+customerToModify.getCustomerCountryText()+")");
             country_choicebox.setValue(getCountryById(customerToModify.getCustomerCountry()));
+
+            division_choicebox.setItems(getDivisionsByCountryId(customerToModify.getCustomerCountry()));
+
             division_choicebox.setValue(getDivisionById(customerToModify.getCustomerDivision()));
+
             currentDivisionLbl.setText("State/Division (Current Selection: "+customerToModify.getCustomerDivisionText()+")");
 
-            
-
-        }
-        else {
-            headerLbl.setText("Add Customer");
 
             //        Lambda Expression selects which divisions will be shown based on the country selection.
             country_choicebox.getSelectionModel().selectedItemProperty().addListener((observableValue, country, t1) -> {
@@ -84,10 +83,21 @@ public class CustomerFormController implements Initializable {
                 division_choicebox.getItems().removeAll();
                 division_choicebox.setItems(divisionsByCountryId);
             });
+
+        }
+        else {
+            headerLbl.setText("Add Customer");
+
+            division_choicebox.setDisable(true);
+            //        Lambda Expression selects which divisions will be shown based on the country selection.
+            country_choicebox.getSelectionModel().selectedItemProperty().addListener((observableValue, country, t1) -> {
+                divisionsByCountryId.setAll(getDivisionsByCountryId(observableValue.getValue().getCountryId()));
+                division_choicebox.setDisable(false);
+                division_choicebox.getItems().removeAll();
+                division_choicebox.setItems(divisionsByCountryId);
+            });
         }
     }
-
-
 
 
     public void save(ActionEvent actionEvent) throws IOException {
@@ -95,8 +105,7 @@ public class CustomerFormController implements Initializable {
 
 
                 if (customerToModify != null) {
-                    String val = country_choicebox.getValue().getCountryName();
-                    System.out.println(val);
+
                 try{
                     isFormComplete();
                     Customer c = new Customer(
@@ -112,7 +121,7 @@ public class CustomerFormController implements Initializable {
 
                     try {
                         c.isValid();
-                        CustomerDAO.addCustomer(c);
+                        CustomerDAO.updateCustomer(c);
                         GeneralController.changePage(actionEvent,"Main");
                     }catch (ValidationException v){
                         Alert alert = GeneralController.alertUser(Alert.AlertType.ERROR,"Validation Error","Wrong Input", v.getMessage());
@@ -244,7 +253,6 @@ public class CustomerFormController implements Initializable {
                 continue;
             }else {
                 fldList.add(f);
-                System.out.println(f.getDivisionName());
             }
         }
         return fldList;

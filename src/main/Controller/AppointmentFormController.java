@@ -9,6 +9,7 @@ import main.Controller.Util.GeneralController;
 import main.DAO.AppointmentDAO;
 import main.DAO.ContactDAO;
 import main.DAO.CustomerDAO;
+import main.Exception.BusinessHoursException;
 import main.Exception.ValidationException;
 import main.Model.Appointment;
 import main.Model.Contact;
@@ -39,10 +40,7 @@ public class AppointmentFormController implements Initializable {
     public RadioButton physical_radio;
     public RadioButton bloodwork_radio;
     public Label contactLbl;
-    public RadioButton startAM_radio;
-    public RadioButton startPM_radio;
-    public RadioButton endAM_radio;
-    public RadioButton endPM_radio;
+
     public Label customerLbl;
 
     private final ObservableList<LocalTime> appointmentTimes = FXCollections.observableArrayList();
@@ -108,96 +106,103 @@ public class AppointmentFormController implements Initializable {
 
     public void save(ActionEvent actionEvent) throws IOException {
 
-
-
         try {
             try{
                 if (isFormComplete()){
                 LocalDateTime start = LocalDateTime.of(start_datepicker.getValue(),start_time_combobox.getValue());
                 LocalDateTime end = LocalDateTime.of(end_datepicker.getValue(),end_time_combobox.getValue());
 
-                if (appointmentToModify != null){
+                try {
+                    if (isAppointmentWithinBusinessHours(start, end)) {
 
-                    if (physical_radio.isSelected()){
-                        Appointment appointment = new Appointment(
-                                Integer.parseInt(id_textfield.getText()),
-                                title_textfield.getText(),
-                                desc_textarea.getText(),
-                                location_textfield.getText(),
-                                contact_choicebox.getValue().getContactId(),
-                                "Physical",
-                                Timestamp.valueOf(TimeConverter.localToUTC(Timestamp.valueOf(start))),
-                                Timestamp.valueOf(TimeConverter.localToUTC(Timestamp.valueOf(end))),
-                                customer_choicebox.getValue().getCustomerId()
+                        if (appointmentToModify != null) {
 
-                        );
-                        if (appointment.isValid()){
-                            AppointmentDAO.updateAppointment(appointment);
-                            System.out.println(appointment.toString());
-                            GeneralController.changePageFromAppointment(actionEvent,"Main");
+                            if (physical_radio.isSelected()) {
+                                Appointment appointment = new Appointment(
+                                        Integer.parseInt(id_textfield.getText()),
+                                        title_textfield.getText(),
+                                        desc_textarea.getText(),
+                                        location_textfield.getText(),
+                                        contact_choicebox.getValue().getContactId(),
+                                        "Physical",
+                                        Timestamp.valueOf(TimeConverter.localToEST(start)),
+                                        Timestamp.valueOf(TimeConverter.localToEST(end)),
+                                        customer_choicebox.getValue().getCustomerId()
+
+                                );
+                                if (appointment.isValid() && appointment.isValidTime()) {
+                                    appointment.setApptStart(Timestamp.valueOf(TimeConverter.localToUTC(start)));
+                                    appointment.setApptEnd(Timestamp.valueOf(TimeConverter.localToUTC(end)));
+                                    AppointmentDAO.updateAppointment(appointment);
+                                    System.out.println(appointment.toString());
+                                    GeneralController.changePageFromAppointment(actionEvent, "Main");
+                                }
+                            }
+                            if (bloodwork_radio.isSelected()) {
+                                Appointment appointment = new Appointment(
+                                        Integer.parseInt(id_textfield.getText()),
+                                        title_textfield.getText(),
+                                        desc_textarea.getText(),
+                                        location_textfield.getText(),
+                                        contact_choicebox.getValue().getContactId(),
+                                        "Bloodwork",
+                                        Timestamp.valueOf(TimeConverter.localToEST(start)),
+                                        Timestamp.valueOf(TimeConverter.localToEST(end)),
+                                        customer_choicebox.getValue().getCustomerId()
+
+                                );
+
+                                if (appointment.isValid() && appointment.isValidTime()) {
+                                    appointment.setApptStart(Timestamp.valueOf(TimeConverter.localToUTC(start)));
+                                    appointment.setApptEnd(Timestamp.valueOf(TimeConverter.localToUTC(end)));
+                                    AppointmentDAO.updateAppointment(appointment);
+                                    GeneralController.changePageFromAppointment(actionEvent, "Main");
+                                }
+                            }
+                        } else {
+                            if (physical_radio.isSelected()) {
+                                Appointment appointment = new Appointment(
+                                        title_textfield.getText(),
+                                        desc_textarea.getText(),
+                                        location_textfield.getText(),
+                                        contact_choicebox.getValue().getContactId(),
+                                        "Physical",
+                                        Timestamp.valueOf(TimeConverter.localToEST(start)),
+                                        Timestamp.valueOf(TimeConverter.localToEST(end)),
+                                        customer_choicebox.getValue().getCustomerId()
+
+                                );
+                                if (appointment.isValid() && appointment.isValidTime()) {
+                                    appointment.setApptStart(Timestamp.valueOf(TimeConverter.localToUTC(start)));
+                                    appointment.setApptEnd(Timestamp.valueOf(TimeConverter.localToUTC(end)));
+                                    AppointmentDAO.addAppointment(appointment);
+                                    GeneralController.changePageFromAppointment(actionEvent, "Main");
+                                }
+                            }
+                            if (bloodwork_radio.isSelected()) {
+                                Appointment appointment = new Appointment(
+                                        title_textfield.getText(),
+                                        desc_textarea.getText(),
+                                        location_textfield.getText(),
+                                        contact_choicebox.getValue().getContactId(),
+                                        "Bloodwork",
+                                        Timestamp.valueOf(TimeConverter.localToEST(start)),
+                                        Timestamp.valueOf(TimeConverter.localToEST(end)),
+                                        customer_choicebox.getValue().getCustomerId()
+
+                                );
+                                if (appointment.isValid() && appointment.isValidTime()) {
+                                    appointment.setApptStart(Timestamp.valueOf(TimeConverter.localToUTC(start)));
+                                    appointment.setApptEnd(Timestamp.valueOf(TimeConverter.localToUTC(end)));
+                                    AppointmentDAO.addAppointment(appointment);
+                                    GeneralController.changePageFromAppointment(actionEvent, "Main");
+                                }
+                            }
                         }
-
                     }
-                    if  (bloodwork_radio.isSelected()){
-                        Appointment appointment = new Appointment(
-                                Integer.parseInt(id_textfield.getText()),
-                                title_textfield.getText(),
-                                desc_textarea.getText(),
-                                location_textfield.getText(),
-                                contact_choicebox.getValue().getContactId(),
-                                "Bloodwork",
-                                Timestamp.valueOf(TimeConverter.localToUTC(Timestamp.valueOf(start))),
-                                Timestamp.valueOf(TimeConverter.localToUTC(Timestamp.valueOf(end))),
-                                customer_choicebox.getValue().getCustomerId()
-
-                        );
-                        try{
-                            appointment.isValid();
-                            AppointmentDAO.updateAppointment(appointment);
-                            System.out.println(appointment.toString());
-                            GeneralController.changePageFromAppointment(actionEvent,"Main");
-                        }catch (ValidationException v){
-
-                        }
-                    }
-                }
-                else {
-                    if (physical_radio.isSelected()){
-                        Appointment appointment = new Appointment(
-                                title_textfield.getText(),
-                                desc_textarea.getText(),
-                                location_textfield.getText(),
-                                contact_choicebox.getValue().getContactId(),
-                                "Physical",
-                                Timestamp.valueOf(TimeConverter.localToUTC(Timestamp.valueOf(start))),
-                                Timestamp.valueOf(TimeConverter.localToUTC(Timestamp.valueOf(end))),
-                                customer_choicebox.getValue().getCustomerId()
-
-                        );
-                        if (appointment.isValid()){
-                            AppointmentDAO.addAppointment(appointment);
-                            System.out.println(appointment.toString());
-                            GeneralController.changePageFromAppointment(actionEvent,"Main");
-                        }
-                    }
-                    if  (bloodwork_radio.isSelected()){
-                        Appointment appointment = new Appointment(
-                                title_textfield.getText(),
-                                desc_textarea.getText(),
-                                location_textfield.getText(),
-                                contact_choicebox.getValue().getContactId(),
-                                "Bloodwork",
-                                Timestamp.valueOf(TimeConverter.localToUTC(Timestamp.valueOf(start))),
-                                Timestamp.valueOf(TimeConverter.localToUTC(Timestamp.valueOf(end))),
-                                customer_choicebox.getValue().getCustomerId()
-
-                        );
-                        if (appointment.isValid()){
-                            AppointmentDAO.addAppointment(appointment);
-                            System.out.println(appointment.toString());
-                            GeneralController.changePageFromAppointment(actionEvent,"Main");
-                        }
-                    }
+                }catch (BusinessHoursException b){
+                    Alert a = GeneralController.alertUser(Alert.AlertType.ERROR,"Error","Overlapping appointments",b.getMessage());
+                    a.showAndWait();
                 }
                 }
             }catch (NullPointerException n){
@@ -205,10 +210,10 @@ public class AppointmentFormController implements Initializable {
 
                 Alert alert = GeneralController.alertUser(Alert.AlertType.WARNING,"Empty Form Field","There is an error in the form:",n.getMessage());
                 alert.showAndWait();
-                System.out.println(n.getMessage());
             }
         }catch (ValidationException validationException){
-            validationException.getLocalizedMessage();
+            Alert alert = GeneralController.alertUser(Alert.AlertType.WARNING,"Validation Exception","There is an error in the form:",validationException.getMessage());
+            alert.showAndWait();
         }
 
     }
@@ -261,6 +266,15 @@ public class AppointmentFormController implements Initializable {
             throw new NullPointerException("Customer choice cannot be empty");
         }
 
+        return true;
+    }
+
+    public boolean isAppointmentWithinBusinessHours(LocalDateTime start,LocalDateTime end) throws BusinessHoursException {
+
+        ObservableList<Appointment> overlappingAppt = AppointmentDAO.getOverlappingAppts(start, end);
+        if (overlappingAppt.size() > 1) {
+            throw new BusinessHoursException("An appointment cannot be scheduled at the same time as another appointment.");
+        }
         return true;
     }
 

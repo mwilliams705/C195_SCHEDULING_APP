@@ -299,8 +299,6 @@ public class MainController implements Initializable {
     public void OpenCustomReport(ActionEvent actionEvent) {
     }
 
-//    Report functions
-
 
 
 }

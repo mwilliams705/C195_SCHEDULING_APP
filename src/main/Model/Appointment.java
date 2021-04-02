@@ -1,8 +1,13 @@
 package main.Model;
 
+import main.Exception.BusinessHoursException;
 import main.Exception.ValidationException;
+import main.Util.TimeConverter;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.ZoneOffset;
 
 public class Appointment {
     private int apptId;
@@ -14,6 +19,9 @@ public class Appointment {
     private Timestamp apptStart;
     private Timestamp apptEnd;
     private int apptCustomerId;
+
+    public Appointment() {
+    }
 
     public Appointment(int apptId, String apptTitle, String apptDesc, String apptLocation, int apptContact, String apptType, Timestamp apptStart, Timestamp apptEnd, int apptCustomerId) {
         this.apptId = apptId;
@@ -159,6 +167,33 @@ public class Appointment {
             throw new ValidationException("The appointment end time cannot be after the start time");
         }
 
+        return true;
+    }
+
+    public boolean isValidTime() throws BusinessHoursException {
+        LocalTime midnight = LocalTime.MIDNIGHT;
+
+        LocalDate apptStartDate = this.apptStart.toLocalDateTime().toLocalDate();
+        LocalTime apptStartTime = this.apptStart.toLocalDateTime().toLocalTime();
+        LocalDate apptEndDate = this.apptEnd.toLocalDateTime().toLocalDate();
+        LocalTime apptEndTime = this.apptEnd.toLocalDateTime().toLocalTime();
+        int weekDay = apptStartDate.getDayOfWeek().getValue();
+
+        if (!apptStartDate.isEqual(apptEndDate)) {
+            throw new BusinessHoursException("An appointment can only be a single day!");
+        }
+        if (weekDay == 6 || weekDay == 7) {
+            throw new BusinessHoursException("An appointment can only be scheduled on weekdays!");
+        }
+        if (apptStartTime.isBefore(midnight.plusHours(8))) {
+            throw new BusinessHoursException("An appointment cannot be scheduled before normal business hours!");
+        }
+        if (apptEndTime.isAfter(midnight.plusHours(22))) {
+            throw new BusinessHoursException("An appointment cannot be scheduled after normal business hours!");
+        }
+        if (apptStartDate.isBefore(LocalDate.now()) || apptStartTime.isBefore(LocalTime.MIDNIGHT)) {
+            throw new BusinessHoursException("An appointment cannot be scheduled in the past!");
+        }
         return true;
     }
 }

@@ -8,12 +8,21 @@ import java.time.ZonedDateTime;
 
 public class TimeConverter {
 
-    public static LocalDateTime localToUTC(Timestamp timestamp){
-        LocalDateTime toLDT = timestamp.toLocalDateTime();
-        ZonedDateTime toZDT = toLDT.atZone(ZoneId.of(ZoneId.systemDefault().toString()));
+    public static LocalDateTime localToUTC(LocalDateTime localDateTime){
+
+        ZonedDateTime toZDT = localDateTime.atZone(ZoneId.of(ZoneId.systemDefault().toString()));
         ZonedDateTime utczdt = toZDT.withZoneSameInstant(ZoneId.of("UTC"));
         return utczdt.toLocalDateTime();
     }
+
+    public static LocalDateTime localToEST(LocalDateTime localDateTime){
+
+        ZonedDateTime toZDT = localDateTime.atZone(ZoneId.of(ZoneId.systemDefault().toString()));
+        ZonedDateTime estzdt = toZDT.withZoneSameInstant(ZoneId.of("America/New_York"));
+        return estzdt.toLocalDateTime();
+    }
+
+
 
     public static LocalDateTime utcToLocal(LocalDateTime localDateTime){
         ZonedDateTime zdt = localDateTime.atZone(ZoneId.of("UTC"));
@@ -22,10 +31,5 @@ public class TimeConverter {
 
     }
 
-    public static LocalDateTime utcToEST(LocalDateTime localDateTime){
-        ZonedDateTime zdt = localDateTime.atZone(ZoneId.of("UTC"));
-        ZonedDateTime toLocalTZ = zdt.withZoneSameInstant(ZoneId.of(ZoneId.of("EST").toString()));
-        return toLocalTZ.toLocalDateTime();
 
-    }
 }
