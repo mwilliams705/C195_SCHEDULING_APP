@@ -126,18 +126,15 @@ public class AppointmentFormController implements Initializable {
                                         location_textfield.getText(),
                                         contact_choicebox.getValue().getContactId(),
                                         "Physical",
-                                        Timestamp.valueOf(TimeConverter.localToEST(start)),
-                                        Timestamp.valueOf(TimeConverter.localToEST(end)),
+                                        Timestamp.valueOf(start),
+                                        Timestamp.valueOf(end),
                                         customer_choicebox.getValue().getCustomerId()
 
                                 );
-                                System.out.println("Before Conversion: " + appointment.toString());
+
                                 if (appointment.isValid() && appointment.isValidTime()) {
-//                                    appointment.setApptStart(Timestamp.valueOf(TimeConverter.localToUTC(start)));
-//                                    appointment.setApptEnd(Timestamp.valueOf(TimeConverter.localToUTC(end)));
-//                                    System.out.println("After Conversion: " + appointment.toString());
+
                                     AppointmentDAO.updateAppointment(appointment);
-                                    System.out.println(appointment.toString());
                                     GeneralController.changePageFromAppointment(actionEvent, "Main");
                                 }
                             }
@@ -149,16 +146,14 @@ public class AppointmentFormController implements Initializable {
                                         location_textfield.getText(),
                                         contact_choicebox.getValue().getContactId(),
                                         "Bloodwork",
-                                        Timestamp.valueOf(TimeConverter.localToEST(start)),
-                                        Timestamp.valueOf(TimeConverter.localToEST(end)),
+                                        Timestamp.valueOf(start),
+                                        Timestamp.valueOf(end),
                                         customer_choicebox.getValue().getCustomerId()
 
                                 );
-                                System.out.println("Before Conversion: " + appointment.toString());
+
                                 if (appointment.isValid() && appointment.isValidTime()) {
-                                    appointment.setApptStart(Timestamp.valueOf(TimeConverter.localToUTC(start)));
-                                    appointment.setApptEnd(Timestamp.valueOf(TimeConverter.localToUTC(end)));
-                                    System.out.println("After Conversion: " + appointment.toString());
+
                                     AppointmentDAO.updateAppointment(appointment);
                                     GeneralController.changePageFromAppointment(actionEvent, "Main");
                                 }
@@ -173,21 +168,13 @@ public class AppointmentFormController implements Initializable {
                                         location_textfield.getText(),
                                         contact_choicebox.getValue().getContactId(),
                                         "Physical",
-//                                        Converts the value to EST
                                         Timestamp.valueOf(start),
                                         Timestamp.valueOf(end),
                                         customer_choicebox.getValue().getCustomerId()
 
                                 );
-                                System.out.println("Before Conversion: " + appointment.toString());
-//                                Check that the time and data in the fields are valid inputs.
                                 if (appointment.isValid() && appointment.isValidTime()) {
 
-//                                    Convert from From LOCAL to EST and then to UTC from EST.
-//                                    LOCAL -> EST -> UTC
-//                                    appointment.setApptStart(Timestamp.valueOf(TimeConverter.localToUTC(TimeConverter.localToEST(start))));
-//                                    appointment.setApptEnd(Timestamp.valueOf(TimeConverter.localToUTC(TimeConverter.localToEST(end))));
-                                    System.out.println("After Conversion: " + appointment.toString());
                                     AppointmentDAO.addAppointment(appointment);
                                     GeneralController.changePageFromAppointment(actionEvent, "Main");
                                 }
@@ -199,16 +186,13 @@ public class AppointmentFormController implements Initializable {
                                         location_textfield.getText(),
                                         contact_choicebox.getValue().getContactId(),
                                         "Bloodwork",
-                                        Timestamp.valueOf(TimeConverter.localToEST(start)),
-                                        Timestamp.valueOf(TimeConverter.localToEST(end)),
+                                        Timestamp.valueOf(start),
+                                        Timestamp.valueOf(end),
                                         customer_choicebox.getValue().getCustomerId()
 
                                 );
-                                System.out.println("Before Conversion: " + appointment.toString());
                                 if (appointment.isValid() && appointment.isValidTime()) {
-                                    appointment.setApptStart(Timestamp.valueOf(TimeConverter.localToUTC(start)));
-                                    appointment.setApptEnd(Timestamp.valueOf(TimeConverter.localToUTC(end)));
-                                    System.out.println("After Conversion: " + appointment.toString());
+
                                     AppointmentDAO.addAppointment(appointment);
                                     GeneralController.changePageFromAppointment(actionEvent, "Main");
                                 }
