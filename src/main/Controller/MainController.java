@@ -99,6 +99,15 @@ public class MainController implements Initializable {
         currentUserLbl.setText(LoginController.getGlobalUser().getUserName());
         mainTabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
 
+        buildTables();
+
+
+        if (!Objects.requireNonNull(AppointmentDAO.isAppointmentInNext15Minutes()).isEmpty()){
+            System.out.println("Appointment within the next 15 minutes!");
+        }
+    }
+
+    public void buildTables(){
         FilteredList<Customer> filteredCustomerList = new FilteredList<>(Objects.requireNonNull(CustomerDAO.getAllCustomersWithDivisionAndCountries()));
         customers_table.setItems(filteredCustomerList);
         customer_id.setCellValueFactory(new PropertyValueFactory<>("customerId"));
@@ -153,13 +162,7 @@ public class MainController implements Initializable {
         contact_id.setCellValueFactory(new PropertyValueFactory<>("contactId"));
         contact_name.setCellValueFactory(new PropertyValueFactory<>("contactName"));
         contact_email.setCellValueFactory(new PropertyValueFactory<>("contactEmail"));
-
-
-        if (!Objects.requireNonNull(AppointmentDAO.isAppointmentInNext15Minutes()).isEmpty()){
-            System.out.println("Appointment within the next 15 minutes!");
-        }
     }
-
 
 
 //    ==================================================================================================================

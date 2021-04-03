@@ -109,11 +109,12 @@ public class AppointmentFormController implements Initializable {
         try {
             try{
                 if (isFormComplete()){
+//                    Original data from the choiceboxes is stored here (for test, I store start=8:00 end=22:00 for est, start=7:00 end=21:00 for atlantic, etc.)
                 LocalDateTime start = LocalDateTime.of(start_datepicker.getValue(),start_time_combobox.getValue());
                 LocalDateTime end = LocalDateTime.of(end_datepicker.getValue(),end_time_combobox.getValue());
 
                 try {
-                    if (isAppointmentWithinBusinessHours(TimeConverter.localToEST(start), TimeConverter.localToEST(end))) {
+                    if (isAppointmentOverlapping(start, end)) {
 
                         if (appointmentToModify != null) {
 
@@ -165,21 +166,27 @@ public class AppointmentFormController implements Initializable {
                         } else {
 
                             if (physical_radio.isSelected()) {
+//
                                 Appointment appointment = new Appointment(
                                         title_textfield.getText(),
                                         desc_textarea.getText(),
                                         location_textfield.getText(),
                                         contact_choicebox.getValue().getContactId(),
                                         "Physical",
-                                        Timestamp.valueOf(TimeConverter.localToEST(start)),
-                                        Timestamp.valueOf(TimeConverter.localToEST(end)),
+//                                        Converts the value to EST
+                                        Timestamp.valueOf(start),
+                                        Timestamp.valueOf(end),
                                         customer_choicebox.getValue().getCustomerId()
 
                                 );
                                 System.out.println("Before Conversion: " + appointment.toString());
+//                                Check that the time and data in the fields are valid inputs.
                                 if (appointment.isValid() && appointment.isValidTime()) {
-                                    appointment.setApptStart(Timestamp.valueOf(TimeConverter.localToUTC(TimeConverter.localToEST(start))));
-                                    appointment.setApptEnd(Timestamp.valueOf(TimeConverter.localToUTC(TimeConverter.localToEST(end))));
+
+//                                    Convert from From LOCAL to EST and then to UTC from EST.
+//                                    LOCAL -> EST -> UTC
+//                                    appointment.setApptStart(Timestamp.valueOf(TimeConverter.localToUTC(TimeConverter.localToEST(start))));
+//                                    appointment.setApptEnd(Timestamp.valueOf(TimeConverter.localToUTC(TimeConverter.localToEST(end))));
                                     System.out.println("After Conversion: " + appointment.toString());
                                     AppointmentDAO.addAppointment(appointment);
                                     GeneralController.changePageFromAppointment(actionEvent, "Main");
@@ -277,7 +284,7 @@ public class AppointmentFormController implements Initializable {
         return true;
     }
 
-    public boolean isAppointmentWithinBusinessHours(LocalDateTime start,LocalDateTime end) throws BusinessHoursException {
+    public boolean isAppointmentOverlapping(LocalDateTime start,LocalDateTime end) throws BusinessHoursException {
 
         ObservableList<Appointment> overlappingAppt = AppointmentDAO.getOverlappingAppts(start, end);
         if (overlappingAppt.size() > 1) {

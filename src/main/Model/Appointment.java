@@ -5,9 +5,7 @@ import main.Exception.ValidationException;
 import main.Util.TimeConverter;
 
 import java.sql.Timestamp;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.ZoneOffset;
+import java.time.*;
 
 public class Appointment {
     private int apptId;
@@ -164,26 +162,50 @@ public class Appointment {
     }
 
     public boolean isValidTime() throws BusinessHoursException {
-        LocalTime midnight = LocalTime.MIDNIGHT;
-
+//        Local DateTime
         LocalDate apptStartDate = this.apptStart.toLocalDateTime().toLocalDate();
         LocalTime apptStartTime = this.apptStart.toLocalDateTime().toLocalTime();
         LocalDate apptEndDate = this.apptEnd.toLocalDateTime().toLocalDate();
         LocalTime apptEndTime = this.apptEnd.toLocalDateTime().toLocalTime();
+//        EST DateTime
+        LocalDateTime apptStartToEST = TimeConverter.localToEST(this.apptStart.toLocalDateTime());
+        LocalDateTime apptEndToEST = TimeConverter.localToEST(this.apptEnd.toLocalDateTime());
+
+        System.out.print("Local Start--");
+        System.out.println(apptStart.toLocalDateTime());
+        System.out.print("Local End----");
+        System.out.println(apptEnd.toLocalDateTime());
+        System.out.print("EST Start----");
+        System.out.println(apptStartToEST);
+        System.out.print("EST End------");
+        System.out.println(apptEndToEST);
+
+
+
+        LocalDateTime midnightLocalDateTime = LocalDateTime.of(apptStartDate,LocalTime.MIDNIGHT);
+        LocalDateTime afterConversion = TimeConverter.localToEST(midnightLocalDateTime);
+        LocalTime EST_Midnight = afterConversion.toLocalTime();
+
+
         int weekDay = apptStartDate.getDayOfWeek().getValue();
 
         if (!apptStartDate.isEqual(apptEndDate)) {
-            throw new BusinessHoursException("An appointment can only be a single day!");
+            throw new BusinessHoursException("An appointment can only be a single day.");
         }
         if (weekDay == 6 || weekDay == 7) {
-            throw new BusinessHoursException("An appointment can only be scheduled on weekdays!");
+            throw new BusinessHoursException("An appointment can only be scheduled on weekdays.");
         }
-        if (apptStartTime.isBefore(midnight.plusHours(8))) {
-            throw new BusinessHoursException("An appointment cannot be scheduled before normal business hours!");
+        if (apptStartTime.equals(apptEndTime)){
+            throw new BusinessHoursException(("An appointment end time cannot be the same as its start"));
         }
-        if (apptEndTime.isAfter(midnight.plusHours(22))) {
-            throw new BusinessHoursException("An appointment cannot be scheduled after normal business hours!");
+
+        if (apptStart.before(Timestamp.valueOf(LocalDateTime.of(apptStartDate,EST_Midnight).plusHours(8)))){
+            throw new BusinessHoursException("An appointment cannot be scheduled before normal business hours.");
         }
+        if (apptEnd.after(Timestamp.valueOf(LocalDateTime.of(apptEndDate,EST_Midnight).plusHours(22)))){
+            throw new BusinessHoursException("An appointment cannot be scheduled after normal business hours.");
+        }
+
         if (apptStartDate.isBefore(LocalDate.now()) || apptStartTime.isBefore(LocalTime.MIDNIGHT)) {
             throw new BusinessHoursException("An appointment cannot be scheduled in the past!");
         }

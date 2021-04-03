@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
@@ -25,16 +26,20 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TableView fx:id="customers_table" prefHeight="475.0" prefWidth="1100.0">
-                          <columns>
-                            <TableColumn fx:id="customer_id" prefWidth="75.0" text="ID" />
-                            <TableColumn fx:id="customer_name" prefWidth="225.0" text="Name" />
-                              <TableColumn fx:id="customer_address" prefWidth="300.0" text="Address" />
-                              <TableColumn fx:id="customer_zipcode" prefWidth="125.0" resizable="false" text="Zipcode" />
-                              <TableColumn fx:id="customer_phone" prefWidth="223.0" resizable="false" text="Phone" />
-                              <TableColumn fx:id="customer_division" prefWidth="148.0" resizable="false" text="Division" />
-                          </columns>
-                        </TableView>
+                        <ScrollPane>
+                           <content>
+                              <TableView fx:id="customers_table" prefHeight="1000.0" prefWidth="1100.0">
+                                <columns>
+                                  <TableColumn fx:id="customer_id" prefWidth="75.0" text="ID" />
+                                  <TableColumn fx:id="customer_name" prefWidth="225.0" text="Name" />
+                                    <TableColumn fx:id="customer_address" prefWidth="300.0" text="Address" />
+                                    <TableColumn fx:id="customer_zipcode" prefWidth="125.0" resizable="false" text="Zipcode" />
+                                    <TableColumn fx:id="customer_phone" prefWidth="223.0" resizable="false" text="Phone" />
+                                    <TableColumn fx:id="customer_division" prefWidth="148.0" resizable="false" text="Division" />
+                                </columns>
+                              </TableView>
+                           </content>
+                        </ScrollPane>
                         <HBox layoutY="475.0" prefHeight="50.0" prefWidth="1100.0" style="-fx-background-color: #333;">
                            <children>
                               <Button mnemonicParsing="false" onAction="#addCustomer" prefWidth="100.0" text="Add">
@@ -68,19 +73,23 @@
                               <content>
                                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                       <children>
-                                          <TableView fx:id="appt_all_table" prefHeight="525.0" prefWidth="1075.0">
-                                              <columns>
-                                                  <TableColumn fx:id="all_appt_id" prefWidth="70.0" resizable="false" text="Appt. ID" />
-                                                  <TableColumn fx:id="all_title" prefWidth="75.0" resizable="false" text="Title" />
-                                                  <TableColumn fx:id="all_desc" prefWidth="230.0" resizable="false" text="Description" />
-                                                  <TableColumn fx:id="all_location" minWidth="0.0" prefWidth="94.0" resizable="false" text="Location" />
-                                                  <TableColumn fx:id="all_contact" prefWidth="124.0" resizable="false" text="Contact" />
-                                                  <TableColumn fx:id="all_type" prefWidth="89.0" resizable="false" text="Type" />
-                                                  <TableColumn fx:id="all_start" prefWidth="150.0" text="Start" />
-                                                  <TableColumn fx:id="all_end" prefWidth="150.0" text="End" />
-                                                  <TableColumn fx:id="all_customer_id" prefWidth="90.0" text="Customer ID" />
-                                              </columns>
-                                          </TableView>
+                                          <ScrollPane prefHeight="527.0">
+                                             <content>
+                                                <TableView fx:id="appt_all_table" prefHeight="1000.0" prefWidth="1075.0">
+                                                    <columns>
+                                                        <TableColumn fx:id="all_appt_id" prefWidth="70.0" resizable="false" text="Appt. ID" />
+                                                        <TableColumn fx:id="all_title" prefWidth="75.0" resizable="false" text="Title" />
+                                                        <TableColumn fx:id="all_desc" prefWidth="230.0" resizable="false" text="Description" />
+                                                        <TableColumn fx:id="all_location" minWidth="0.0" prefWidth="94.0" resizable="false" text="Location" />
+                                                        <TableColumn fx:id="all_contact" prefWidth="124.0" resizable="false" text="Contact" />
+                                                        <TableColumn fx:id="all_type" prefWidth="89.0" resizable="false" text="Type" />
+                                                        <TableColumn fx:id="all_start" prefWidth="150.0" text="Start" />
+                                                        <TableColumn fx:id="all_end" prefWidth="150.0" text="End" />
+                                                        <TableColumn fx:id="all_customer_id" prefWidth="90.0" text="Customer ID" />
+                                                    </columns>
+                                                </TableView>
+                                             </content>
+                                          </ScrollPane>
                                       </children>
                                   </AnchorPane>
                               </content>

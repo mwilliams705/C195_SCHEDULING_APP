@@ -10,8 +10,9 @@ public class DBConnector {
     private static final String vendorName = ":mysql:";
     private static final String ipAddress = "//wgudb.ucertify.com:3306/";
     private static final String dbName = "WJ06xQp";
+    private static final String autoReconnect = "?autoReconnect=true";
 
-    private static final String jdbcURL = protocol+vendorName+ipAddress+dbName;
+    private static final String jdbcURL = protocol+vendorName+ipAddress+dbName+autoReconnect;
 
     private static final String MYSQLJDBCDriver = "com.mysql.cj.jdbc.Driver";
 

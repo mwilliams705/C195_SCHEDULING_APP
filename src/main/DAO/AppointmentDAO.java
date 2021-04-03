@@ -76,8 +76,8 @@ public class AppointmentDAO {
                         rs.getInt("Customer_ID")
                 );
 
-                appointmentAllResult.setApptStart(Timestamp.valueOf(TimeConverter.utcToLocal(appointmentAllResult.getApptStart().toLocalDateTime())));
-                appointmentAllResult.setApptEnd(Timestamp.valueOf(TimeConverter.utcToLocal(appointmentAllResult.getApptEnd().toLocalDateTime())));
+                appointmentAllResult.setApptStart(Timestamp.valueOf(appointmentAllResult.getApptStart().toLocalDateTime()));
+                appointmentAllResult.setApptEnd(Timestamp.valueOf(appointmentAllResult.getApptEnd().toLocalDateTime()));
 
                 allAppointments.add(appointmentAllResult);
             }
@@ -113,8 +113,8 @@ public class AppointmentDAO {
                         rs.getTimestamp("End"),
                         rs.getInt("Customer_ID")
                 );
-                appointmentWeekResult.setApptStart(Timestamp.valueOf(TimeConverter.utcToLocal(appointmentWeekResult.getApptStart().toLocalDateTime())));
-                appointmentWeekResult.setApptEnd(Timestamp.valueOf(TimeConverter.utcToLocal(appointmentWeekResult.getApptEnd().toLocalDateTime())));
+                appointmentWeekResult.setApptStart(Timestamp.valueOf(appointmentWeekResult.getApptStart().toLocalDateTime()));
+                appointmentWeekResult.setApptEnd(Timestamp.valueOf(appointmentWeekResult.getApptEnd().toLocalDateTime()));
 
                 allAppointmentsThisWeek.add(appointmentWeekResult);
             }
@@ -150,8 +150,8 @@ public class AppointmentDAO {
                         rs.getTimestamp("End"),
                         rs.getInt("Customer_ID")
                 );
-                appointmentMonthResult.setApptStart(Timestamp.valueOf(TimeConverter.utcToLocal(appointmentMonthResult.getApptStart().toLocalDateTime())));
-                appointmentMonthResult.setApptEnd(Timestamp.valueOf(TimeConverter.utcToLocal(appointmentMonthResult.getApptEnd().toLocalDateTime())));
+                appointmentMonthResult.setApptStart(Timestamp.valueOf(appointmentMonthResult.getApptStart().toLocalDateTime()));
+                appointmentMonthResult.setApptEnd(Timestamp.valueOf(appointmentMonthResult.getApptEnd().toLocalDateTime()));
 
                 allAppointmentsThisWeek.add(appointmentMonthResult);
             }
