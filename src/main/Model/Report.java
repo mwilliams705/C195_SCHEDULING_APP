@@ -1,5 +1,10 @@
 package main.Model;
 
+/**
+ * @author Michael Williams - 001221520
+ *
+ * This class handles Report objects (For report two only).
+ */
 public class Report {
 
     private String var1;
@@ -10,6 +15,16 @@ public class Report {
     private String var6;
     private String var7;
 
+    /**
+     *
+     * @param var1 String one
+     * @param var2 String two
+     * @param var3 String three
+     * @param var4 String four
+     * @param var5 String five
+     * @param var6 String six
+     * @param var7 String seven
+     */
     public Report(String var1, String var2, String var3, String var4, String var5, String var6, String var7) {
         this.var1 = var1;
         this.var2 = var2;

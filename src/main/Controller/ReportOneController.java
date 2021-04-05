@@ -17,19 +17,30 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+/**
+ * @author Michael Williams - 001221520
+ *
+ * This class controls and handles all processes related to the 'ReportOne.fxml' page.
+ */
 public class ReportOneController implements Initializable {
     public BarChart<String,Number> appointmentsByTypeBarChart;
     public CategoryAxis monthAxis;
     public NumberAxis appointmentAxis;
     public VBox reportOneVBOX;
 
+    /**
+     * This method initializes the ReportOne view
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         buildAppointmentsByWeekBarChart();
     }
 
     /**
-     *
+     * This method builds the BarChart shown in the view, gathering data from the Appointments table in the
+     * database
      */
     public void buildAppointmentsByWeekBarChart(){
 

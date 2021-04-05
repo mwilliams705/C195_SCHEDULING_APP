@@ -7,6 +7,11 @@ import main.Util.TimeConverter;
 import java.sql.Timestamp;
 import java.time.*;
 
+/**
+ * @author Michael Williams - 001221520
+ *
+ * This class handles Appointment objects
+ */
 public class Appointment {
     private int apptId;
     private String apptTitle;
@@ -18,9 +23,24 @@ public class Appointment {
     private Timestamp apptEnd;
     private int apptCustomerId;
 
+    /**
+     * No Args Constructor
+     */
     public Appointment() {
     }
 
+    /**
+     * All Args Constructor
+     * @param apptId Appointment ID
+     * @param apptTitle Appointment Title
+     * @param apptDesc Appointment Description
+     * @param apptLocation Appointment Location
+     * @param apptContact Appointment Contact
+     * @param apptType Appointment Type
+     * @param apptStart Appointment Start
+     * @param apptEnd Appointment End
+     * @param apptCustomerId Appointment Customer ID
+     */
     public Appointment(int apptId, String apptTitle, String apptDesc, String apptLocation, int apptContact, String apptType, Timestamp apptStart, Timestamp apptEnd, int apptCustomerId) {
         this.apptId = apptId;
         this.apptTitle = apptTitle;
@@ -33,6 +53,17 @@ public class Appointment {
         this.apptCustomerId = apptCustomerId;
     }
 
+    /**
+     * Custom Args Constructor
+     * @param apptTitle Appointment Title
+     * @param apptDesc Appointment Description
+     * @param apptLocation Appointment Location
+     * @param apptContact Appointment Contact
+     * @param apptType Appointment Type
+     * @param apptStart Appointment Start
+     * @param apptEnd Appointment End
+     * @param apptCustomerId Appointment Customer ID
+     */
     public Appointment(String apptTitle, String apptDesc, String apptLocation, int apptContact, String apptType, Timestamp apptStart, Timestamp apptEnd, int apptCustomerId) {
         this.apptTitle = apptTitle;
         this.apptDesc = apptDesc;
@@ -44,90 +75,155 @@ public class Appointment {
         this.apptCustomerId = apptCustomerId;
     }
 
+    /**
+     *
+     * @return Appointment ID
+     */
     public int getApptId() {
         return apptId;
     }
 
+    /**
+     *
+     * @param apptId Setter for Appointment ID
+     */
     public void setApptId(int apptId) {
         this.apptId = apptId;
     }
 
+    /**
+     *
+     * @return Appointment Title
+     */
     public String getApptTitle() {
         return apptTitle;
     }
 
+    /**
+     *
+     * @param apptTitle Appointment Title
+     */
     public void setApptTitle(String apptTitle) {
         this.apptTitle = apptTitle;
     }
 
+    /**
+     *
+     * @return Appointment Description
+     */
     public String getApptDesc() {
         return apptDesc;
     }
 
+    /**
+     *
+     * @param apptDesc Appointment Description
+     */
     public void setApptDesc(String apptDesc) {
         this.apptDesc = apptDesc;
     }
 
+    /**
+     *
+     * @return Appointment Location
+     */
     public String getApptLocation() {
         return apptLocation;
     }
 
+    /**
+     *
+     * @param apptLocation Appointment Location
+     */
     public void setApptLocation(String apptLocation) {
         this.apptLocation = apptLocation;
     }
 
+    /**
+     *
+     * @return Appointment Contact
+     */
     public int getApptContact() {
         return apptContact;
     }
 
+    /**
+     *
+     * @param apptContact Appointment Contact
+     */
     public void setApptContact(int apptContact) {
         this.apptContact = apptContact;
     }
 
+    /**
+     *
+     * @return Appointment Type
+     */
     public String getApptType() {
         return apptType;
     }
 
+    /**
+     *
+     * @param apptType Appointment Type
+     */
     public void setApptType(String apptType) {
         this.apptType = apptType;
     }
 
+    /**
+     *
+     * @return Appointment Start
+     */
     public Timestamp getApptStart() {
         return apptStart;
     }
 
+    /**
+     *
+     * @param apptStart Appointment Start
+     */
     public void setApptStart(Timestamp apptStart) {
         this.apptStart = apptStart;
     }
 
+    /**
+     *
+     * @return Appointment End
+     */
     public Timestamp getApptEnd() {
         return apptEnd;
     }
 
+    /**
+     *
+     * @param apptEnd Appointment End
+     */
     public void setApptEnd(Timestamp apptEnd) {
         this.apptEnd = apptEnd;
     }
 
+    /**
+     *
+     * @return Appointment Customer ID
+     */
     public int getApptCustomerId() {
         return apptCustomerId;
     }
 
+    /**
+     *
+     * @param apptCustomerId Appointment Customer ID
+     */
     public void setApptCustomerId(int apptCustomerId) {
         this.apptCustomerId = apptCustomerId;
     }
 
-    @Override
-    public String toString() {
-        return "Appointment{" +
-                ", apptStart=" + apptStart +
-                ", apptEnd=" + apptEnd +
-                '}';
-    }
 
     /**
      * Validation method
      * @return true if no exception is thrown. Otherwise, alert the user (Managed by the controllers)
-     * @throws ValidationException
+     * @throws ValidationException checks that all form fields are valid
      */
     public boolean isValid() throws ValidationException {
 //        Title Required
@@ -161,6 +257,11 @@ public class Appointment {
         return true;
     }
 
+    /**
+     *
+     * @return true if the provided appointment is within valid business hours and not incorrect scheduling criteria
+     * @throws BusinessHoursException checks that input dates and times fall within business hours.
+     */
     public boolean isValidTime() throws BusinessHoursException {
 //        Local DateTime
         LocalDate apptStartDate = this.apptStart.toLocalDateTime().toLocalDate();
@@ -170,15 +271,6 @@ public class Appointment {
 //        EST DateTime
         LocalDateTime apptStartToEST = TimeConverter.localToEST(this.apptStart.toLocalDateTime());
         LocalDateTime apptEndToEST = TimeConverter.localToEST(this.apptEnd.toLocalDateTime());
-
-        System.out.print("Local Start--");
-        System.out.println(apptStart.toLocalDateTime());
-        System.out.print("Local End----");
-        System.out.println(apptEnd.toLocalDateTime());
-        System.out.print("EST Start----");
-        System.out.println(apptStartToEST);
-        System.out.print("EST End------");
-        System.out.println(apptEndToEST);
 
 
 

@@ -5,6 +5,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+/**
+ * This class handles connections to the database
+ */
 public class DBConnector {
     private static final String protocol = "jdbc";
     private static final String vendorName = ":mysql:";
@@ -18,12 +21,17 @@ public class DBConnector {
 
     private static final String username = "U06xQp";
 
+    private static final String password = "53688900265";
+
     private static Connection conn = null;
 
+    /**
+     * This static method starts a connection using the stored variables above.
+     */
     public static void startConnection(){
         try{
             Class.forName(MYSQLJDBCDriver);
-            conn = DriverManager.getConnection(jdbcURL,username,Password.getPassword());
+            conn = DriverManager.getConnection(jdbcURL,username,password);
             System.out.println("Connection started!");
         }catch (SQLException s){
             System.out.println("SQL Exception");
@@ -33,10 +41,17 @@ public class DBConnector {
         }
     }
 
+    /**
+     * This method gets the stored database connection.
+     * @return Database connection
+     */
     public static Connection getConnection(){
         return conn;
     }
 
+    /**
+     * This static method closes the database connection.
+     */
     public static void closeConnection(){
         try {
             conn.close();

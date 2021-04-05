@@ -1,11 +1,8 @@
 package main.Controller;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.chart.PieChart;
-import javafx.scene.chart.XYChart;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
@@ -18,6 +15,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+/**
+ * @author Michael Williams - 001221520
+ *
+ * This class controls and handles all processes related to the 'ReportThree.fxml' page.
+ */
 public class ReportThreeController implements Initializable {
     public VBox reportThreeVBOX;
 
@@ -50,6 +52,7 @@ public class ReportThreeController implements Initializable {
 
         reportThreeVBOX.setAlignment(Pos.CENTER);
         reportThreeVBOX.getChildren().add(p);
+
 
 
         for (final PieChart.Data data : p.getData()) {

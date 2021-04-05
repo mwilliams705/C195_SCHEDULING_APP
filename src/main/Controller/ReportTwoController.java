@@ -17,6 +17,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+/**
+ * @author Michael Williams - 001221520
+ *
+ * This class controls and handles all processes related to the 'ReportTwo.fxml' page.
+ */
 public class ReportTwoController implements Initializable {
 
     public TableView<Report> AC_Schedule_Table;

@@ -1,18 +1,11 @@
 package main.Controller;
 
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
-import javafx.geometry.Pos;
-import javafx.scene.chart.BarChart;
-import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.VBox;
 import main.Controller.Util.GeneralController;
 import main.DAO.AppointmentDAO;
 import main.DAO.ContactDAO;
@@ -20,18 +13,18 @@ import main.DAO.CustomerDAO;
 import main.Model.Appointment;
 import main.Model.Contact;
 import main.Model.Customer;
-import main.Util.DBConnector;
-import main.Util.DBQuery;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+/**
+ * @author Michael Williams - 001221520
+ *
+ * This class controls and handles all processes related to the 'Main.fxml' page.
+ */
 public class MainController implements Initializable {
 
     public TabPane mainTabPane;
@@ -94,7 +87,7 @@ public class MainController implements Initializable {
 
 
     /**
-     *
+     * This method initializes the Main view and sets the Tab closing policy for the 4 main tabs.
      * @param url
      * @param resourceBundle
      */
@@ -106,14 +99,10 @@ public class MainController implements Initializable {
 
         buildTables();
 
-
-        if (!Objects.requireNonNull(AppointmentDAO.isAppointmentInNext15Minutes()).isEmpty()){
-            System.out.println("Appointment within the next 15 minutes!");
-        }
     }
 
     /**
-     *
+     * This method builds all the tables found in the Main view of the application
      */
     public void buildTables(){
         FilteredList<Customer> filteredCustomerList = new FilteredList<>(Objects.requireNonNull(CustomerDAO.getAllCustomersWithDivisionAndCountries()));
@@ -178,54 +167,72 @@ public class MainController implements Initializable {
 //    ==================================================================================================================
 
     /**
-     *
+     * This method moves the user to the Customer Form and clears the modifyCustomer variable as to not transfer any data
+     * over the the form
      * @param actionEvent
      * @throws IOException
      */
     public void addCustomer(ActionEvent actionEvent) throws IOException {
         modifyCustomer = null;
-//        GeneralController.changePage(actionEvent,"CustomerForm");
         GeneralController.addCloseableTabWithCustomerFormViewAndMoveTo(mainTabPane,"Add Customer", "CustomerForm");
 
     }
 
     /**
-     *
+     * This method moves the user to the Customer Form and stores a selected customer in the modifyCustomer variable so to
+     * transfer data over the the form.
      * @param actionEvent
      * @throws IOException
      */
     public void updateCustomer(ActionEvent actionEvent) throws IOException {
         modifyCustomer = customers_table.getSelectionModel().getSelectedItem();
-//        GeneralController.changePage(actionEvent,"CustomerForm");
         GeneralController.addCloseableTabWithCustomerFormViewAndMoveTo(mainTabPane,modifyCustomer.getCustomerId()+" | "+modifyCustomer.getCustomerName(), "CustomerForm");
 
     }
 
     /**
-     *
+     * This method takes a selected customer from the table and removes them after confirming via alert.
+     * If there is any appointments associated to the customer, an alert is shown. If confirmed, the
+     * appointments associated to the customer are deleted.
      * @param actionEvent
      * @throws IOException
      */
     public void deleteCustomer(ActionEvent actionEvent) throws IOException {
         modifyCustomer = customers_table.getSelectionModel().getSelectedItem();
 
-        Alert confirmDelete = GeneralController.alertUser(Alert.AlertType.CONFIRMATION,"Delete Customer","Continue Deleting Customer?:", modifyCustomer.getCustomerId()+" | "+modifyCustomer.getCustomerName());
+        Alert confirmDelete = GeneralController.alertUser(Alert.AlertType.CONFIRMATION,"Delete Customer","Continue Deleting Customer?", modifyCustomer.getCustomerId()+" | "+modifyCustomer.getCustomerName());
         Optional<ButtonType> confirm = confirmDelete.showAndWait();
         if (confirm.isPresent()&&confirm.get()==ButtonType.OK){
-            CustomerDAO.deleteCustomer(modifyCustomer.getCustomerId());
-            customers_table.setItems(CustomerDAO.getAllCustomersWithDivisionAndCountries());
+
+            if (AppointmentDAO.customerHasAppointments(modifyCustomer.getCustomerId())){
+
+                Alert confirmDeleteAppointments = GeneralController.alertUser(Alert.AlertType.CONFIRMATION,"Delete Customer","Customer Has Appointments", "Would you like to delete the associated appointments?");
+                Optional<ButtonType> confirmAppts = confirmDeleteAppointments.showAndWait();
+
+                if (confirmAppts.isPresent()&&confirmAppts.get()==ButtonType.OK){
+                    AppointmentDAO.deleteAllAppointmentsByCustomerID(modifyCustomer.getCustomerId());
+                    CustomerDAO.deleteCustomer(modifyCustomer.getCustomerId());
+
+                    customers_table.setItems(CustomerDAO.getAllCustomersWithDivisionAndCountries());
+                    appt_all_table.setItems(AppointmentDAO.getAllAppointments());
+                    appt_this_week_table.setItems(AppointmentDAO.getAllAppointmentsThisWeek());
+                    appt_this_month_table.setItems(AppointmentDAO.getAllAppointmentsThisMonth());
+
+                }
+
+
+            }
+
         }
 
     }
-
-
-
 //    ==================================================================================================================
 //    ==================Appointments====================================================================================
 //    ==================================================================================================================
 
     /**
-     *
+     * This method moves the user to the Appointment form and clears the modifyAppintment variable as to not move any
+     * stored information to the form.
      * @param actionEvent
      * @throws IOException
      */
@@ -235,7 +242,8 @@ public class MainController implements Initializable {
     }
 
     /**
-     *
+     * This method moves the user to the Appointment form and stores a selected Appointment from the table views so to
+     * store the appointment data in the Appointment form for editing.
      * @param actionEvent
      * @throws IOException
      */
@@ -261,7 +269,7 @@ public class MainController implements Initializable {
     }
 
     /**
-     *
+     * This method deletes an Appointment from the database after the user confirms via alert.
      * @param actionEvent
      * @throws IOException
      */
@@ -290,6 +298,9 @@ public class MainController implements Initializable {
                 if (confirm.isPresent()&&confirm.get()==ButtonType.OK){
                     AppointmentDAO.deleteAppointment(modifyAppointment.getApptId());
                     appt_this_month_table.setItems(AppointmentDAO.getAllAppointmentsThisMonth());
+
+                    Alert onDelete = GeneralController.alertUser(Alert.AlertType.INFORMATION,"Appointment Deleted", "Deletion Confirmed", modifyAppointment.getApptId() +" | "+modifyAppointment.getApptType());
+                    onDelete.showAndWait();
                 }
             }catch (NullPointerException n2){
                 try {
@@ -301,6 +312,9 @@ public class MainController implements Initializable {
                     if (confirm.isPresent()&&confirm.get()==ButtonType.OK){
                         AppointmentDAO.deleteAppointment(modifyAppointment.getApptId());
                         appt_this_week_table.setItems(AppointmentDAO.getAllAppointmentsThisWeek());
+
+                        Alert onDelete = GeneralController.alertUser(Alert.AlertType.INFORMATION,"Appointment Deleted", "Deletion Confirmed", modifyAppointment.getApptId() +" | "+modifyAppointment.getApptType());
+                        onDelete.showAndWait();
                     }
                 }catch (NullPointerException n3){
                     n3.printStackTrace();
@@ -317,7 +331,7 @@ public class MainController implements Initializable {
 //    ==================================================================================================================
 
     /**
-     *
+     * Getter for modifyCustomer variable.
      * @return
      */
     public static Customer getModifyCustomer() {
@@ -325,7 +339,7 @@ public class MainController implements Initializable {
     }
 
     /**
-     *
+     * setter for modifyCustomer variable.
      * @param modifyCustomer
      */
     public static void setModifyCustomer(Customer modifyCustomer) {
@@ -333,7 +347,7 @@ public class MainController implements Initializable {
     }
 
     /**
-     *
+     * Getter for modifyAppointment variable.
      * @return
      */
     public static Appointment getModifyAppointment() {
@@ -341,7 +355,7 @@ public class MainController implements Initializable {
     }
 
     /**
-     *
+     * Setter for modifyAppointment variable.
      * @param modifyAppointment
      */
     public static void setModifyAppointment(Appointment modifyAppointment) {
@@ -349,7 +363,7 @@ public class MainController implements Initializable {
     }
 
     /**
-     *
+     * Button action to open a new tab in the Main view tab pane with the 'Appointments by Type' report.
      * @param actionEvent
      * @throws IOException
      */
@@ -358,7 +372,7 @@ public class MainController implements Initializable {
     }
 
     /**
-     *
+     * Button action to open a new tab in the Main view tab pane with the 'Contact Schedule' report.
      * @param actionEvent
      * @throws IOException
      */
@@ -367,7 +381,7 @@ public class MainController implements Initializable {
     }
 
     /**
-     *
+     * Button action to open a new tab in the Main view tab pane with the 'Total Appointments by Type' report.
      * @param actionEvent
      * @throws IOException
      */

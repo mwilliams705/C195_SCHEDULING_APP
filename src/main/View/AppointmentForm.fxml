@@ -112,7 +112,7 @@
                   </Label>
                         <HBox prefHeight="100.0" prefWidth="200.0">
                             <children>
-                                <RadioButton fx:id="physical_radio" mnemonicParsing="false" onAction="#physical_selected" selected="true" text="Physical">
+                                <RadioButton fx:id="physical_radio" mnemonicParsing="false" selected="true" text="Physical">
                                     <HBox.margin>
                                         <Insets left="20.0" top="20.0" />
                                     </HBox.margin>
@@ -120,7 +120,7 @@
                                         <ToggleGroup fx:id="in_or_out" />
                                     </toggleGroup>
                                 </RadioButton>
-                                <RadioButton fx:id="bloodwork_radio" layoutX="179.0" layoutY="50.0" mnemonicParsing="false" onAction="#bloodwork_selected" text="Bloodwork" toggleGroup="$in_or_out">
+                                <RadioButton fx:id="bloodwork_radio" layoutX="179.0" layoutY="50.0" mnemonicParsing="false" text="Bloodwork" toggleGroup="$in_or_out">
                                     <HBox.margin>
                                         <Insets left="50.0" top="20.0" />
                                     </HBox.margin>

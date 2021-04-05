@@ -1,10 +1,13 @@
 package main.Controller;
 
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import main.Controller.Util.GeneralController;
+import main.DAO.AppointmentDAO;
 import main.DAO.UserDAO;
+import main.Model.Appointment;
 import main.Model.User;
 import main.Util.DBConnector;
 import main.Util.DBQuery;
@@ -20,6 +23,11 @@ import java.time.LocalDateTime;
 import java.time.temporal.TemporalUnit;
 import java.util.*;
 
+/**
+ * @author Michael Williams - 001221520
+ *
+ * This class controls and handles all processes related to the 'LoginForm.fxml' page.
+ */
 public class LoginController implements Initializable {
 
 
@@ -62,7 +70,8 @@ public class LoginController implements Initializable {
     }
 
     /**
-     *
+     * Checks the database for a user with the username and password given. If on is found, the user is stored in a
+     * static variable so it can be used across the application.
      * @param actionEvent
      * @throws IOException
      */
@@ -84,6 +93,21 @@ public class LoginController implements Initializable {
             if (globalUser != null){
                 writeLoginSuccessToFile(globalUser.getUserName());
                 GeneralController.changePage(actionEvent, "Main");
+
+
+
+                if (!Objects.requireNonNull(AppointmentDAO.isAppointmentInNext15Minutes()).isEmpty()){
+                    ObservableList<Appointment> apptUpcoming = AppointmentDAO.isAppointmentInNext15Minutes();
+                    for (Appointment a: Objects.requireNonNull(apptUpcoming)){
+                        Alert alert = GeneralController.alertUser(Alert.AlertType.INFORMATION,"Welcome","Upcoming Appointment",a.getApptId()+" | "+a.getApptStart());
+                        alert.showAndWait();
+                    }
+                }else {
+                    Alert alert = GeneralController.alertUser(Alert.AlertType.INFORMATION,"Welcome","Upcoming Appointment","There are no upcoming appointments");
+                    alert.showAndWait();
+                }
+
+
             } else {
                     writeLoginFailureToFile(usernameTextfield.getText());
                     Alert alert = GeneralController.alertUser(Alert.AlertType.ERROR,rb.getString("loginErrorTitle"),rb.getString("loginErrorHeader"),rb.getString("loginErrorContent"));
@@ -97,7 +121,7 @@ public class LoginController implements Initializable {
     }
 
     /**
-     *
+     * Closes the database and the application.
      * @param actionEvent
      */
     public void exit(ActionEvent actionEvent) {
@@ -106,7 +130,7 @@ public class LoginController implements Initializable {
     }
 
     /**
-     *
+     * Getter for the globalUser variable
      * @return
      */
     public static User getGlobalUser() {
@@ -114,7 +138,7 @@ public class LoginController implements Initializable {
     }
 
     /**
-     *
+     * Setter for the globalUser variable
      * @param user
      */
     public static void setGlobalUser(User user) {
@@ -122,7 +146,7 @@ public class LoginController implements Initializable {
     }
 
     /**
-     *
+     * Writes a successful login to the 'login_activity.txt' file
      * @param username
      * @throws IOException
      */
@@ -137,7 +161,7 @@ public class LoginController implements Initializable {
     }
 
     /**
-     *
+     * Writes an unsuccessful login to the 'login_activity.txt' file
      * @param username
      * @throws IOException
      */

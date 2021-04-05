@@ -5,6 +5,8 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderStroke;
 import main.Controller.Util.GeneralController;
 import main.DAO.AppointmentDAO;
 import main.DAO.ContactDAO;
@@ -14,17 +16,29 @@ import main.Exception.ValidationException;
 import main.Model.Appointment;
 import main.Model.Contact;
 import main.Model.Customer;
-import main.Util.TimeConverter;
+import main.Util.DBConnector;
+import main.Util.DBQuery;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.*;
 
-
+/**
+ * @author Michael Williams - 001221520
+ *<br>
+ * This class controls and handles all processes related to the 'AppointmentForm.fxml' page.
+ *<br>
+ * LAMBDA EXPRESSIONS in this controller simplify creating and updating appointments without having to write repetitive
+ * code to create the new object for any given scenario in the process. This makes it possible to have the objects available
+ * and predetermined, only leaving the Appointment Type, Start time and End Time to be handled during object creation.
+ */
 public class AppointmentFormController implements Initializable {
     public Label headerLbl;
     public TextField id_textfield;
@@ -47,9 +61,39 @@ public class AppointmentFormController implements Initializable {
     private final ObservableList<Customer> customerList = FXCollections.observableArrayList();
     private final ObservableList<Contact> contactList = FXCollections.observableArrayList();
 
+    AppointmentInterface updateAppointment = (type,start, end) -> new Appointment(
+            Integer.parseInt(id_textfield.getText()),
+            title_textfield.getText(),
+            desc_textarea.getText(),
+            location_textfield.getText(),
+            contact_choicebox.getValue().getContactId(),
+            type,
+            Timestamp.valueOf(start),
+            Timestamp.valueOf(end),
+            customer_choicebox.getValue().getCustomerId()
+
+    );
+    AppointmentInterface addAppointment = ((type,start, end) -> new Appointment(
+            title_textfield.getText(),
+            desc_textarea.getText(),
+            location_textfield.getText(),
+            contact_choicebox.getValue().getContactId(),
+            type,
+            Timestamp.valueOf(start),
+            Timestamp.valueOf(end),
+            customer_choicebox.getValue().getCustomerId()
+
+    ));
+
+
+
     public static Appointment appointmentToModify;
 
-
+    /**
+     * Initializes the login form.
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         customerList.addAll(Objects.requireNonNull(CustomerDAO.getAllCustomers()));
@@ -105,7 +149,8 @@ public class AppointmentFormController implements Initializable {
     }
 
     /**
-     *
+     * Checks that all form fields are filled, valid and no appointments fall outside of business hours or overlap.
+     * If all criteria are met, the appointment is stored in the database and the user is taken back to the Main view.
      * @param actionEvent
      * @throws IOException
      */
@@ -114,8 +159,8 @@ public class AppointmentFormController implements Initializable {
         try {
             try{
                 if (isFormComplete()){
-//                    Original data from the choiceboxes is stored here (for test, I store start=8:00 end=22:00 for est, start=7:00 end=21:00 for atlantic, etc.)
-                LocalDateTime start = LocalDateTime.of(start_datepicker.getValue(),start_time_combobox.getValue());
+
+                    LocalDateTime start = LocalDateTime.of(start_datepicker.getValue(),start_time_combobox.getValue());
                 LocalDateTime end = LocalDateTime.of(end_datepicker.getValue(),end_time_combobox.getValue());
 
                 try {
@@ -124,82 +169,46 @@ public class AppointmentFormController implements Initializable {
                         if (appointmentToModify != null) {
 
                             if (physical_radio.isSelected()) {
-                                Appointment appointment = new Appointment(
-                                        Integer.parseInt(id_textfield.getText()),
-                                        title_textfield.getText(),
-                                        desc_textarea.getText(),
-                                        location_textfield.getText(),
-                                        contact_choicebox.getValue().getContactId(),
-                                        "Physical",
-                                        Timestamp.valueOf(start),
-                                        Timestamp.valueOf(end),
-                                        customer_choicebox.getValue().getCustomerId()
 
-                                );
+                                Appointment appointment = updateAppointment.newAppointment("Physical",start,end);
 
                                 if (appointment.isValid() && appointment.isValidTime()) {
 
                                     AppointmentDAO.updateAppointment(appointment);
-                                    GeneralController.changePageFromAppointment(actionEvent, "Main");
+                                    GeneralController.changePage(actionEvent, "Main");
                                 }
                             }
                             if (bloodwork_radio.isSelected()) {
-                                Appointment appointment = new Appointment(
-                                        Integer.parseInt(id_textfield.getText()),
-                                        title_textfield.getText(),
-                                        desc_textarea.getText(),
-                                        location_textfield.getText(),
-                                        contact_choicebox.getValue().getContactId(),
-                                        "Bloodwork",
-                                        Timestamp.valueOf(start),
-                                        Timestamp.valueOf(end),
-                                        customer_choicebox.getValue().getCustomerId()
 
-                                );
+                            Appointment appointment = updateAppointment.newAppointment("Bloodwork",start,end);
 
                                 if (appointment.isValid() && appointment.isValidTime()) {
 
                                     AppointmentDAO.updateAppointment(appointment);
-                                    GeneralController.changePageFromAppointment(actionEvent, "Main");
+                                    GeneralController.changePage(actionEvent, "Main");
                                 }
                             }
                         } else {
 
                             if (physical_radio.isSelected()) {
-//
-                                Appointment appointment = new Appointment(
-                                        title_textfield.getText(),
-                                        desc_textarea.getText(),
-                                        location_textfield.getText(),
-                                        contact_choicebox.getValue().getContactId(),
-                                        "Physical",
-                                        Timestamp.valueOf(start),
-                                        Timestamp.valueOf(end),
-                                        customer_choicebox.getValue().getCustomerId()
 
-                                );
+
+                                Appointment appointment = addAppointment.newAppointment("Physical",start,end);
+
                                 if (appointment.isValid() && appointment.isValidTime()) {
 
                                     AppointmentDAO.addAppointment(appointment);
-                                    GeneralController.changePageFromAppointment(actionEvent, "Main");
+                                    GeneralController.changePage(actionEvent, "Main");
                                 }
                             }
                             if (bloodwork_radio.isSelected()) {
-                                Appointment appointment = new Appointment(
-                                        title_textfield.getText(),
-                                        desc_textarea.getText(),
-                                        location_textfield.getText(),
-                                        contact_choicebox.getValue().getContactId(),
-                                        "Bloodwork",
-                                        Timestamp.valueOf(start),
-                                        Timestamp.valueOf(end),
-                                        customer_choicebox.getValue().getCustomerId()
 
-                                );
+
+                                Appointment appointment = addAppointment.newAppointment("Bloodwork",start,end);
                                 if (appointment.isValid() && appointment.isValidTime()) {
 
                                     AppointmentDAO.addAppointment(appointment);
-                                    GeneralController.changePageFromAppointment(actionEvent, "Main");
+                                    GeneralController.changePage(actionEvent, "Main");
                                 }
                             }
                         }
@@ -223,7 +232,7 @@ public class AppointmentFormController implements Initializable {
     }
 
     /**
-     *
+     * This method cancels the current add/update form and moves the user to the Main view.
      * @param actionEvent
      * @throws IOException
      */
@@ -231,22 +240,9 @@ public class AppointmentFormController implements Initializable {
         GeneralController.changePage(actionEvent,"Main");
     }
 
-    /**
-     *
-     * @param actionEvent
-     */
-    public void physical_selected(ActionEvent actionEvent) {
-    }
 
     /**
-     *
-     * @param actionEvent
-     */
-    public void bloodwork_selected(ActionEvent actionEvent) {
-    }
-
-    /**
-     *
+     * Getter for appointmentToModify variable.
      * @return
      */
     public static Appointment getAppointmentToModify() {
@@ -254,7 +250,7 @@ public class AppointmentFormController implements Initializable {
     }
 
     /**
-     *
+     * Setter for appointmentToModify variable.
      * @param appointmentToModify
      */
     public static void setAppointmentToModify(Appointment appointmentToModify) {
@@ -262,7 +258,7 @@ public class AppointmentFormController implements Initializable {
     }
 
     /**
-     *
+     * Validates that form fields are not left empty.
      * @return
      * @throws NullPointerException
      */
@@ -300,7 +296,7 @@ public class AppointmentFormController implements Initializable {
     }
 
     /**
-     *
+     * Validates that the appointment being updated is not at the same time as another appointment in the database.
      * @param start
      * @param end
      * @return
@@ -316,7 +312,7 @@ public class AppointmentFormController implements Initializable {
     }
 
     /**
-     *
+     * Retrieves a contact from the database by Contact_ID.
      * @param id
      * @return
      */
@@ -337,7 +333,7 @@ public class AppointmentFormController implements Initializable {
     }
 
     /**
-     *
+     * Retrieves a customer from the database by Customer_ID.
      * @param id
      * @return
      */

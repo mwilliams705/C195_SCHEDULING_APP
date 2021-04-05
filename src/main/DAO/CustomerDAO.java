@@ -15,7 +15,7 @@ import java.sql.SQLException;
 public class CustomerDAO {
 
     /**
-     *
+     * This method creates a new customer in the database
      * @param customer
      */
     public static void addCustomer(Customer customer){
@@ -45,42 +45,7 @@ public class CustomerDAO {
     }
 
     /**
-     *
-     * @param id
-     * @return
-     */
-    public static Customer getCustomer(int id){
-        String getCustomerStatement = "SELECT * FROM customers where Customer_ID = ?";
-        Customer customerResult;
-
-        try {
-            DBQuery.setPreparedStatement(DBConnector.getConnection(),getCustomerStatement);
-            PreparedStatement ps = DBQuery.getPreparedStatement();
-            ps.setString(1,String.valueOf(id));
-            ps.execute();
-            ResultSet rs = ps.getResultSet();
-            if (rs.next()){
-                customerResult = new Customer(
-                        rs.getInt("Customer_Id"),
-                        rs.getString("Customer_Name"),
-                        rs.getString("Address"),
-                        rs.getString("Postal_Code"),
-                        rs.getString("Phone"));
-
-                return customerResult;
-            }
-
-
-
-        } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
-            return null;
-        }
-return null;
-    }
-
-    /**
-     *
+     * This method retrieves all customers from the database
      * @return
      */
     public static ObservableList<Customer> getAllCustomers(){
@@ -116,87 +81,8 @@ return null;
     }
 
     /**
-     *
-     * @return
-     */
-    public static ObservableList<Customer> getAllCustomersWithDivisionAndCountryIdsAsText(){
-        String getStatement = "SELECT c.Customer_ID,c.Customer_Name,c.Address,c.Postal_Code,c.Phone,f.division, co.Country\n" +
-                "FROM customers c\n" +
-                "    join first_level_divisions f on c.Division_ID = f.Division_ID\n" +
-                "    join countries co on f.Country_ID = co.country_id;";
-        Customer customerResult;
-        ObservableList<Customer> allCustomers = FXCollections.observableArrayList();
-        try {
-            DBQuery.setPreparedStatement(DBConnector.getConnection(),getStatement);
-            PreparedStatement ps = DBQuery.getPreparedStatement();
-            ps.execute();
-            ResultSet rs = ps.getResultSet();
-
-
-            while (rs.next()){
-                customerResult = new Customer(
-                        rs.getInt("Customer_Id"),
-                        rs.getString("Customer_Name"),
-                        rs.getString("Address"),
-                        rs.getString("Postal_Code"),
-                        rs.getString("Phone"),
-                        rs.getString("Division"),
-                        rs.getString("Country")
-
-                );
-                allCustomers.add(customerResult);
-            }
-
-
-
-        } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
-            return null;
-        }
-        return allCustomers;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public static ObservableList<Customer> getAllCustomersWithDivisionAndCountryIds(){
-        String getStatement = "SELECT c.Customer_ID,c.Customer_Name,c.Address,c.Postal_Code,c.Phone,c.division_id, f.Country_Id\n" +
-                "FROM customers c join first_level_divisions f on c.Division_ID = f.Division_ID;";
-        Customer customerResult;
-        ObservableList<Customer> allCustomers = FXCollections.observableArrayList();
-        try {
-            DBQuery.setPreparedStatement(DBConnector.getConnection(),getStatement);
-            PreparedStatement ps = DBQuery.getPreparedStatement();
-            ps.execute();
-            ResultSet rs = ps.getResultSet();
-
-
-            while (rs.next()){
-                customerResult = new Customer(
-                        rs.getInt("Customer_Id"),
-                        rs.getString("Customer_Name"),
-                        rs.getString("Address"),
-                        rs.getString("Postal_Code"),
-                        rs.getString("Phone"),
-                        rs.getInt("Division_ID"),
-                        rs.getInt("Country_ID")
-
-                );
-                allCustomers.add(customerResult);
-            }
-
-
-
-        } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
-            return null;
-        }
-        return allCustomers;
-    }
-
-    /**
-     *
+     * This method retrieves all customers from the database and joins the country and division names from their respective
+     * tables using the Division and Country id's
      * @return
      */
     public static ObservableList<Customer> getAllCustomersWithDivisionAndCountries(){
@@ -238,7 +124,7 @@ return null;
     }
 
     /**
-     *
+     * This method updates a current customer in the database
      * @param customer
      */
     public static void updateCustomer(Customer customer){
@@ -276,33 +162,7 @@ return null;
     }
 
     /**
-     *
-     * @param id
-     * @return
-     */
-    public static String getDivisionName(int id){
-        String getStatement = "select Division from first_level_divisions where Division_ID = ?;";
-        String divisionResult = null;
-
-        try {
-            DBQuery.setPreparedStatement(DBConnector.getConnection(),getStatement);
-            PreparedStatement ps = DBQuery.getPreparedStatement();
-            ps.setString(1,String.valueOf(id));
-            ps.execute();
-            ResultSet rs = ps.getResultSet();
-            while (rs.next()) {
-                divisionResult = rs.getString("Division");
-            }
-
-            return divisionResult;
-        } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
-            return null;
-        }
-    }
-
-    /**
-     *
+     * This method deletes a customer from the database using the provided id.
      * @param Id
      */
     public static void deleteCustomer(int Id){

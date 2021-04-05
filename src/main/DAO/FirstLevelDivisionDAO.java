@@ -12,7 +12,7 @@ import java.sql.SQLException;
 
 public class FirstLevelDivisionDAO {
     /**
-     *
+     * This method retrieves all divisions from the database which have a matching Country_ID.
      * @param id
      * @return
      */
@@ -45,7 +45,7 @@ public class FirstLevelDivisionDAO {
     }
 
     /**
-     *
+     * This method retrieves all divisions.
      * @return
      */
     public static ObservableList<FirstLevelDivision> getAllDivisions(){
@@ -76,7 +76,7 @@ public class FirstLevelDivisionDAO {
     }
 
     /**
-     *
+     * This method retrieves a division based on its id.
      * @param id
      * @return
      */

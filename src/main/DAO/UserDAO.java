@@ -11,7 +11,7 @@ import java.sql.SQLException;
 public class UserDAO {
 
     /**
-     * This object search finds a user from the database and recreates it with the user_id added to the object.
+     * This method finds a user from the database and recreates it with the user_id added to the object.
      * @param user User object from the login form.
      * @return
      */

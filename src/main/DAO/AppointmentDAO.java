@@ -21,7 +21,7 @@ import java.time.ZonedDateTime;
 public class AppointmentDAO {
 
     /**
-     *
+     * This method returns an appointment based on the appointment id
      * @param id
      * @return
      */
@@ -58,7 +58,7 @@ public class AppointmentDAO {
     }
 
     /**
-     *
+     * This method returns a list from the database of all appointments
      * @return
      */
     public static ObservableList<Appointment> getAllAppointments(){
@@ -99,7 +99,7 @@ public class AppointmentDAO {
     }
 
     /**
-     *
+     * This method returns a list from the database of appointments this week
      * @return
      */
     public static ObservableList<Appointment> getAllAppointmentsThisWeek(){
@@ -140,7 +140,7 @@ public class AppointmentDAO {
     }
 
     /**
-     *
+     * This method returns a list from the database of appointments this month
      * @return
      */
     public static ObservableList<Appointment> getAllAppointmentsThisMonth(){
@@ -181,12 +181,12 @@ public class AppointmentDAO {
     }
 
     /**
-     *
+     * This method check to see if there are any appointments in the next 15 minutes.
      * @return
      */
     public static ObservableList<Appointment> isAppointmentInNext15Minutes(){
-        String getStatement = "select Appointment_ID,Title,Description,Location,Type,Start,End,Customer_ID\n" +
-                "from appointments where Start >= curtime() and Start <= curtime() + interval 15 minute ;";
+        String getStatement = "select Appointment_ID,Title,Description,Location,Contact_ID,Type,Start,End,Customer_ID\n" +
+                "                from appointments where Start >= curtime() and Start <= curtime() + interval 15 minute ;";
         Appointment appointmentWeekResult;
         ObservableList<Appointment> allAppointmentsSoon = FXCollections.observableArrayList();
 
@@ -222,7 +222,7 @@ public class AppointmentDAO {
     }
 
     /**
-     *
+     * This method adds an appointment to the database via the information supplied in the form.
      * @param appointment
      */
     public static void addAppointment(Appointment appointment){
@@ -259,7 +259,7 @@ public class AppointmentDAO {
     }
 
     /**
-     *
+     * This method updates an appointment by the appointment id
      * @param appointment
      */
     public static void updateAppointment(Appointment appointment){
@@ -308,7 +308,7 @@ public class AppointmentDAO {
     }
 
     /**
-     *
+     * This method deletes an appointment by the appointment id
      * @param id
      */
     public static void deleteAppointment(int id){
@@ -333,7 +333,7 @@ public class AppointmentDAO {
     }
 
     /**
-     *
+     * This method searches the appointments table and checks if any appointments have matching appointment times
      * @param start
      * @param end
      * @return
@@ -386,5 +386,40 @@ public class AppointmentDAO {
         return overlappedApptsResult;
     }
 
+    public static boolean customerHasAppointments(int id){
+        String getStatement = "select * from appointments where Customer_ID = ?;";
+        try {
+            DBQuery.setPreparedStatement(DBConnector.getConnection(),getStatement);
+            PreparedStatement ps = DBQuery.getPreparedStatement();
+            ps.setInt(1,id);
+            ResultSet rs = ps.getResultSet();
+            ps.execute();
+            if (rs == null) {
+              return true;
+            }
+
+        }catch (SQLException s){
+            s.printStackTrace();
+        }
+        return false;
+
+    }
+
+    public static void deleteAllAppointmentsByCustomerID(int id){
+        String getStatement = "delete from appointments where Customer_ID = ?;";
+
+        try {
+            DBQuery.setPreparedStatement(DBConnector.getConnection(),getStatement);
+            PreparedStatement ps = DBQuery.getPreparedStatement();
+            ps.setInt(1,id);
+            ps.execute();
+            if (ps.getUpdateCount()>0){
+                System.out.println(ps.getUpdateCount()+" row(s) affected.");
+            }
+
+        }catch (SQLException s){
+            s.printStackTrace();
+        }
+    }
 
 }

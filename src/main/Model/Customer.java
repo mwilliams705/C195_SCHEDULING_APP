@@ -1,7 +1,11 @@
 package main.Model;
 
 import main.Exception.ValidationException;
-
+/**
+ * @author Michael Williams - 001221520
+ *
+ * This class handles Customer objects
+ */
 public class Customer {
 
     private int customerId;
@@ -14,7 +18,15 @@ public class Customer {
     private int customerCountry;
     private String customerCountryText;
 
-
+    /**
+     * Custom Args Constructor
+     * @param customerId Customer ID
+     * @param customerName Customer Name
+     * @param customerAddress Customer Address
+     * @param customerZipcode Customer Zipcode
+     * @param customerPhone Customer Phone
+     * @param customerDivision Customer Division
+     */
     public Customer(int customerId, String customerName, String customerAddress, String customerZipcode, String customerPhone, int customerDivision) {
         this.customerId = customerId;
         this.customerName = customerName;
@@ -24,6 +36,16 @@ public class Customer {
         this.customerDivision = customerDivision;
     }
 
+    /**
+     * Custom Args Constructor
+     * @param customerId Customer ID
+     * @param customerName Customer Name
+     * @param customerAddress Customer Address
+     * @param customerZipcode Customer Zipcode
+     * @param customerPhone Customer Phone
+     * @param customerDivision Customer Division
+     * @param customerCountry Customer Country
+     */
     public Customer(int customerId, String customerName, String customerAddress, String customerZipcode, String customerPhone, int customerDivision, int customerCountry) {
         this.customerId = customerId;
         this.customerName = customerName;
@@ -34,16 +56,18 @@ public class Customer {
         this.customerCountry = customerCountry;
     }
 
-    public Customer(int customerId, String customerName, String customerAddress, String customerZipcode, String customerPhone, String customerDivisionText, String customerCountryText) {
-        this.customerId = customerId;
-        this.customerName = customerName;
-        this.customerAddress = customerAddress;
-        this.customerZipcode = customerZipcode;
-        this.customerPhone = customerPhone;
-        this.customerDivisionText = customerDivisionText;
-        this.customerCountryText = customerCountryText;
-    }
-
+    /**
+     * All Args Constructor
+     * @param customerId Customer ID
+     * @param customerName Customer Name
+     * @param customerAddress Customer Address
+     * @param customerZipcode Customer Zipcode
+     * @param customerPhone Customer Phone
+     * @param customerDivisionText Customer Division (Text)
+     * @param customerCountryText Customer Country (Text)
+     * @param customerDivision Customer Division
+     * @param customerCountry Customer Country
+     */
     public Customer(int customerId, String customerName, String customerAddress, String customerZipcode, String customerPhone, String customerDivisionText, String customerCountryText,int customerDivision,int customerCountry) {
         this.customerId = customerId;
         this.customerName = customerName;
@@ -56,6 +80,34 @@ public class Customer {
         this.customerDivision = customerDivision;
     }
 
+    /**
+     * Custom Args Constructor
+     * @param customerId Customer ID
+     * @param customerName Customer Name
+     * @param customerAddress Customer Address
+     * @param customerZipcode Customer Zipcode
+     * @param customerPhone Customer Phone
+     * @param customerDivisionText Customer Division (Text)
+     * @param customerCountryText Customer Country (Text)
+     */
+    public Customer(int customerId, String customerName, String customerAddress, String customerZipcode, String customerPhone, String customerDivisionText, String customerCountryText) {
+        this.customerId = customerId;
+        this.customerName = customerName;
+        this.customerAddress = customerAddress;
+        this.customerZipcode = customerZipcode;
+        this.customerPhone = customerPhone;
+        this.customerDivisionText = customerDivisionText;
+        this.customerCountryText = customerCountryText;
+    }
+
+    /**
+     * Custom Args Constructor
+     * @param customerId Customer ID
+     * @param customerName Customer Name
+     * @param customerAddress Customer Address
+     * @param customerZipcode Customer Zipcode
+     * @param customerPhone Customer Phone
+     */
     public Customer(int customerId, String customerName, String customerAddress, String customerZipcode, String customerPhone) {
         this.customerId = customerId;
         this.customerName = customerName;
@@ -64,6 +116,15 @@ public class Customer {
         this.customerPhone = customerPhone;
     }
 
+    /**
+     * Custom Args Constructor
+
+     * @param customerName Customer Name
+     * @param customerAddress Customer Address
+     * @param customerZipcode Customer Zipcode
+     * @param customerPhone Customer Phone
+     * @param customerDivision Customer Division
+     */
     public Customer(String customerName, String customerAddress, String customerZipcode, String customerPhone, int customerDivision) {
         this.customerName = customerName;
         this.customerAddress = customerAddress;
@@ -72,6 +133,14 @@ public class Customer {
         this.customerDivision = customerDivision;
     }
 
+    /**
+     * Custom Args Constructor
+     * @param customerName Customer Name
+     * @param customerAddress Customer Address
+     * @param customerZipcode Customer Zipcode
+     * @param customerPhone Customer Phone
+     * @param customerDivisionText Customer Division (Text)
+     */
     public Customer(String customerName, String customerAddress, String customerZipcode, String customerPhone, String customerDivisionText) {
         this.customerName = customerName;
         this.customerAddress = customerAddress;
@@ -81,79 +150,154 @@ public class Customer {
     }
 
 
-
+    /**
+     *
+     * @return Customer ID
+     */
     public int getCustomerId() {
         return customerId;
     }
 
+    /**
+     *
+     * @param customerId Customer ID
+     */
     public void setCustomerId(int customerId) {
         this.customerId = customerId;
     }
 
+    /**
+     *
+     * @return Customer Name
+     */
     public String getCustomerName() {
         return customerName;
     }
 
+    /**
+     *
+     * @param customerName Customer Name
+     */
     public void setCustomerName(String customerName) {
         this.customerName = customerName;
     }
 
+    /**
+     *
+     * @return Customer Address
+     */
     public String getCustomerAddress() {
         return customerAddress;
     }
 
+    /**
+     *
+     * @param customerAddress Customer Address
+     */
     public void setCustomerAddress(String customerAddress) {
         this.customerAddress = customerAddress;
     }
 
+    /**
+     *
+     * @return Customer Zipcode
+     */
     public String getCustomerZipcode() {
         return customerZipcode;
     }
 
+    /**
+     *
+     * @param customerZipcode Customer Zipcode
+     */
     public void setCustomerZipcode(String customerZipcode) {
         this.customerZipcode = customerZipcode;
     }
 
+    /**
+     *
+     * @return Customer Phone
+     */
     public String getCustomerPhone() {
         return customerPhone;
     }
 
+    /**
+     *
+     * @param customerPhone Customer Phone
+     */
     public void setCustomerPhone(String customerPhone) {
         this.customerPhone = customerPhone;
     }
 
+    /**
+     *
+     * @return Customer Division
+     */
     public int getCustomerDivision() {
         return customerDivision;
     }
 
+    /**
+     *
+     * @param customerDivision Customer Division
+     */
     public void setCustomerDivision(int customerDivision) {
         this.customerDivision = customerDivision;
     }
 
+    /**
+     *
+     * @return Customer Division as Text
+     */
     public String getCustomerDivisionText() {
         return customerDivisionText;
     }
 
+    /**
+     *
+     * @param customerDivisionText Customer Division as Text
+     */
     public void setCustomerDivisionText(String customerDivisionText) {
         this.customerDivisionText = customerDivisionText;
     }
 
+    /**
+     *
+     * @return Customer Country
+     */
     public int getCustomerCountry() {
         return customerCountry;
     }
 
+    /**
+     *
+     * @param customerCountry Customer Country
+     */
     public void setCustomerCountry(int customerCountry) {
         this.customerCountry = customerCountry;
     }
 
+    /**
+     *
+     * @return Customer Country as Text
+     */
     public String getCustomerCountryText() {
         return customerCountryText;
     }
 
+    /**
+     *
+     * @param customerCountryText Customer Country as Text
+     */
     public void setCustomerCountryText(String customerCountryText) {
         this.customerCountryText = customerCountryText;
     }
 
+    /**
+     * Custom toString method "#: customer name"
+     * @return
+     */
     @Override
     public String toString() {
         return customerId+": "+customerName;

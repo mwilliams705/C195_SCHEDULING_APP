@@ -41,21 +41,6 @@ public class GeneralController {
 
     }
 
-    /**
-     *
-     * @param actionEvent
-     * @param pageName
-     * @throws IOException
-     */
-    public static void changePageFromAppointment(ActionEvent actionEvent, String pageName) throws IOException {
-        DBConnector.startConnection();
-        Parent root = FXMLLoader.load(GeneralController.class.getResource("/main/View/"+pageName+".fxml"));
-        Scene scene = new Scene(root);
-        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        stage.setScene(scene);
-        stage.show();
-
-    }
 
     /**
      * This static method minimized the code needed to alert the user on any given view in the application.
@@ -76,7 +61,7 @@ public class GeneralController {
     }
 
     /**
-     *
+     * This method creates a tab in the MainTabPane which moves the user back to the customer tab on closing the created tab
      * @param tabPane
      * @param tabName
      * @param pageName
@@ -98,7 +83,7 @@ public class GeneralController {
     }
 
     /**
-     *
+     *This method creates a tab in the MainTabPane which moves the user back to the appointment tab on closing the created tab
      * @param tabPane
      * @param tabName
      * @param pageName
@@ -120,7 +105,7 @@ public class GeneralController {
     }
 
     /**
-     *
+     * This method creates a tab in the MainTabPane which moves the user back to the report tab on closing the created tab
      * @param tabPane
      * @param tabName
      * @param pageName
