@@ -54,6 +54,9 @@ public class ReportTwoController implements Initializable {
         buildLLScheduleReportTable();
     }
 
+    /**
+     *
+     */
     public void buildACScheduleReportTable(){
         String getStatement = "select con.Contact_Name, apt.Appointment_ID , apt.Title, apt.Description,apt.Start,apt.End, Customer_ID\n" +
                 "from appointments apt join contacts con on apt.Contact_ID = con.Contact_ID where apt.Contact_ID = 1 order by con.Contact_ID, apt.Start;";
@@ -95,6 +98,10 @@ public class ReportTwoController implements Initializable {
 
 
     }
+
+    /**
+     *
+     */
     public void buildDGScheduleReportTable(){
         String getStatement = "select con.Contact_Name, apt.Appointment_ID , apt.Title, apt.Description,apt.Start,apt.End, Customer_ID\n" +
                 "from appointments apt join contacts con on apt.Contact_ID = con.Contact_ID where apt.Contact_ID = 2 order by con.Contact_ID, apt.Start;";
@@ -136,6 +143,10 @@ public class ReportTwoController implements Initializable {
 
 
     }
+
+    /**
+     *
+     */
     public void buildLLScheduleReportTable(){
         String getStatement = "select con.Contact_Name, apt.Appointment_ID , apt.Title, apt.Description,apt.Start,apt.End, Customer_ID\n" +
                 "from appointments apt join contacts con on apt.Contact_ID = con.Contact_ID where apt.Contact_ID = 3 order by con.Contact_ID, apt.Start;";

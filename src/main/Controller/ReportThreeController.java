@@ -21,6 +21,11 @@ import java.util.ResourceBundle;
 public class ReportThreeController implements Initializable {
     public VBox reportThreeVBOX;
 
+    /**
+     * Generates a pie chart from from database query and shows it in the VBOX.
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         PieChart p = new PieChart();

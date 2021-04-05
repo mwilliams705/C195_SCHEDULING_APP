@@ -99,7 +99,11 @@ public class CustomerFormController implements Initializable {
         }
     }
 
-
+    /**
+     *
+     * @param actionEvent
+     * @throws IOException
+     */
     public void save(ActionEvent actionEvent) throws IOException {
 
 
@@ -167,7 +171,11 @@ public class CustomerFormController implements Initializable {
 
     }
 
-
+    /**
+     *
+     * @param actionEvent
+     * @throws IOException
+     */
     public void cancel(ActionEvent actionEvent) throws IOException {
 
         GeneralController.changePage(actionEvent,"Main");
@@ -179,19 +187,29 @@ public class CustomerFormController implements Initializable {
 //    ==================Getters & Setters===============================================================================
 //    ==================================================================================================================
 
+    /**
+     *
+     * @return
+     */
     public Customer getCustomerToModify() {
         return customerToModify;
     }
 
 
-
+    /**
+     *
+     * @param customerToModify
+     */
     public void setCustomerToModify(Customer customerToModify) {
         this.customerToModify = customerToModify;
     }
 
 
-
-
+    /**
+     *
+     * @return
+     * @throws NullPointerException
+     */
     public boolean isFormComplete() throws NullPointerException{
 
         if (name_textfield.getText().equals("")){
@@ -217,6 +235,11 @@ public class CustomerFormController implements Initializable {
         return true;
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     */
     private Country getCountryById(int id){
         Country country = null;
 
@@ -231,6 +254,11 @@ public class CustomerFormController implements Initializable {
         return country;
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     */
     private FirstLevelDivision getDivisionById(int id){
         FirstLevelDivision fld = null;
         for (FirstLevelDivision f :
@@ -244,6 +272,11 @@ public class CustomerFormController implements Initializable {
         return fld;
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     */
     private ObservableList<FirstLevelDivision> getDivisionsByCountryId(int id){
         ObservableList<FirstLevelDivision> fldList = FXCollections.observableArrayList();
 

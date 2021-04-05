@@ -28,6 +28,9 @@ public class ReportOneController implements Initializable {
         buildAppointmentsByWeekBarChart();
     }
 
+    /**
+     *
+     */
     public void buildAppointmentsByWeekBarChart(){
 
         monthAxis = new CategoryAxis();

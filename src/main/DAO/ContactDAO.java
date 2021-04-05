@@ -11,7 +11,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class ContactDAO {
-
+    /**
+     * Get all contacts from the database.
+     * @return ObservableList
+     */
     public static ObservableList<Contact> getAllContacts(){
         String getStatement = "SELECT CONTACT_ID,Contact_Name,Email from contacts";
         ObservableList<Contact> contactResults = FXCollections.observableArrayList();

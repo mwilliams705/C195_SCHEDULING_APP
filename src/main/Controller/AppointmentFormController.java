@@ -104,6 +104,11 @@ public class AppointmentFormController implements Initializable {
 
     }
 
+    /**
+     *
+     * @param actionEvent
+     * @throws IOException
+     */
     public void save(ActionEvent actionEvent) throws IOException {
 
         try {
@@ -217,24 +222,50 @@ public class AppointmentFormController implements Initializable {
 
     }
 
+    /**
+     *
+     * @param actionEvent
+     * @throws IOException
+     */
     public void cancel(ActionEvent actionEvent) throws IOException {
         GeneralController.changePage(actionEvent,"Main");
     }
 
+    /**
+     *
+     * @param actionEvent
+     */
     public void physical_selected(ActionEvent actionEvent) {
     }
 
+    /**
+     *
+     * @param actionEvent
+     */
     public void bloodwork_selected(ActionEvent actionEvent) {
     }
 
+    /**
+     *
+     * @return
+     */
     public static Appointment getAppointmentToModify() {
         return appointmentToModify;
     }
 
+    /**
+     *
+     * @param appointmentToModify
+     */
     public static void setAppointmentToModify(Appointment appointmentToModify) {
         AppointmentFormController.appointmentToModify = appointmentToModify;
     }
 
+    /**
+     *
+     * @return
+     * @throws NullPointerException
+     */
     public boolean isFormComplete() throws NullPointerException{
 
         if (title_textfield.getText().equals("")){
@@ -268,6 +299,13 @@ public class AppointmentFormController implements Initializable {
         return true;
     }
 
+    /**
+     *
+     * @param start
+     * @param end
+     * @return
+     * @throws BusinessHoursException
+     */
     public boolean isAppointmentOverlapping(LocalDateTime start,LocalDateTime end) throws BusinessHoursException {
 
         ObservableList<Appointment> overlappingAppt = AppointmentDAO.getOverlappingAppts(start, end);
@@ -277,6 +315,11 @@ public class AppointmentFormController implements Initializable {
         return true;
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     */
     private Contact getContactById(int id){
             Contact con = null;
 
@@ -293,6 +336,11 @@ public class AppointmentFormController implements Initializable {
         return con;
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     */
     private Customer getCustomerById(int id){
             Customer cust = null;
 

@@ -10,6 +10,11 @@ import java.sql.SQLException;
 
 public class UserDAO {
 
+    /**
+     * This object search finds a user from the database and recreates it with the user_id added to the object.
+     * @param user User object from the login form.
+     * @return
+     */
     public static User getUser(User user){
         String getStatement = "Select User_ID,User_Name,Password from users where lower(User_Name) = ? and lower(Password) = ?;";
 

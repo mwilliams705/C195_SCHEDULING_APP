@@ -14,6 +14,10 @@ import java.sql.SQLException;
 
 public class CustomerDAO {
 
+    /**
+     *
+     * @param customer
+     */
     public static void addCustomer(Customer customer){
         String getStatement = "insert into customers(Customer_Name, Address, Postal_Code, Phone, Create_Date, Created_By, Last_Update, Last_Updated_By, Division_ID)\n" +
                 "values (?,?,?,?,NOW(),?,NOW(),?,?);";
@@ -40,6 +44,11 @@ public class CustomerDAO {
         }
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     */
     public static Customer getCustomer(int id){
         String getCustomerStatement = "SELECT * FROM customers where Customer_ID = ?";
         Customer customerResult;
@@ -70,6 +79,10 @@ public class CustomerDAO {
 return null;
     }
 
+    /**
+     *
+     * @return
+     */
     public static ObservableList<Customer> getAllCustomers(){
         String getCustomerStatement = "SELECT Customer_ID,Customer_Name,Address,Postal_Code,Phone, division_id FROM customers";
         Customer customerResult;
@@ -102,7 +115,10 @@ return null;
         return allCustomers;
     }
 
-
+    /**
+     *
+     * @return
+     */
     public static ObservableList<Customer> getAllCustomersWithDivisionAndCountryIdsAsText(){
         String getStatement = "SELECT c.Customer_ID,c.Customer_Name,c.Address,c.Postal_Code,c.Phone,f.division, co.Country\n" +
                 "FROM customers c\n" +
@@ -140,7 +156,10 @@ return null;
         return allCustomers;
     }
 
-
+    /**
+     *
+     * @return
+     */
     public static ObservableList<Customer> getAllCustomersWithDivisionAndCountryIds(){
         String getStatement = "SELECT c.Customer_ID,c.Customer_Name,c.Address,c.Postal_Code,c.Phone,c.division_id, f.Country_Id\n" +
                 "FROM customers c join first_level_divisions f on c.Division_ID = f.Division_ID;";
@@ -176,7 +195,10 @@ return null;
         return allCustomers;
     }
 
-
+    /**
+     *
+     * @return
+     */
     public static ObservableList<Customer> getAllCustomersWithDivisionAndCountries(){
         String getCustomerStatement = "SELECT c.Customer_ID,c.Customer_Name,c.Address,c.Postal_Code,c.Phone,f.division, co.Country,c.Division_ID,f.COUNTRY_ID\n" +
                 "FROM customers c\n" +
@@ -215,10 +237,10 @@ return null;
         return allCustomers;
     }
 
-
-
-
-
+    /**
+     *
+     * @param customer
+     */
     public static void updateCustomer(Customer customer){
 
         String getStatement = "update customers set Customer_Name = ?,\n" +
@@ -253,6 +275,11 @@ return null;
 
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     */
     public static String getDivisionName(int id){
         String getStatement = "select Division from first_level_divisions where Division_ID = ?;";
         String divisionResult = null;
@@ -273,7 +300,11 @@ return null;
             return null;
         }
     }
-//
+
+    /**
+     *
+     * @param Id
+     */
     public static void deleteCustomer(int Id){
         String getStatement = "delete from customers where Customer_ID = ?";
 

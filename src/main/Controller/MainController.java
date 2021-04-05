@@ -112,6 +112,9 @@ public class MainController implements Initializable {
         }
     }
 
+    /**
+     *
+     */
     public void buildTables(){
         FilteredList<Customer> filteredCustomerList = new FilteredList<>(Objects.requireNonNull(CustomerDAO.getAllCustomersWithDivisionAndCountries()));
         customers_table.setItems(filteredCustomerList);
@@ -173,6 +176,12 @@ public class MainController implements Initializable {
 //    ==================================================================================================================
 //    ==================Customers=======================================================================================
 //    ==================================================================================================================
+
+    /**
+     *
+     * @param actionEvent
+     * @throws IOException
+     */
     public void addCustomer(ActionEvent actionEvent) throws IOException {
         modifyCustomer = null;
 //        GeneralController.changePage(actionEvent,"CustomerForm");
@@ -180,6 +189,11 @@ public class MainController implements Initializable {
 
     }
 
+    /**
+     *
+     * @param actionEvent
+     * @throws IOException
+     */
     public void updateCustomer(ActionEvent actionEvent) throws IOException {
         modifyCustomer = customers_table.getSelectionModel().getSelectedItem();
 //        GeneralController.changePage(actionEvent,"CustomerForm");
@@ -187,6 +201,11 @@ public class MainController implements Initializable {
 
     }
 
+    /**
+     *
+     * @param actionEvent
+     * @throws IOException
+     */
     public void deleteCustomer(ActionEvent actionEvent) throws IOException {
         modifyCustomer = customers_table.getSelectionModel().getSelectedItem();
 
@@ -204,11 +223,22 @@ public class MainController implements Initializable {
 //    ==================================================================================================================
 //    ==================Appointments====================================================================================
 //    ==================================================================================================================
+
+    /**
+     *
+     * @param actionEvent
+     * @throws IOException
+     */
     public void addAppointment(ActionEvent actionEvent) throws IOException {
         modifyAppointment = null;
         GeneralController.addCloseableTabWithAppointmentFormViewAndMoveTo(mainTabPane,"New Appointment","AppointmentForm");
     }
 
+    /**
+     *
+     * @param actionEvent
+     * @throws IOException
+     */
     public void updateAppointment(ActionEvent actionEvent)throws IOException {
         try {
             modifyAppointment = appt_all_table.getSelectionModel().getSelectedItem();
@@ -230,6 +260,11 @@ public class MainController implements Initializable {
         }
     }
 
+    /**
+     *
+     * @param actionEvent
+     * @throws IOException
+     */
     public void deleteAppointment(ActionEvent actionEvent) throws IOException {
 
         try {
@@ -280,31 +315,62 @@ public class MainController implements Initializable {
 //    ==================================================================================================================
 //    ==================Getters & Setters===============================================================================
 //    ==================================================================================================================
+
+    /**
+     *
+     * @return
+     */
     public static Customer getModifyCustomer() {
         return modifyCustomer;
     }
 
+    /**
+     *
+     * @param modifyCustomer
+     */
     public static void setModifyCustomer(Customer modifyCustomer) {
         MainController.modifyCustomer = modifyCustomer;
     }
 
+    /**
+     *
+     * @return
+     */
     public static Appointment getModifyAppointment() {
         return modifyAppointment;
     }
 
+    /**
+     *
+     * @param modifyAppointment
+     */
     public static void setModifyAppointment(Appointment modifyAppointment) {
         MainController.modifyAppointment = modifyAppointment;
     }
 
+    /**
+     *
+     * @param actionEvent
+     * @throws IOException
+     */
     public void openApptsByTypeReport(ActionEvent actionEvent) throws IOException {
         GeneralController.addCloseableTabWithReportFormViewAndMoveTo(mainTabPane,"Appointments By Type","ReportOne");
     }
 
+    /**
+     *
+     * @param actionEvent
+     * @throws IOException
+     */
     public void openContactScheduleReport(ActionEvent actionEvent) throws IOException {
         GeneralController.addCloseableTabWithReportFormViewAndMoveTo(mainTabPane,"Contact Schedules","ReportTwo");
     }
 
-
+    /**
+     *
+     * @param actionEvent
+     * @throws IOException
+     */
     public void OpenTotalApptsByType(ActionEvent actionEvent) throws IOException {
         GeneralController.addCloseableTabWithReportFormViewAndMoveTo(mainTabPane,"Total Appointments By Type","ReportThree");
     }

@@ -11,7 +11,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class FirstLevelDivisionDAO {
-
+    /**
+     *
+     * @param id
+     * @return
+     */
     public static ObservableList<FirstLevelDivision> getAllDivisionsByCountryId(int id){
         String getStatement = "select Division,Division_ID,Country_ID from first_level_divisions where country_id = ?;";
         ObservableList<FirstLevelDivision> fldList = FXCollections.observableArrayList();
@@ -40,6 +44,10 @@ public class FirstLevelDivisionDAO {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public static ObservableList<FirstLevelDivision> getAllDivisions(){
         String getStatement = "SELECT Division_ID,Division,Country_ID FROM first_level_divisions";
         ObservableList<FirstLevelDivision> divisionResults = FXCollections.observableArrayList();
@@ -67,6 +75,11 @@ public class FirstLevelDivisionDAO {
 
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     */
     public static FirstLevelDivision getDivisionById(int id){
         String getStatement = "select Division_Id, Division, Country_Id from first_level_divisions where division_id = ?;";
         try {

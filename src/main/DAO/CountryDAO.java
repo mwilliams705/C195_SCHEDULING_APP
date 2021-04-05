@@ -40,6 +40,10 @@ public class CountryDAO {
 
     }
 
+    /**
+     * Get a country from the database searching by ID.
+     * @return Country
+     */
     public static Country getCountryById(int id){
         String getStatement = "select Country_ID,Country from countries where country_id = ?;";
         try {

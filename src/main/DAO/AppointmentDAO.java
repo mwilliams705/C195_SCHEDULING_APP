@@ -20,6 +20,11 @@ import java.time.ZonedDateTime;
 
 public class AppointmentDAO {
 
+    /**
+     *
+     * @param id
+     * @return
+     */
     public static Appointment getAppointment(int id){
 
         String getCustomerStatement = "SELECT * FROM appointments where Customer_ID = ?";
@@ -52,6 +57,10 @@ public class AppointmentDAO {
 
     }
 
+    /**
+     *
+     * @return
+     */
     public static ObservableList<Appointment> getAllAppointments(){
         String getStatement = "select Appointment_ID,Title,Description,Location,Contact_Id,Type,Start,End,Customer_ID from appointments;";
         Appointment appointmentAllResult;
@@ -89,6 +98,10 @@ public class AppointmentDAO {
         return allAppointments;
     }
 
+    /**
+     *
+     * @return
+     */
     public static ObservableList<Appointment> getAllAppointmentsThisWeek(){
         String getStatement = "select Appointment_ID,Title,Description,Location,Contact_Id,Type,Start,End,Customer_ID\n" +
                 "from appointments where Start >CURDATE() and Start < CURDATE() + interval 7 day;";
@@ -126,6 +139,10 @@ public class AppointmentDAO {
         return allAppointmentsThisWeek;
     }
 
+    /**
+     *
+     * @return
+     */
     public static ObservableList<Appointment> getAllAppointmentsThisMonth(){
         String getStatement = "select Appointment_ID,Title,Description,Location,Contact_Id,Type,Start,End,Customer_ID\n" +
                 "from appointments where Start >CURDATE() and Start < CURDATE() + interval 30 day;";
@@ -163,6 +180,10 @@ public class AppointmentDAO {
         return allAppointmentsThisWeek;
     }
 
+    /**
+     *
+     * @return
+     */
     public static ObservableList<Appointment> isAppointmentInNext15Minutes(){
         String getStatement = "select Appointment_ID,Title,Description,Location,Type,Start,End,Customer_ID\n" +
                 "from appointments where Start >= curtime() and Start <= curtime() + interval 15 minute ;";
@@ -200,6 +221,10 @@ public class AppointmentDAO {
 
     }
 
+    /**
+     *
+     * @param appointment
+     */
     public static void addAppointment(Appointment appointment){
 
         String getStatement = "insert into appointments(Title, Description, Location, Type, Start,End,Create_Date, Created_By,Last_Update, Last_Updated_By, Customer_ID, User_ID, Contact_ID)\n" +
@@ -233,6 +258,10 @@ public class AppointmentDAO {
 
     }
 
+    /**
+     *
+     * @param appointment
+     */
     public static void updateAppointment(Appointment appointment){
         String getStatement = "update appointments set Title = ?,\n" +
                 "                        Description = ?,\n" +
@@ -278,6 +307,10 @@ public class AppointmentDAO {
 
     }
 
+    /**
+     *
+     * @param id
+     */
     public static void deleteAppointment(int id){
         String getCustomerStatement = "DELETE FROM appointments where appointment_id = ?";
 
@@ -299,6 +332,12 @@ public class AppointmentDAO {
         }
     }
 
+    /**
+     *
+     * @param start
+     * @param end
+     * @return
+     */
     public static ObservableList<Appointment> getOverlappingAppts(LocalDateTime start, LocalDateTime end) {
 
         String getStatement = "SELECT * FROM appointments "

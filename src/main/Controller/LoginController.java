@@ -61,6 +61,11 @@ public class LoginController implements Initializable {
         }
     }
 
+    /**
+     *
+     * @param actionEvent
+     * @throws IOException
+     */
     public void login(ActionEvent actionEvent) throws IOException {
         ResourceBundle rb = ResourceBundle.getBundle("main/Nat", Locale.getDefault());
 
@@ -91,19 +96,36 @@ public class LoginController implements Initializable {
 
     }
 
+    /**
+     *
+     * @param actionEvent
+     */
     public void exit(ActionEvent actionEvent) {
         DBConnector.closeConnection();
         System.exit(0);
     }
 
+    /**
+     *
+     * @return
+     */
     public static User getGlobalUser() {
         return globalUser;
     }
 
+    /**
+     *
+     * @param user
+     */
     public static void setGlobalUser(User user) {
         LoginController.globalUser = user;
     }
 
+    /**
+     *
+     * @param username
+     * @throws IOException
+     */
     public void writeLoginSuccessToFile(String username) throws IOException{
         String logString = "Login Attempt [User: "+ username +" | Date: "+ LocalDate.now() +" | Timestamp: "+ Timestamp.valueOf(LocalDateTime.now()) +" | Login Success]";
 
@@ -114,6 +136,11 @@ public class LoginController implements Initializable {
 
     }
 
+    /**
+     *
+     * @param username
+     * @throws IOException
+     */
     public void writeLoginFailureToFile(String username) throws IOException{
         String logString = "Login Attempt [User: "+ username +" | Date: "+ LocalDate.now() +" | Timestamp: "+ Timestamp.valueOf(LocalDateTime.now()) +" | Login Failed]";
 

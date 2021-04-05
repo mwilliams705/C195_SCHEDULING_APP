@@ -41,6 +41,12 @@ public class GeneralController {
 
     }
 
+    /**
+     *
+     * @param actionEvent
+     * @param pageName
+     * @throws IOException
+     */
     public static void changePageFromAppointment(ActionEvent actionEvent, String pageName) throws IOException {
         DBConnector.startConnection();
         Parent root = FXMLLoader.load(GeneralController.class.getResource("/main/View/"+pageName+".fxml"));
@@ -69,6 +75,13 @@ public class GeneralController {
         return alert;
     }
 
+    /**
+     *
+     * @param tabPane
+     * @param tabName
+     * @param pageName
+     * @throws IOException
+     */
     public static void addCloseableTabWithCustomerFormViewAndMoveTo(TabPane tabPane, String tabName, String pageName) throws IOException {
         DBConnector.startConnection();
         SingleSelectionModel<Tab> selectionModel = tabPane.getSelectionModel();
@@ -84,6 +97,13 @@ public class GeneralController {
 
     }
 
+    /**
+     *
+     * @param tabPane
+     * @param tabName
+     * @param pageName
+     * @throws IOException
+     */
     public static void addCloseableTabWithAppointmentFormViewAndMoveTo(TabPane tabPane,String tabName, String pageName) throws IOException {
         DBConnector.startConnection();
         SingleSelectionModel<Tab> selectionModel = tabPane.getSelectionModel();
@@ -99,6 +119,13 @@ public class GeneralController {
 
     }
 
+    /**
+     *
+     * @param tabPane
+     * @param tabName
+     * @param pageName
+     * @throws IOException
+     */
     public static void addCloseableTabWithReportFormViewAndMoveTo(TabPane tabPane,String tabName, String pageName) throws IOException {
         DBConnector.startConnection();
         SingleSelectionModel<Tab> selectionModel = tabPane.getSelectionModel();
@@ -113,10 +140,4 @@ public class GeneralController {
         tab.setOnClosed(e -> tabPane.getSelectionModel().select(tabPane.getTabs().get(3)));
 
     }
-
-//    public static SelectionModel<Tab> MainTabGlobalSelectionModel(TabPane tabPane){
-//
-//    }
-
-
 }
