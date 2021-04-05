@@ -93,6 +93,11 @@ public class MainController implements Initializable {
     private static Appointment modifyAppointment;
 
 
+    /**
+     *
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -299,9 +304,8 @@ public class MainController implements Initializable {
         GeneralController.addCloseableTabWithReportFormViewAndMoveTo(mainTabPane,"Contact Schedules","ReportTwo");
     }
 
-    public void OpenCustomReport(ActionEvent actionEvent) {
+
+    public void OpenTotalApptsByType(ActionEvent actionEvent) throws IOException {
+        GeneralController.addCloseableTabWithReportFormViewAndMoveTo(mainTabPane,"Total Appointments By Type","ReportThree");
     }
-
-
-
 }

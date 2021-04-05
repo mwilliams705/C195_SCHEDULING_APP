@@ -249,13 +249,13 @@ public class AppointmentFormController implements Initializable {
         if (contact_choicebox.getValue().toString().equals("")){
             throw new NullPointerException("Contact choice cannot be empty");
         }
-        if (start_datepicker.getValue().toString().equals("")){
+        if (start_datepicker.getValue()==null){
             throw new NullPointerException("Start date field cannot be empty");
         }
         if (start_time_combobox.getValue().toString().equals("")){
             throw new NullPointerException("Start time field cannot be empty");
         }
-        if (end_datepicker.getValue().toString().equals("")){
+        if (end_datepicker.getValue()==null){
             throw new NullPointerException("End date field cannot be empty");
         }
         if (end_time_combobox.getValue().toString().equals("")){
