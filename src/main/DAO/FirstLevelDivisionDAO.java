@@ -13,8 +13,8 @@ import java.sql.SQLException;
 public class FirstLevelDivisionDAO {
     /**
      * This method retrieves all divisions from the database which have a matching Country_ID.
-     * @param id
-     * @return
+     * @param id Country_ID to be used in the database query
+     * @return ObservableList of all Divisions with the provided Country_ID
      */
     public static ObservableList<FirstLevelDivision> getAllDivisionsByCountryId(int id){
         String getStatement = "select Division,Division_ID,Country_ID from first_level_divisions where country_id = ?;";
@@ -46,7 +46,7 @@ public class FirstLevelDivisionDAO {
 
     /**
      * This method retrieves all divisions.
-     * @return
+     * @return ObservableList of all divisions in the database
      */
     public static ObservableList<FirstLevelDivision> getAllDivisions(){
         String getStatement = "SELECT Division_ID,Division,Country_ID FROM first_level_divisions";
@@ -77,8 +77,8 @@ public class FirstLevelDivisionDAO {
 
     /**
      * This method retrieves a division based on its id.
-     * @param id
-     * @return
+     * @param id Division_ID to be used in the database query
+     * @return FirstLevelDivision object from the database
      */
     public static FirstLevelDivision getDivisionById(int id){
         String getStatement = "select Division_Id, Division, Country_Id from first_level_divisions where division_id = ?;";

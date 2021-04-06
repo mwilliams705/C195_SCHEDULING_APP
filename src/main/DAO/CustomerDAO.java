@@ -16,7 +16,7 @@ public class CustomerDAO {
 
     /**
      * This method creates a new customer in the database
-     * @param customer
+     * @param customer Customer object to be added to the database
      */
     public static void addCustomer(Customer customer){
         String getStatement = "insert into customers(Customer_Name, Address, Postal_Code, Phone, Create_Date, Created_By, Last_Update, Last_Updated_By, Division_ID)\n" +
@@ -46,7 +46,7 @@ public class CustomerDAO {
 
     /**
      * This method retrieves all customers from the database
-     * @return
+     * @return ObservableList of all Customer objects
      */
     public static ObservableList<Customer> getAllCustomers(){
         String getCustomerStatement = "SELECT Customer_ID,Customer_Name,Address,Postal_Code,Phone, division_id FROM customers";
@@ -83,7 +83,7 @@ public class CustomerDAO {
     /**
      * This method retrieves all customers from the database and joins the country and division names from their respective
      * tables using the Division and Country id's
-     * @return
+     * @return ObservableList of all Customer objects with Division & Country IDs
      */
     public static ObservableList<Customer> getAllCustomersWithDivisionAndCountries(){
         String getCustomerStatement = "SELECT c.Customer_ID,c.Customer_Name,c.Address,c.Postal_Code,c.Phone,f.division, co.Country,c.Division_ID,f.COUNTRY_ID\n" +
@@ -125,7 +125,7 @@ public class CustomerDAO {
 
     /**
      * This method updates a current customer in the database
-     * @param customer
+     * @param customer Customer object to be updated from the database
      */
     public static void updateCustomer(Customer customer){
 
@@ -163,7 +163,7 @@ public class CustomerDAO {
 
     /**
      * This method deletes a customer from the database using the provided id.
-     * @param Id
+     * @param Id Customer object to be deleted from the database
      */
     public static void deleteCustomer(int Id){
         String getStatement = "delete from customers where Customer_ID = ?";

@@ -13,7 +13,7 @@ import java.sql.SQLException;
 public class ContactDAO {
     /**
      * Get all contacts from the database.
-     * @return ObservableList
+     * @return ObservableList List of all Contacts in the database
      */
     public static ObservableList<Contact> getAllContacts(){
         String getStatement = "SELECT CONTACT_ID,Contact_Name,Email from contacts";

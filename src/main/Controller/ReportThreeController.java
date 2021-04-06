@@ -2,6 +2,7 @@ package main.Controller;
 
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.geometry.Side;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.VBox;
@@ -24,16 +25,19 @@ public class ReportThreeController implements Initializable {
     public VBox reportThreeVBOX;
 
     /**
-     * Generates a pie chart from from database query and shows it in the VBOX.
+     * Generates a pie chart from from database query and programmatically displays it in the VBOX.
+     * <br>
+     * Hover over each slice to see the count in a tooltip
      * @param url
      * @param resourceBundle
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         PieChart p = new PieChart();
-        p.setTitle("Total Appointments By Type");
+        p.setLegendSide(Side.RIGHT);
+        p.setTitle("Total Appointments By Customer");
 
-        String getStatement = "select Type, count(*) as Count from appointments group by Type;";
+        String getStatement = "select c.Customer_Name as Customer, count(*) as Count from appointments a join customers c on c.Customer_ID = a.Customer_ID group by a.Customer_ID;";
 
         try {
             DBQuery.setPreparedStatement(DBConnector.getConnection(),getStatement);
@@ -41,7 +45,7 @@ public class ReportThreeController implements Initializable {
             ps.execute();
             ResultSet rs = ps.getResultSet();
             while (rs.next()){
-                PieChart.Data  data = new PieChart.Data(rs.getString("Type"),rs.getInt("Count"));
+                PieChart.Data  data = new PieChart.Data(rs.getString("Customer")+" - "+rs.getInt("Count"),rs.getInt("Count"));
                 p.getData().add(data);
             }
 
@@ -59,8 +63,7 @@ public class ReportThreeController implements Initializable {
 
                 Tooltip tooltip = new Tooltip();
                 tooltip.setShowDelay(Duration.millis(350.0));
-                tooltip.setText(data.getName() +" - "+
-                        data.getPieValue());
+                tooltip.setText(String.valueOf(data.getPieValue()));
                 Tooltip.install(data.getNode(), tooltip);
         }
 

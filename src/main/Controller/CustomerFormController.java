@@ -23,8 +23,11 @@ import java.util.ResourceBundle;
 
 /**
  * @author Michael Williams - 001221520
- *
+ *<br>
  * This class controls and handles all processes related to the 'CustomerForm.fxml' page.
+ * <br><br>
+ *     LAMBDA EXPRESSION 'updateCustomer' & 'addCustomer' are used to simplify the creation of Customer objects in the class.
+ *     This minimizes code and makes it easier to read and manage.
  */
 public class CustomerFormController implements Initializable {
     public Label headerLbl;
@@ -64,11 +67,10 @@ public class CustomerFormController implements Initializable {
     /**
      * Initializes the Customer Form view and populates the choice boxes with data from the Country and
      * FirstLevelDivision database tables.
-     *<br>
+     *<br><br>
      * LAMBDA EXPRESSION in this method filters divisions shown in the Division choicebox based on the selection
      * made in the Country choicebox
-     * @param url
-     * @param resourceBundle
+     *
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -105,7 +107,7 @@ public class CustomerFormController implements Initializable {
             currentDivisionLbl.setText("State/Division (Current Selection: "+customerToModify.getCustomerDivisionText()+")");
 
 
-            //        Lambda Expression selects which divisions will be shown based on the country selection(observableValue).
+//        Lambda Expression selects which divisions will be shown based on the country selection(observableValue).
             country_choicebox.getSelectionModel().selectedItemProperty().addListener((observableValue, country, t1) -> {
                 divisionsByCountryId.setAll(getDivisionsByCountryId(observableValue.getValue().getCountryId()));
                 division_choicebox.getItems().removeAll();
@@ -224,7 +226,7 @@ public class CustomerFormController implements Initializable {
 
     /**
      * This method checks that no form fields were left blank.
-     * @return
+     * @return True is all form fields are filled.
      * @throws NullPointerException
      */
     public boolean isFormComplete() throws NullPointerException{
@@ -253,9 +255,9 @@ public class CustomerFormController implements Initializable {
     }
 
     /**
-     * This method filters through the country data and stops once a country with the chosen ID is found.
-     * @param id
-     * @return
+     * Filters through the countries ObservableList and returns the country with the provided Country_ID.
+     * @param id ID of requested country.
+     * @return Country with provided Country_ID.
      */
     private Country getCountryById(int id){
         Country country = null;
@@ -272,9 +274,9 @@ public class CustomerFormController implements Initializable {
     }
 
     /**
-     * This method filters through the FirstLevelDivision data and stops once a division with the chosen ID is found.
-     * @param id
-     * @return
+     * Filters through the divisions ObservableList and returns the division with the provided Division_ID.
+     * @param id ID of requested division.
+     * @return Division with provided Division_ID.
      */
     private FirstLevelDivision getDivisionById(int id){
         FirstLevelDivision fld = null;
@@ -290,9 +292,9 @@ public class CustomerFormController implements Initializable {
     }
 
     /**
-     * This method filters through the FirstLevelDivision data and stops once a country with the chosen Country_ID is found.
-     * @param id
-     * @return
+     * Filters through the divisions ObservableList and returns the divisions with the provided Country_ID.
+     * @param id ID of requested Country.
+     * @return Divisions with provided Country_ID.
      */
     private ObservableList<FirstLevelDivision> getDivisionsByCountryId(int id){
         ObservableList<FirstLevelDivision> fldList = FXCollections.observableArrayList();

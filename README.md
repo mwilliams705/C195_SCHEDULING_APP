@@ -54,7 +54,7 @@ Paste this into the field:
 <code>--module-path ${PATH_TO_FX} --add-modules javafx.fxml,javafx.controls,javafx.graphics</code>
 <br>
 ###MySQL
-This can be added using the Maven package manager:
+This can be added using the Maven package manager:<br>
 File -> Project Structure -> libraries (Under Project Structure) <br>
 Select add(+) and choose Maven from the options and search for MySQL.
 
@@ -62,7 +62,6 @@ The MySQL Driver Version of this application is: <br>
 <code>mysql-connector-java:8.0.22</code>
 
 ##Custom Report
-For my custom report. I decided to use look at the Appointments by type and, rather than break
-it down by month, I created a pie chart that shows the total count of appointments by type separated
-by type.
+For my custom report, I decided to count the Appointments and created a pie chart 
+that shows the total count of appointments separated by Customer.
 

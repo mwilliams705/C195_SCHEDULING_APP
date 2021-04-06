@@ -21,7 +21,7 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 /**
- * @author Michael Williams - 001221520
+ * @author Michael Williams - 001221520<br>
  *
  * This class controls and handles all processes related to the 'Main.fxml' page.
  */
@@ -385,7 +385,7 @@ public class MainController implements Initializable {
      * @param actionEvent
      * @throws IOException
      */
-    public void OpenTotalApptsByType(ActionEvent actionEvent) throws IOException {
-        GeneralController.addCloseableTabWithReportFormViewAndMoveTo(mainTabPane,"Total Appointments By Type","ReportThree");
+    public void OpenTotalApptsByCustomer(ActionEvent actionEvent) throws IOException {
+        GeneralController.addCloseableTabWithReportFormViewAndMoveTo(mainTabPane,"Total Appts. By Customer","ReportThree");
     }
 }

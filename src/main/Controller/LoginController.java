@@ -42,6 +42,11 @@ public class LoginController implements Initializable {
 
     public static User globalUser;
 
+    /**
+     * Initializes the Login Form and retrieves the configured ResourceBundle objects
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -147,7 +152,7 @@ public class LoginController implements Initializable {
 
     /**
      * Writes a successful login to the 'login_activity.txt' file
-     * @param username
+     * @param username Username data from username_textfield
      * @throws IOException
      */
     public void writeLoginSuccessToFile(String username) throws IOException{
@@ -162,7 +167,7 @@ public class LoginController implements Initializable {
 
     /**
      * Writes an unsuccessful login to the 'login_activity.txt' file
-     * @param username
+     * @param username Username data from username_textfield
      * @throws IOException
      */
     public void writeLoginFailureToFile(String username) throws IOException{

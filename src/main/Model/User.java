@@ -83,7 +83,7 @@ public class User {
 
     /**
      * Custom toString method
-     * @return
+     * @return "User{#,userName, userPassword}"
      */
     @Override
     public String toString() {

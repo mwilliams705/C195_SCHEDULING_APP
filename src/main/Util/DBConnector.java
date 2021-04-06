@@ -6,7 +6,8 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 /**
- * This class handles connections to the database
+ * This class handles connections to the database.
+ *
  */
 public class DBConnector {
     private static final String protocol = "jdbc";

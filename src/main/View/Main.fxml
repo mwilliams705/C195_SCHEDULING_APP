@@ -184,7 +184,7 @@
                            <children>
                               <Button layoutX="82.0" layoutY="66.0" mnemonicParsing="false" onAction="#openApptsByTypeReport" text="Appointments By Type" />
                               <Button layoutX="76.0" layoutY="138.0" mnemonicParsing="false" onAction="#openContactScheduleReport" text="Contact Schedule Report" />
-                              <Button layoutX="67.0" layoutY="212.0" mnemonicParsing="false" onAction="#OpenTotalApptsByType" text="Total Appointments By Type" />
+                              <Button layoutX="57.0" layoutY="212.0" mnemonicParsing="false" onAction="#OpenTotalApptsByCustomer" text="Total Appointments By Customer" />
                            </children>
                         </Pane>
                      </children></AnchorPane>

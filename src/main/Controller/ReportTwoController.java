@@ -51,7 +51,11 @@ public class ReportTwoController implements Initializable {
     public TableColumn<Report,String> LLappointmentEnd;
     public TableColumn<Report,String> LLcustomerId;
 
-
+    /**
+     * This initialize method holds tbe table build methods
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         buildACScheduleReportTable();
@@ -60,7 +64,7 @@ public class ReportTwoController implements Initializable {
     }
 
     /**
-     *
+     *Builds the table for Contact one
      */
     public void buildACScheduleReportTable(){
         String getStatement = "select con.Contact_Name, apt.Appointment_ID , apt.Title, apt.Description,apt.Start,apt.End, Customer_ID\n" +
@@ -105,7 +109,7 @@ public class ReportTwoController implements Initializable {
     }
 
     /**
-     *
+     *Builds the table for Contact two
      */
     public void buildDGScheduleReportTable(){
         String getStatement = "select con.Contact_Name, apt.Appointment_ID , apt.Title, apt.Description,apt.Start,apt.End, Customer_ID\n" +
@@ -150,7 +154,7 @@ public class ReportTwoController implements Initializable {
     }
 
     /**
-     *
+     *Builds the table for Contact three
      */
     public void buildLLScheduleReportTable(){
         String getStatement = "select con.Contact_Name, apt.Appointment_ID , apt.Title, apt.Description,apt.Start,apt.End, Customer_ID\n" +

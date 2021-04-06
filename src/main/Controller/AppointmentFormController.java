@@ -34,7 +34,7 @@ import java.util.*;
  * @author Michael Williams - 001221520
  *<br>
  * This class controls and handles all processes related to the 'AppointmentForm.fxml' page.
- *<br>
+ *<br><br>
  * LAMBDA EXPRESSIONS in this controller simplify creating and updating appointments without having to write repetitive
  * code to create the new object for any given scenario in the process. This makes it possible to have the objects available
  * and predetermined, only leaving the Appointment Type, Start time and End Time to be handled during object creation.
@@ -90,9 +90,11 @@ public class AppointmentFormController implements Initializable {
     public static Appointment appointmentToModify;
 
     /**
-     * Initializes the login form.
-     * @param url
-     * @param resourceBundle
+     * Initializes the login form.<br>
+     *     The form will switch between either English or French based on the locale of the system. <br>
+     *     If the locale of the operating system falls outside of the defined locales, the application will
+     *     default to English.
+
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -151,8 +153,9 @@ public class AppointmentFormController implements Initializable {
     /**
      * Checks that all form fields are filled, valid and no appointments fall outside of business hours or overlap.
      * If all criteria are met, the appointment is stored in the database and the user is taken back to the Main view.
-     * @param actionEvent
-     * @throws IOException
+     * <br><br>
+     *     Appointment objects created or updated use the LAMBDA EXPRESSIONS defined above to create the Appointment
+     *     objects, minimizing code and making it easier to read and use.
      */
     public void save(ActionEvent actionEvent) throws IOException {
 
@@ -170,6 +173,7 @@ public class AppointmentFormController implements Initializable {
 
                             if (physical_radio.isSelected()) {
 
+//                                Uses LAMBDA EXPRESSION
                                 Appointment appointment = updateAppointment.newAppointment("Physical",start,end);
 
                                 if (appointment.isValid() && appointment.isValidTime()) {
@@ -180,6 +184,7 @@ public class AppointmentFormController implements Initializable {
                             }
                             if (bloodwork_radio.isSelected()) {
 
+//                                Uses LAMBDA EXPRESSION
                             Appointment appointment = updateAppointment.newAppointment("Bloodwork",start,end);
 
                                 if (appointment.isValid() && appointment.isValidTime()) {
@@ -192,7 +197,7 @@ public class AppointmentFormController implements Initializable {
 
                             if (physical_radio.isSelected()) {
 
-
+//                                Uses LAMBDA EXPRESSION
                                 Appointment appointment = addAppointment.newAppointment("Physical",start,end);
 
                                 if (appointment.isValid() && appointment.isValidTime()) {
@@ -203,7 +208,7 @@ public class AppointmentFormController implements Initializable {
                             }
                             if (bloodwork_radio.isSelected()) {
 
-
+//                                Uses LAMBDA EXPRESSION
                                 Appointment appointment = addAppointment.newAppointment("Bloodwork",start,end);
                                 if (appointment.isValid() && appointment.isValidTime()) {
 
@@ -233,8 +238,7 @@ public class AppointmentFormController implements Initializable {
 
     /**
      * This method cancels the current add/update form and moves the user to the Main view.
-     * @param actionEvent
-     * @throws IOException
+     *
      */
     public void cancel(ActionEvent actionEvent) throws IOException {
         GeneralController.changePage(actionEvent,"Main");
@@ -243,7 +247,7 @@ public class AppointmentFormController implements Initializable {
 
     /**
      * Getter for appointmentToModify variable.
-     * @return
+     *
      */
     public static Appointment getAppointmentToModify() {
         return appointmentToModify;
@@ -251,7 +255,7 @@ public class AppointmentFormController implements Initializable {
 
     /**
      * Setter for appointmentToModify variable.
-     * @param appointmentToModify
+     *
      */
     public static void setAppointmentToModify(Appointment appointmentToModify) {
         AppointmentFormController.appointmentToModify = appointmentToModify;
@@ -259,8 +263,7 @@ public class AppointmentFormController implements Initializable {
 
     /**
      * Validates that form fields are not left empty.
-     * @return
-     * @throws NullPointerException
+     *
      */
     public boolean isFormComplete() throws NullPointerException{
 
@@ -297,9 +300,9 @@ public class AppointmentFormController implements Initializable {
 
     /**
      * Validates that the appointment being updated is not at the same time as another appointment in the database.
-     * @param start
-     * @param end
-     * @return
+     * @param start Start time
+     * @param end End Time
+     * @return true if appointment doesn't not overlap another appointment.
      * @throws BusinessHoursException
      */
     public boolean isAppointmentOverlapping(LocalDateTime start,LocalDateTime end) throws BusinessHoursException {
@@ -312,9 +315,9 @@ public class AppointmentFormController implements Initializable {
     }
 
     /**
-     * Retrieves a contact from the database by Contact_ID.
-     * @param id
-     * @return
+     * Filters through the contactList ObservableList and returns the contact with the provided Contact_ID.
+     * @param id ID of requested contact.
+     * @return Contact with provided ID.
      */
     private Contact getContactById(int id){
             Contact con = null;
@@ -333,9 +336,9 @@ public class AppointmentFormController implements Initializable {
     }
 
     /**
-     * Retrieves a customer from the database by Customer_ID.
-     * @param id
-     * @return
+     * Filters through the customerList ObservableList and returns the customer with the provided Customer_ID.
+     * @param id ID of requested customer.
+     * @return Customer with provided ID.
      */
     private Customer getCustomerById(int id){
             Customer cust = null;

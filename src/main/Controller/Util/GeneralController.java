@@ -18,7 +18,7 @@ import java.io.IOException;
 
 /**
  * @author Michael Williams - 001221520
- *
+ *<br>
  * This class is used to handle actions across all controllers, minimizing the amount of code to implement certain
  * repetitive actions done in each controller.
  */

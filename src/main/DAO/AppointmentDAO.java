@@ -22,7 +22,7 @@ public class AppointmentDAO {
 
     /**
      * This method returns an appointment based on the appointment id
-     * @param id
+     * @param id ID of requested Appointment
      * @return
      */
     public static Appointment getAppointment(int id){
@@ -59,7 +59,7 @@ public class AppointmentDAO {
 
     /**
      * This method returns a list from the database of all appointments
-     * @return
+     * @return All appointments in the database
      */
     public static ObservableList<Appointment> getAllAppointments(){
         String getStatement = "select Appointment_ID,Title,Description,Location,Contact_Id,Type,Start,End,Customer_ID from appointments;";
@@ -100,7 +100,7 @@ public class AppointmentDAO {
 
     /**
      * This method returns a list from the database of appointments this week
-     * @return
+     * @return All appointments from the database during this week
      */
     public static ObservableList<Appointment> getAllAppointmentsThisWeek(){
         String getStatement = "select Appointment_ID,Title,Description,Location,Contact_Id,Type,Start,End,Customer_ID\n" +
@@ -141,7 +141,7 @@ public class AppointmentDAO {
 
     /**
      * This method returns a list from the database of appointments this month
-     * @return
+     * @return All appointments from the database during this month
      */
     public static ObservableList<Appointment> getAllAppointmentsThisMonth(){
         String getStatement = "select Appointment_ID,Title,Description,Location,Contact_Id,Type,Start,End,Customer_ID\n" +
@@ -182,7 +182,7 @@ public class AppointmentDAO {
 
     /**
      * This method check to see if there are any appointments in the next 15 minutes.
-     * @return
+     * @return True if there is an appointment within 15 minutes of current request time.
      */
     public static ObservableList<Appointment> isAppointmentInNext15Minutes(){
         String getStatement = "select Appointment_ID,Title,Description,Location,Contact_ID,Type,Start,End,Customer_ID\n" +
@@ -223,7 +223,7 @@ public class AppointmentDAO {
 
     /**
      * This method adds an appointment to the database via the information supplied in the form.
-     * @param appointment
+     * @param appointment Appointment object to be stored in the database
      */
     public static void addAppointment(Appointment appointment){
 
@@ -260,7 +260,7 @@ public class AppointmentDAO {
 
     /**
      * This method updates an appointment by the appointment id
-     * @param appointment
+     * @param appointment Appointment object to be stored in the database
      */
     public static void updateAppointment(Appointment appointment){
         String getStatement = "update appointments set Title = ?,\n" +
@@ -309,7 +309,7 @@ public class AppointmentDAO {
 
     /**
      * This method deletes an appointment by the appointment id
-     * @param id
+     * @param id ID of the requested Appointment to be deleted
      */
     public static void deleteAppointment(int id){
         String getCustomerStatement = "DELETE FROM appointments where appointment_id = ?";
@@ -334,9 +334,9 @@ public class AppointmentDAO {
 
     /**
      * This method searches the appointments table and checks if any appointments have matching appointment times
-     * @param start
-     * @param end
-     * @return
+     * @param start Starting date/time
+     * @param end Ending date/time
+     * @return A list of overlapping appointments
      */
     public static ObservableList<Appointment> getOverlappingAppts(LocalDateTime start, LocalDateTime end) {
 
@@ -386,6 +386,11 @@ public class AppointmentDAO {
         return overlappedApptsResult;
     }
 
+    /**
+     * This method checks the database to see if a Customer has any appointments
+     * @param id Customer_ID for database query
+     * @return True if the ResultSet is null
+     */
     public static boolean customerHasAppointments(int id){
         String getStatement = "select * from appointments where Customer_ID = ?;";
         try {
@@ -405,6 +410,10 @@ public class AppointmentDAO {
 
     }
 
+    /**
+     * This method deletes all Appointments in the database associated with the provided Customer_ID
+     * @param id Customer_ID for database query
+     */
     public static void deleteAllAppointmentsByCustomerID(int id){
         String getStatement = "delete from appointments where Customer_ID = ?;";
 
