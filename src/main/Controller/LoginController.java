@@ -142,7 +142,7 @@ public class LoginController implements Initializable {
                 LocalDateTime now = Timestamp.from(Instant.now()).toLocalDateTime();
 
                 if (start.isBefore(now.plusMinutes(15))) {
-                    if (!start.isAfter(now)){
+                    if (start.isAfter(now)){
                         upcomingAppointments.add(a);
                     }
                 }
