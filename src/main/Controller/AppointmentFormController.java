@@ -18,6 +18,7 @@ import main.Model.Contact;
 import main.Model.Customer;
 import main.Util.DBConnector;
 import main.Util.DBQuery;
+import main.Util.TimeConverter;
 
 import java.io.IOException;
 import java.net.URL;
@@ -163,65 +164,86 @@ public class AppointmentFormController implements Initializable {
             try{
                 if (isFormComplete()){
 
-                    LocalDateTime start = LocalDateTime.of(start_datepicker.getValue(),start_time_combobox.getValue());
+                LocalDateTime start = LocalDateTime.of(start_datepicker.getValue(),start_time_combobox.getValue());
                 LocalDateTime end = LocalDateTime.of(end_datepicker.getValue(),end_time_combobox.getValue());
 
-                try {
-                    if (isAppointmentOverlapping(start, end)) {
+                    if (appointmentToModify != null) {
 
-                        if (appointmentToModify != null) {
-
-                            if (physical_radio.isSelected()) {
+                        if (physical_radio.isSelected()) {
 
 //                                Uses LAMBDA EXPRESSION
+                            try {
                                 Appointment appointment = updateAppointment.newAppointment("Physical",start,end);
 
-                                if (appointment.isValid() && appointment.isValidTime()) {
-
-                                    AppointmentDAO.updateAppointment(appointment);
-                                    GeneralController.changePage(actionEvent, "Main");
-                                }
-                            }
-                            if (bloodwork_radio.isSelected()) {
-
-//                                Uses LAMBDA EXPRESSION
-                            Appointment appointment = updateAppointment.newAppointment("Bloodwork",start,end);
 
                                 if (appointment.isValid() && appointment.isValidTime()) {
-
-                                    AppointmentDAO.updateAppointment(appointment);
-                                    GeneralController.changePage(actionEvent, "Main");
+                                    if (isUpdatedAppointmentOverlapping(appointment.getApptStart().toLocalDateTime().plusSeconds(1),appointment.getApptEnd().toLocalDateTime().minusSeconds(1),appointment.getApptId())){
+                                        AppointmentDAO.updateAppointment(appointment);
+                                        GeneralController.changePage(actionEvent, "Main");
+                                    }
                                 }
+                            }catch (BusinessHoursException b){
+                                Alert a = GeneralController.alertUser(Alert.AlertType.ERROR,"Error","Overlapping appointments",b.getMessage());
+                                a.showAndWait();
                             }
-                        } else {
-
-                            if (physical_radio.isSelected()) {
+                        }
+                        if (bloodwork_radio.isSelected()) {
 
 //                                Uses LAMBDA EXPRESSION
+                            try {
+                                Appointment appointment = updateAppointment.newAppointment("Bloodwork",start,end);
+
+
+                                if (appointment.isValid() && appointment.isValidTime()) {
+                                    if (isUpdatedAppointmentOverlapping(appointment.getApptStart().toLocalDateTime().plusSeconds(1),appointment.getApptEnd().toLocalDateTime().minusSeconds(1),appointment.getApptId())){
+                                        AppointmentDAO.updateAppointment(appointment);
+                                        GeneralController.changePage(actionEvent, "Main");
+                                    }
+                                }
+                            }catch (BusinessHoursException b){
+                                Alert a = GeneralController.alertUser(Alert.AlertType.ERROR,"Error","Overlapping appointments",b.getMessage());
+                                a.showAndWait();
+                            }
+                        }
+                    } else {
+
+                        if (physical_radio.isSelected()) {
+
+//                                Uses LAMBDA EXPRESSION
+                            try {
                                 Appointment appointment = addAppointment.newAppointment("Physical",start,end);
 
-                                if (appointment.isValid() && appointment.isValidTime()) {
 
-                                    AppointmentDAO.addAppointment(appointment);
-                                    GeneralController.changePage(actionEvent, "Main");
+                                if (appointment.isValid() && appointment.isValidTime()) {
+                                    if (isAppointmentOverlapping(appointment.getApptStart().toLocalDateTime().plusSeconds(1),appointment.getApptEnd().toLocalDateTime().minusSeconds(1))){
+                                        AppointmentDAO.addAppointment(appointment);
+                                        GeneralController.changePage(actionEvent, "Main");
+                                    }
                                 }
+                            }catch (BusinessHoursException b){
+                                Alert a = GeneralController.alertUser(Alert.AlertType.ERROR,"Error","Overlapping appointments",b.getMessage());
+                                a.showAndWait();
                             }
-                            if (bloodwork_radio.isSelected()) {
+                        }
+                        if (bloodwork_radio.isSelected()) {
 
 //                                Uses LAMBDA EXPRESSION
+                            try {
                                 Appointment appointment = addAppointment.newAppointment("Bloodwork",start,end);
-                                if (appointment.isValid() && appointment.isValidTime()) {
 
-                                    AppointmentDAO.addAppointment(appointment);
-                                    GeneralController.changePage(actionEvent, "Main");
+
+                                if (appointment.isValid() && appointment.isValidTime()) {
+                                    if (isAppointmentOverlapping(appointment.getApptStart().toLocalDateTime().plusSeconds(1),appointment.getApptEnd().toLocalDateTime().minusSeconds(1))){
+                                        AppointmentDAO.addAppointment(appointment);
+                                        GeneralController.changePage(actionEvent, "Main");
+                                    }
                                 }
+                            }catch (BusinessHoursException b){
+                                Alert a = GeneralController.alertUser(Alert.AlertType.ERROR,"Error","Overlapping appointments",b.getMessage());
+                                a.showAndWait();
                             }
                         }
                     }
-                }catch (BusinessHoursException b){
-                    Alert a = GeneralController.alertUser(Alert.AlertType.ERROR,"Error","Overlapping appointments",b.getMessage());
-                    a.showAndWait();
-                }
                 }
             }catch (NullPointerException n){
                 n.printStackTrace();
@@ -307,9 +329,24 @@ public class AppointmentFormController implements Initializable {
      */
     public boolean isAppointmentOverlapping(LocalDateTime start,LocalDateTime end) throws BusinessHoursException {
 
-        ObservableList<Appointment> overlappingAppt = AppointmentDAO.getOverlappingAppts(start, end);
-        if (overlappingAppt.size() > 1) {
+        if (AppointmentDAO.isOverlapping(start,end).size()>=1){
             throw new BusinessHoursException("An appointment cannot be scheduled at the same time as another appointment.");
+        }
+        return true;
+    }
+
+    /**
+     * Validates that the appointment being updated is not at the same time as another appointment in the database.
+     * @param start Start time
+     * @param end End Time
+     * @return true if appointment doesn't not overlap another appointment.
+     * @throws BusinessHoursException
+     */
+    public boolean isUpdatedAppointmentOverlapping(LocalDateTime start,LocalDateTime end, int id) throws BusinessHoursException {
+
+        if (AppointmentDAO.isOverlapping(start,end).size()>=1){
+            if (AppointmentDAO.isOverlapping(start,end).get(0).getApptId() != id)
+                throw new BusinessHoursException("An appointment cannot be scheduled at the same time as another appointment.");
         }
         return true;
     }

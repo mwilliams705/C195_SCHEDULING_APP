@@ -247,7 +247,8 @@ public class AppointmentDAO {
             ps.setInt(11,appointment.getApptContact());
 
             ps.execute();
-
+            System.out.println("-----------------------------------------------------------------------------------");
+            System.out.println(ps.toString());
             if (ps.getUpdateCount()>0){
                 System.out.println(ps.getUpdateCount()+ " row affected.");
             }
@@ -338,31 +339,33 @@ public class AppointmentDAO {
      * @param end Ending date/time
      * @return A list of overlapping appointments
      */
-    public static ObservableList<Appointment> getOverlappingAppts(LocalDateTime start, LocalDateTime end) {
+    public static ObservableList<Appointment> isOverlapping(LocalDateTime start, LocalDateTime end) {
 
         String getStatement = "SELECT * FROM appointments "
                 + "WHERE (start >= ? AND end <= ?) "
                 + "OR (start <= ? AND end >= ?) "
-                + "OR (start BETWEEN ? AND ? OR end BETWEEN ? AND ?)";
+                + "OR (start BETWEEN ? AND ? OR end BETWEEN ? AND ?);";
 
         ObservableList<Appointment> overlappedApptsResult = FXCollections.observableArrayList();
 
         try {
             DBQuery.setPreparedStatement(DBConnector.getConnection(),getStatement);
-            LocalDateTime startLDT = start.atZone(ZoneId.systemDefault()).withZoneSameInstant(ZoneOffset.UTC).toLocalDateTime();
-            LocalDateTime endLDT = end.atZone(ZoneId.systemDefault()).withZoneSameInstant(ZoneOffset.UTC).toLocalDateTime();
             PreparedStatement stmt = DBQuery.getPreparedStatement();
-            stmt.setTimestamp(1, Timestamp.valueOf(startLDT));
-            stmt.setTimestamp(2, Timestamp.valueOf(endLDT));
-            stmt.setTimestamp(3, Timestamp.valueOf(startLDT));
-            stmt.setTimestamp(4, Timestamp.valueOf(endLDT));
-            stmt.setTimestamp(5, Timestamp.valueOf(startLDT));
-            stmt.setTimestamp(6, Timestamp.valueOf(endLDT));
-            stmt.setTimestamp(7, Timestamp.valueOf(startLDT));
-            stmt.setTimestamp(8, Timestamp.valueOf(endLDT));
-            ResultSet rs = stmt.executeQuery();
+
+            stmt.setTimestamp(1, Timestamp.valueOf(start));
+            stmt.setTimestamp(2, Timestamp.valueOf(end));
+            stmt.setTimestamp(3, Timestamp.valueOf(start));
+            stmt.setTimestamp(4, Timestamp.valueOf(end));
+            stmt.setTimestamp(5, Timestamp.valueOf(start));
+            stmt.setTimestamp(6, Timestamp.valueOf(end));
+            stmt.setTimestamp(7, Timestamp.valueOf(start));
+            stmt.setTimestamp(8, Timestamp.valueOf(end));
+
+            stmt.execute();
+            ResultSet rs = stmt.getResultSet();
 
             while (rs.next()) {
+
                 Appointment overlappedAppt = new Appointment();
                 overlappedAppt.setApptId(rs.getInt("Appointment_Id"));
                 overlappedAppt.setApptTitle(rs.getString("title"));
@@ -371,14 +374,10 @@ public class AppointmentDAO {
                 overlappedAppt.setApptContact(rs.getInt("contact_id"));
                 overlappedAppt.setApptType(rs.getString("type"));
                 overlappedAppt.setApptCustomerId(rs.getInt("Customer_ID"));
-                LocalDateTime startUTC = rs.getTimestamp("start").toLocalDateTime();
-                LocalDateTime endUTC = rs.getTimestamp("end").toLocalDateTime();
-                ZonedDateTime startLocal = ZonedDateTime.ofInstant(startUTC.toInstant(ZoneOffset.UTC), ZoneId.systemDefault());
-                ZonedDateTime endLocal = ZonedDateTime.ofInstant(endUTC.toInstant(ZoneOffset.UTC), ZoneId.systemDefault());
-                overlappedAppt.setApptStart(Timestamp.valueOf(startLocal.toLocalDateTime()));
-                overlappedAppt.setApptEnd(Timestamp.valueOf(endLocal.toLocalDateTime()));
                 overlappedApptsResult.add(overlappedAppt);
+
             }
+
         }
         catch (SQLException e) {
             e.printStackTrace();

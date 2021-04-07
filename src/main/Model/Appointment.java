@@ -219,6 +219,20 @@ public class Appointment {
         this.apptCustomerId = apptCustomerId;
     }
 
+    @Override
+    public String toString() {
+        return "Appointment{" +
+                "apptId=" + apptId +
+                ", apptTitle='" + apptTitle + '\'' +
+                ", apptDesc='" + apptDesc + '\'' +
+                ", apptLocation='" + apptLocation + '\'' +
+                ", apptContact=" + apptContact +
+                ", apptType='" + apptType + '\'' +
+                ", apptStart=" + apptStart +
+                ", apptEnd=" + apptEnd +
+                ", apptCustomerId=" + apptCustomerId +
+                '}';
+    }
 
     /**
      * Validation method
@@ -268,10 +282,6 @@ public class Appointment {
         LocalTime apptStartTime = this.apptStart.toLocalDateTime().toLocalTime();
         LocalDate apptEndDate = this.apptEnd.toLocalDateTime().toLocalDate();
         LocalTime apptEndTime = this.apptEnd.toLocalDateTime().toLocalTime();
-//        EST DateTime
-        LocalDateTime apptStartToEST = TimeConverter.localToEST(this.apptStart.toLocalDateTime());
-        LocalDateTime apptEndToEST = TimeConverter.localToEST(this.apptEnd.toLocalDateTime());
-
 
 
         LocalDateTime midnightLocalDateTime = LocalDateTime.of(apptStartDate,LocalTime.MIDNIGHT);

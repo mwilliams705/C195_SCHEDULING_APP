@@ -25,13 +25,16 @@ public class Main extends Application {
         DBConnector.closeConnection();
     }
 
+    /**
+     * Starts the JavaFX user interface portion of the application
+     * @param primaryStage Primary Stage of the application.
+     * @throws Exception
+     */
     @Override
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("View/LoginForm.fxml"));
         primaryStage.setTitle("C195 - Scheduling Service");
-//        TODO: Change back to login form width and height
-//        primaryStage.setScene(new Scene(root, 300, 500));
-        primaryStage.setScene(new Scene(root,1100,600));
+        primaryStage.setScene(new Scene(root, 300, 500));
         primaryStage.setResizable(false);
         primaryStage.show();
     }
