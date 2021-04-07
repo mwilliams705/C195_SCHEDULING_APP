@@ -1,5 +1,6 @@
 package main.Controller;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
@@ -7,20 +8,19 @@ import javafx.scene.control.*;
 import main.Controller.Util.GeneralController;
 import main.DAO.AppointmentDAO;
 import main.DAO.UserDAO;
+import main.Exception.BusinessHoursException;
 import main.Model.Appointment;
 import main.Model.User;
 import main.Util.DBConnector;
-import main.Util.DBQuery;
 
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URL;
 import java.sql.*;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.temporal.TemporalUnit;
 import java.util.*;
 
 /**
@@ -101,16 +101,17 @@ public class LoginController implements Initializable {
 
 
 
-                if (!Objects.requireNonNull(AppointmentDAO.isAppointmentInNext15Minutes()).isEmpty()){
-                    ObservableList<Appointment> apptUpcoming = AppointmentDAO.isAppointmentInNext15Minutes();
-                    for (Appointment a: Objects.requireNonNull(apptUpcoming)){
-                        Alert alert = GeneralController.alertUser(Alert.AlertType.INFORMATION,"Welcome","Upcoming Appointment",a.getApptId()+" | "+a.getApptStart());
+                    if (isUpcomingAppointments().size()>=1){
+                        for (Appointment a:
+                             isUpcomingAppointments()) {
+                            Alert alert = GeneralController.alertUser(Alert.AlertType.INFORMATION,"Welcome","Upcoming Appointment",a.getApptId()+" | "+ a.getApptStart());
+                            alert.showAndWait();
+                        }
+                    }else {
+                        Alert alert = GeneralController.alertUser(Alert.AlertType.INFORMATION,"Welcome","Upcoming Appointment","There are no upcoming appointments");
                         alert.showAndWait();
                     }
-                }else {
-                    Alert alert = GeneralController.alertUser(Alert.AlertType.INFORMATION,"Welcome","Upcoming Appointment","There are no upcoming appointments");
-                    alert.showAndWait();
-                }
+
 
 
             } else {
@@ -122,6 +123,36 @@ public class LoginController implements Initializable {
     }catch (NullPointerException nullPointerException){
             nullPointerException.printStackTrace();
         }
+
+    }
+
+
+    /**
+     * This method searches all appointments and adds ones that fit the 15 minute criteria are added to a list and returned
+     * @return List of upcoming appointments
+     */
+    public ObservableList<Appointment> isUpcomingAppointments() {
+
+        ObservableList<Appointment> allAppointments = AppointmentDAO.getAllAppointments();
+        ObservableList<Appointment> upcomingAppointments = FXCollections.observableArrayList();
+        if (allAppointments!= null){
+
+            for (Appointment a : allAppointments){
+                LocalDateTime start = a.getApptStart().toLocalDateTime();
+                LocalDateTime now = Timestamp.from(Instant.now()).toLocalDateTime();
+
+                if (start.isBefore(now.plusMinutes(15))) {
+                    if (!start.isAfter(now)){
+                        upcomingAppointments.add(a);
+                    }
+                }
+
+
+
+            }
+
+        }
+        return upcomingAppointments;
 
     }
 
