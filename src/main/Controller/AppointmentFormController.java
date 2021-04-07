@@ -321,7 +321,7 @@ public class AppointmentFormController implements Initializable {
     }
 
     /**
-     * Validates that the appointment being updated is not at the same time as another appointment in the database.
+     * Validates that the appointment being added is not at the same time as another appointment in the database.
      * @param start Start time
      * @param end End Time
      * @return true if appointment doesn't not overlap another appointment.
