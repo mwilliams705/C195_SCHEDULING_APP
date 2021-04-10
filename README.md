@@ -1,4 +1,4 @@
-# C195_SCHEDULING_APP_MICHAEL_WILLIAMS
+# C195_SCHEDULING_APP
 Author: Michael Williams - 001221520 <br>
 Email: mwi1410@wgu.edu <br>
 Version: 1.0 <br>
